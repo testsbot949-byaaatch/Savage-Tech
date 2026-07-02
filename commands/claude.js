@@ -1,30 +1,26 @@
-// claude.js – Claude-style AI
 const axios = require('axios');
 
 module.exports = {
-  name: 'claude',
-  category: 'ai',
-  description: 'Chat with Claude-style AI',
-  async execute(sock, msg, args) {
-    const query = args.join(' ');
-    if (!query) {
-      await sock.sendMessage(msg.key.remoteJid, { text: '❓ What do you want to ask Claude?' });
-      return;
-    }
+    name: 'claude',
+    category: 'ai',
+    description: 'Chat with Claude AI',
+    async execute(sock, msg, args) {
+        const from = msg.key.remoteJid;
+        const query = args.join(' ');
+        if (!query) return sock.sendMessage(from, { text: '❌ Usage: .claude <message>' }, { quoted: msg });
 
-    try {
-      const url = `https://apis.xwolf.space/api/ai/claude?q=${encodeURIComponent(query)}`;
-      const response = await axios.get(url);
-
-      if (response.data.status === true) {
-        const reply = response.data.result || 'No response.';
-        await sock.sendMessage(msg.key.remoteJid, { text: `🤖 *Claude:*\n${reply.slice(0, 2000)}` });
-      } else {
-        await sock.sendMessage(msg.key.remoteJid, { text: `⚠️ API error: ${response.data.error || 'Unknown'}` });
-      }
-    } catch (error) {
-      console.error('Claude error:', error);
-      await sock.sendMessage(msg.key.remoteJid, { text: '❌ Failed to reach Claude API.' });
+        try {
+            await sock.sendMessage(from, { text: '🤔 Thinking...' }, { quoted: msg });
+            const response = await axios.get(`https://ravenn.site/ai/claudeai?q=${encodeURIComponent(query)}`, { timeout: 30000 });
+            const data = response.data;
+            if (data.status && data.result) {
+                await sock.sendMessage(from, { text: data.result }, { quoted: msg });
+            } else {
+                throw new Error('Invalid response');
+            }
+        } catch (err) {
+            console.error('Claude error:', err);
+            await sock.sendMessage(from, { text: `❌ Failed: ${err.message}` }, { quoted: msg });
+        }
     }
-  }
 };
