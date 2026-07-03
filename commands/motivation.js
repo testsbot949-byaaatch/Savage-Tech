@@ -30,18 +30,15 @@ const motivation = [
   "Your passion is waiting for your courage to catch up.",
   "Start where you are. Use what you have. Do what you can."
 ];
+
 module.exports = {
   name: 'motivation',
   category: 'fun',
   description: 'Motivational message',
   async execute(sock, msg, args) {
     const random = motivation[Math.floor(Math.random() * motivation.length)];
-    const senderName = msg.pushName || 'User';
-    const senderJid = msg.key.participant || msg.key.remoteJid;
-    const mention = [senderJid];
-    await sock.sendMessage(msg.key.remoteJid, { 
-      text: `💪 *Motivation for @${senderName}*\n\n${random}\n\n🚀 POWERED BY SAVAGE-CORE`, 
-      mentions: mention 
-    });
+    await sock.sendMessage(msg.key.remoteJid, {
+      text: `💪 *Motivation*\n\n${random}`
+    }, { quoted: msg });
   }
 };
