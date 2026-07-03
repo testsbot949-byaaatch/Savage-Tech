@@ -45,8 +45,7 @@ module.exports = {
             ];
             const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
 
-            const watermark = `╭━━━━━━━━━━━━━━━╮\n┃ 🔥 𝕾𝕬𝖁𝕬𝕲𝕰 𝕭𝖔𝖙 🔥\n╰━━━━━━━━━━━━━━━╯`;
-            const caption = `🔗 *Group Invite Link:*\n${inviteLink}\n\n📛 *Group:* ${group.subject}\n⏳ *Valid for 72 hours*\n\n💬 *Savage Quote:*\n“${randomQuote}”\n\n${watermark}`;
+            const caption = `🔗 *Group Invite Link:*\n${inviteLink}\n\n📛 *Group:* ${group.subject}\n⏳ *Valid for 72 hours*\n\n💬 *Savage Quote:*\n${randomQuote}`;
 
             if (icon) {
                 await sock.sendMessage(from, { image: icon, caption }, { quoted: msg });
