@@ -30,18 +30,15 @@ const fathers = [
   "I hope your day is as amazing as you are.",
   "Dad, you deserve a standing ovation for everything you've done. Love you!"
 ];
+
 module.exports = {
   name: 'fathersday',
   category: 'fun',
   description: 'Father’s Day wishes',
   async execute(sock, msg, args) {
     const random = fathers[Math.floor(Math.random() * fathers.length)];
-    const senderName = msg.pushName || 'User';
-    const senderJid = msg.key.participant || msg.key.remoteJid;
-    const mention = [senderJid];
-    await sock.sendMessage(msg.key.remoteJid, { 
-      text: `👨 *Happy Father's Day, @${senderName}!*\n\n${random}\n\n🚀 POWERED BY SAVAGE-CORE`, 
-      mentions: mention 
-    });
+    await sock.sendMessage(msg.key.remoteJid, {
+      text: `👨 *Happy Father's Day!*\n\n${random}`
+    }, { quoted: msg });
   }
 };
