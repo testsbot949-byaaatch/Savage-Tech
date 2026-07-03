@@ -1,3 +1,5 @@
+const settings = require('../settings.js');
+
 module.exports = {
     name: 'groupsettings',
     category: 'group',
@@ -14,41 +16,75 @@ module.exports = {
             groupName = meta.subject;
         } catch (e) {}
 
-        const antiLink = global.antiLinkConfig?.[from]?.enabled ? '✅ ON' : '❌ OFF';
-        const antiTag = global.antiTagConfig?.[from]?.enabled ? '✅ ON' : '❌ OFF';
-        const antiTagAdmin = global.antiTagAdminConfig?.[from]?.enabled ? '✅ ON' : '❌ OFF';
-        const antiMention = global.antiGroupMention?.[from] ? '✅ ON' : '❌ OFF';
-        const antiLeave = global.antiLeave?.[from] ? '✅ ON' : '❌ OFF';
-        const welcome = global.welcomeEnabled?.[from] ? '✅ ON' : '❌ OFF';
-        const goodbye = global.goodbyeEnabled?.[from] ? '✅ ON' : '❌ OFF';
-        const badWord = global.badWordEnabled?.[from] ? '✅ ON' : '❌ OFF';
+        const getSetting = (key, defaultValue) => {
+            const value = settings.getGroup(from, key);
+            return value !== undefined && value !== null ? value : defaultValue;
+        };
+
+        const antiLinkConfig = getSetting('antiLinkConfig', { enabled: false });
+        const antiLink = antiLinkConfig.enabled ? '✅ ON' : '❌ OFF';
+
+        const antiTagConfig = getSetting('antiTagConfig', { enabled: false });
+        const antiTag = antiTagConfig.enabled ? '✅ ON' : '❌ OFF';
+
+        const antiTagAdminConfig = getSetting('antiTagAdminConfig', { enabled: false });
+        const antiTagAdmin = antiTagAdminConfig.enabled ? '✅ ON' : '❌ OFF';
+
+        const antiGroupMentionConfig = getSetting('antigroupmention', { enabled: false });
+        const antiGroupMention = antiGroupMentionConfig.enabled ? '✅ ON' : '❌ OFF';
+
+        const antiLeave = getSetting('antiLeave', false) ? '✅ ON' : '❌ OFF';
+
+        const welcome = getSetting('welcomeEnabled', false) ? '✅ ON' : '❌ OFF';
+
+        const goodbye = getSetting('goodbyeEnabled', false) ? '✅ ON' : '❌ OFF';
+
+        const badWordEnabled = getSetting('badWordEnabled', false) ? '✅ ON' : '❌ OFF';
+        const badWords = getSetting('badWords', []);
         let badWordList = 'None';
-        if (global.badWords?.[from]) badWordList = Array.from(global.badWords[from]).slice(0, 5).join(', ') + (global.badWords[from].size > 5 ? '...' : '');
+        if (badWords && badWords.length > 0) {
+            badWordList = badWords.slice(0, 5).join(', ') + (badWords.length > 5 ? '...' : '');
+        }
+
+        const antiSpamConfig = getSetting('antiSpamConfig', { enabled: false });
+        const antiSpam = antiSpamConfig.enabled ? '✅ ON' : '❌ OFF';
+
+        const antiBot = getSetting('antiBot', false) ? '✅ ON' : '❌ OFF';
+
+        const antiStatusMentionConfig = getSetting('antistatusmention', { enabled: false });
+        const antiStatusMention = antiStatusMentionConfig.enabled ? '✅ ON' : '❌ OFF';
+
+        const antiDemoteConfig = getSetting('antidemote', { enabled: false });
+        const antiDemote = antiDemoteConfig.enabled ? '✅ ON' : '❌ OFF';
+
+        const antiPromoteConfig = getSetting('antipromote', { enabled: false });
+        const antiPromote = antiPromoteConfig.enabled ? '✅ ON' : '❌ OFF';
+
+        const antiForwardConfig = getSetting('antiForwardConfig', { enabled: false });
+        const antiForward = antiForwardConfig.enabled ? '✅ ON' : '❌ OFF';
 
         let output = `⚙️ *GROUP SETTINGS*\n📛 *${groupName}*\n🆔 ${from}\n\n`;
-        output += `┌───¤  *STATIC SETTINGS*\n`;
+        output += `┌───¤  *SECURITY SETTINGS*\n`;
         output += `│  🔹 Anti-Link: ${antiLink}\n`;
         output += `│  🔹 Anti-Tag (members): ${antiTag}\n`;
         output += `│  🔹 Anti-Tag (admins): ${antiTagAdmin}\n`;
-        output += `│  🔹 Anti-Group Mention: ${antiMention}\n`;
+        output += `│  🔹 Anti-Group Mention: ${antiGroupMention}\n`;
+        output += `│  🔹 Anti-Status Mention: ${antiStatusMention}\n`;
+        output += `│  🔹 Anti-Forward: ${antiForward}\n`;
+        output += `│  🔹 Anti-Bot: ${antiBot}\n`;
         output += `│  🔹 Anti-Leave: ${antiLeave}\n`;
+        output += `│  🔹 Anti-Demote: ${antiDemote}\n`;
+        output += `│  🔹 Anti-Promote: ${antiPromote}\n`;
+        output += `│\n`;
+        output += `├───¤  *MODERATION SETTINGS*\n`;
+        output += `│  🔹 Anti-Spam: ${antiSpam}\n`;
+        output += `│  🔹 Bad Word Filter: ${badWordEnabled}\n`;
+        output += `│  🔹 Bad Words: ${badWordList}\n`;
+        output += `│\n`;
+        output += `├───¤  *MESSAGING SETTINGS*\n`;
         output += `│  🔹 Welcome: ${welcome}\n`;
         output += `│  🔹 Goodbye: ${goodbye}\n`;
-        output += `│  🔹 Bad Word Filter: ${badWord}\n`;
-        output += `│  🔹 Bad Words: ${badWordList}\n`;
-
-        if (!global.groupSettings) global.groupSettings = {};
-        const dynamic = global.groupSettings[from] || {};
-        const dynamicKeys = Object.keys(dynamic);
-        if (dynamicKeys.length > 0) {
-            output += `│\n├───¤  *DYNAMIC SETTINGS* (auto)\n`;
-            for (const key of dynamicKeys) {
-                let value = dynamic[key];
-                if (typeof value === 'boolean') value = value ? '✅ ON' : '❌ OFF';
-                output += `│  🔸 ${key}: ${value}\n`;
-            }
-        }
-        output += `└───¤\n\n_⚡ Powered by Savage-Tech_`;
+        output += `└───¤`;
 
         await sock.sendMessage(from, { text: output }, { quoted: msg });
     }
