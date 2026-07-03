@@ -3,21 +3,31 @@ const settings = require('../settings.js');
 module.exports = {
     name: "alwaysonline",
     category: "owner",
-    description: "Toggle bot to always show online status",
-    async execute(sock, msg, args, { isArchitect }) {
+    description: "Toggle bot to always show online status (owner & sudo)",
+    async execute(sock, msg, args, { isArchitect, isMe }) {
         const from = msg.key.remoteJid;
-        if (!isArchitect) {
-            return sock.sendMessage(from, { text: "❌ Owner only command." }, { quoted: msg });
+        const sender = msg.key.participant || msg.key.remoteJid;
+        const isOwner = sender === global.ownerJid;
+        const isSudo = global.sudoUsers?.includes(sender);
+
+        if (!isArchitect && !isOwner && !isSudo) {
+            return await sock.sendMessage(from, { text: "❌ Restricted to owner and sudo users." }, { quoted: msg });
         }
 
-        if (args[0] && (args[0].toLowerCase() === "on" || args[0].toLowerCase() === "off")) {
-            global.alwaysOnline = args[0].toLowerCase() === "on";
-        } else {
-            global.alwaysOnline = !global.alwaysOnline;
+        if (global.alwaysOnline === undefined) {
+            global.alwaysOnline = settings.getGlobal('alwaysOnline', true);
         }
-        settings.setGlobal('alwaysOnline', global.alwaysOnline);
 
-        const status = global.alwaysOnline ? "enabled" : "disabled";
+        const sub = args[0]?.toLowerCase();
+        let newState;
+        if (sub === 'on') newState = true;
+        else if (sub === 'off') newState = false;
+        else newState = !global.alwaysOnline;
+
+        global.alwaysOnline = newState;
+        settings.setGlobal('alwaysOnline', newState);
+
+        const status = newState ? "enabled" : "disabled";
         await sock.sendMessage(from, { text: `✅ Always Online ${status}.` }, { quoted: msg });
     }
 };
