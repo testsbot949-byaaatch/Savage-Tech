@@ -30,18 +30,15 @@ const xmas = [
   "May the joy of Christmas be with you today and always.",
   "Happy Christmas! Let's make memories that last forever."
 ];
+
 module.exports = {
   name: 'christmas',
   category: 'fun',
   description: 'Christmas wishes',
   async execute(sock, msg, args) {
     const random = xmas[Math.floor(Math.random() * xmas.length)];
-    const senderName = msg.pushName || 'User';
-    const senderJid = msg.key.participant || msg.key.remoteJid;
-    const mention = [senderJid];
-    await sock.sendMessage(msg.key.remoteJid, { 
-      text: `🎄 *Merry Christmas, @${senderName}!*\n\n${random}\n\n🚀 POWERED BY SAVAGE-CORE`, 
-      mentions: mention 
-    });
+    await sock.sendMessage(msg.key.remoteJid, {
+      text: `🎄 *Merry Christmas!*\n\n${random}`
+    }, { quoted: msg });
   }
 };
