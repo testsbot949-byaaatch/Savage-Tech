@@ -1,22 +1,21 @@
 const axios = require('axios');
 const https = require('https');
 const agent = new https.Agent({ rejectUnauthorized: false });
+
 module.exports = {
   name: 'spank',
   category: 'anime',
   description: 'Random spank anime',
   async execute(sock, msg, args) {
-    const sender = msg.pushName || 'User';
-    const jid = msg.key.participant || msg.key.remoteJid;
     try {
-      await sock.sendMessage(msg.key.remoteJid, { text: '🎴 Fetching random spank anime...', mentions: [jid] });
+      await sock.sendMessage(msg.key.remoteJid, { text: '🎴 Fetching random spank anime...' }, { quoted: msg });
       const res = await axios.get('https://nekos.best/api/v2/spank', { httpsAgent: agent });
       const imgUrl = res.data.results[0].url;
-      const caption = '🎀 *Anime spank*\n👤 REQUESTED BY: @' + sender + '\n🚀 POWERED BY SAVAGE-CORE';
-      await sock.sendMessage(msg.key.remoteJid, { image: { url: imgUrl }, caption: caption, mentions: [jid] });
+      const caption = '🎀 *Anime spank*';
+      await sock.sendMessage(msg.key.remoteJid, { image: { url: imgUrl }, caption: caption }, { quoted: msg });
     } catch (err) {
       console.error('spank error:', err);
-      await sock.sendMessage(msg.key.remoteJid, { text: '❌ Failed to fetch anime spank.' });
+      await sock.sendMessage(msg.key.remoteJid, { text: '❌ Failed to fetch anime spank.' }, { quoted: msg });
     }
   }
 };
