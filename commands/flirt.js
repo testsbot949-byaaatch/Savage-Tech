@@ -30,18 +30,15 @@ const flirts = [
   "If you were a burger, you'd be a beaut-burger.",
   "You must be made of chocolate, because every time I see you I get a sweet craving."
 ];
+
 module.exports = {
   name: 'flirt',
   category: 'fun',
   description: 'Flirty pickup line',
   async execute(sock, msg, args) {
     const random = flirts[Math.floor(Math.random() * flirts.length)];
-    const senderName = msg.pushName || 'User';
-    const senderJid = msg.key.participant || msg.key.remoteJid;
-    const mention = [senderJid];
-    await sock.sendMessage(msg.key.remoteJid, { 
-      text: `💕 *Flirt for @${senderName}*\n\n${random}\n\n🚀 POWERED BY SAVAGE-CORE`, 
-      mentions: mention 
-    });
+    await sock.sendMessage(msg.key.remoteJid, {
+      text: `💕 *Flirt*\n\n${random}`
+    }, { quoted: msg });
   }
 };
