@@ -1,22 +1,26 @@
 const axios = require('axios');
 const https = require('https');
+
 const agent = new https.Agent({ rejectUnauthorized: false });
+
 module.exports = {
-  name: 'wink',
-  category: 'anime',
-  description: 'Random wink anime',
-  async execute(sock, msg, args) {
-    const sender = msg.pushName || 'User';
-    const jid = msg.key.participant || msg.key.remoteJid;
-    try {
-      await sock.sendMessage(msg.key.remoteJid, { text: '🎴 Fetching random wink anime...', mentions: [jid] });
-      const res = await axios.get('https://nekos.best/api/v2/wink', { httpsAgent: agent });
-      const imgUrl = res.data.results[0].url;
-      const caption = '🎀 *Anime wink*\n👤 REQUESTED BY: @' + sender + '\n🚀 POWERED BY SAVAGE-CORE';
-      await sock.sendMessage(msg.key.remoteJid, { image: { url: imgUrl }, caption: caption, mentions: [jid] });
-    } catch (err) {
-      console.error('wink error:', err);
-      await sock.sendMessage(msg.key.remoteJid, { text: '❌ Failed to fetch anime wink.' });
+    name: 'wink',
+    category: 'anime',
+    description: 'Random anime wink image',
+    async execute(sock, msg, args) {
+        const from = msg.key.remoteJid;
+
+        try {
+            await sock.sendMessage(from, { text: '🎴 Fetching random anime wink...' }, { quoted: msg });
+            const response = await axios.get('https://nekos.best/api/v2/wink', { httpsAgent: agent, timeout: 10000 });
+            const imgUrl = response.data.results[0].url;
+            await sock.sendMessage(from, {
+                image: { url: imgUrl },
+                caption: '✅ Anime wink'
+            }, { quoted: msg });
+        } catch (err) {
+            console.error('Wink error:', err);
+            await sock.sendMessage(from, { text: '❌ Failed to fetch anime wink.' }, { quoted: msg });
+        }
     }
-  }
 };
