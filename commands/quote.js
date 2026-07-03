@@ -36,7 +36,7 @@ module.exports = {
         const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
 
         await sock.sendMessage(from, { 
-            text: `⚠️ **SΛVΛGΞ THOUGHT** ⚠️\n\n_"${randomQuote}"_` 
+            text: `⚠️ **SΛVΛGΞ THOUGHT** ⚠️\n\n${randomQuote}`
         }, { quoted: msg });
     }
 };
