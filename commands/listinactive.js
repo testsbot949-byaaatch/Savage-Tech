@@ -19,7 +19,7 @@ module.exports = {
         return await sock.sendMessage(from, { text: `✅ No inactive members in the last 24h.` }, { quoted: msg });
       }
       const list = inactive.map(jid => `⏳ @${jid.split('@')[0]}`).join('\n');
-      const text = `🕒 *Inactive Members (24h)*\n👥 Total: ${inactive.length}\n\n${list}\n\n┍━━━━━━━━━━━━━━━╼\n┃ 🚀 SΛVΛGΞ-TΞCH OS\n┕━━━━━━━━━━━━━━━╼`;
+      const text = `🕒 *Inactive Members (24h)*\n👥 Total: ${inactive.length}\n\n${list}`;
       await sock.sendMessage(from, { text: text, mentions: inactive }, { quoted: msg });
     } catch (err) {
       await sock.sendMessage(from, { text: `❌ Error: ${err.message}` }, { quoted: msg });
