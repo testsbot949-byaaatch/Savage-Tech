@@ -1,3 +1,5 @@
+const settings = require('../settings.js');
+
 global.autoReact = global.autoReact || {};
 global.autoReactGroups = global.autoReactGroups || false;
 global.autoReactAll = global.autoReactAll || false;
@@ -60,6 +62,9 @@ module.exports = {
             global.autoReactAll = false;
             global.autoReactGroups = false;
             if (global.autoReact) global.autoReact[from] = false;
+            settings.setGlobal('autoReactAll', false);
+            settings.setGlobal('autoReactGroups', false);
+            settings.setGroup(from, 'autoReact', false);
             return await sock.sendMessage(from, { text: "✅ Auto‑reaction disabled for this chat (and all groups/all chats)." }, { quoted: msg });
         }
 
@@ -72,12 +77,15 @@ module.exports = {
         if (scope === "chat") {
             if (!global.autoReact) global.autoReact = {};
             global.autoReact[from] = state === "on";
+            settings.setGroup(from, 'autoReact', state === "on");
             await sock.sendMessage(from, { text: `✅ Auto‑reaction in this chat: ${state.toUpperCase()}` }, { quoted: msg });
         } else if (scope === "groups") {
             global.autoReactGroups = state === "on";
+            settings.setGlobal('autoReactGroups', state === "on");
             await sock.sendMessage(from, { text: `✅ Auto‑reaction in ALL groups: ${state.toUpperCase()}` }, { quoted: msg });
         } else if (scope === "all") {
             global.autoReactAll = state === "on";
+            settings.setGlobal('autoReactAll', state === "on");
             await sock.sendMessage(from, { text: `✅ Auto‑reaction in ALL chats (private and groups): ${state.toUpperCase()}` }, { quoted: msg });
         }
     }
