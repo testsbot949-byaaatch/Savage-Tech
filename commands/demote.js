@@ -46,7 +46,7 @@ module.exports = {
             const mentionTag = `@${targets[0].split('@')[0]}`;
 
             await sock.sendMessage(from, { 
-                text: `📉 *RANK REVOKED*\n\n${mentionTag}\n"${quote}"`,
+                text: `📉 *RANK REVOKED*\n\n${mentionTag}\n${quote}`,
                 mentions: targets
             }, { quoted: msg });
         } catch (e) {
