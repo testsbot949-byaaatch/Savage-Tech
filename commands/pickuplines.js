@@ -30,18 +30,15 @@ const pickups = [
   "Is your name Ruby? Because you're a gem.",
   "Do you believe in fate? Because I think we're meant to be."
 ];
+
 module.exports = {
   name: 'pickuplines',
   category: 'fun',
   description: 'Random pickup line',
   async execute(sock, msg, args) {
     const random = pickups[Math.floor(Math.random() * pickups.length)];
-    const senderName = msg.pushName || 'User';
-    const senderJid = msg.key.participant || msg.key.remoteJid;
-    const mention = [senderJid];
-    await sock.sendMessage(msg.key.remoteJid, { 
-      text: `💘 *Pickup line for @${senderName}*\n\n${random}\n\n🚀 POWERED BY SAVAGE-CORE`, 
-      mentions: mention 
-    });
+    await sock.sendMessage(msg.key.remoteJid, {
+      text: `💘 *Pickup line*\n\n${random}`
+    }, { quoted: msg });
   }
 };
