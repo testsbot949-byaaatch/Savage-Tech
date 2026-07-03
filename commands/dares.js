@@ -1,47 +1,44 @@
 const dares = [
-  "Send an embarrassing photo to the last person you texted.",
-  "Post something silly on your social media right now.",
-  "Do 20 jumping jacks.",
-  "Sing the chorus of your favorite song out loud.",
-  "Show the last five photos in your camera roll.",
-  "Send a heartfelt message to someone you haven't talked to in a while.",
-  "Do a dramatic reading of the last message you received.",
-  "Let the group choose your profile picture for an hour.",
-  "Act like a monkey for 15 seconds.",
-  "Send a random compliment to three people in your contacts.",
-  "Do 10 pushups.",
-  "Tell a joke (if someone laughs, you lose).",
-  "Make a funny face and take a selfie.",
-  "Send a voice note of you laughing.",
-  "Text your crush 'I like you' and screenshot the reaction (no send needed).",
-  "Change your ringtone to something embarrassing for a day.",
-  "Show your browser history (safe mode).",
+  "Send a cheesy pickup line to the last person you messaged.",
+  "Tell a joke – if no one laughs, you lose.",
+  "Send a random compliment to three contacts.",
   "Share a childhood memory that makes you cringe.",
-  "Do a TikTok dance without music.",
-  "Send 'I'm thinking of you' to someone random.",
-  "Eat a spoonful of hot sauce (or something spicy).",
-  "Let someone write on your hand with a marker.",
-  "Record yourself saying 'I love watching paint dry' and send it.",
-  "Pretend to be a celebrity for the next round.",
-  "Send a cheesy pickup line to a friend.",
-  "Do 15 sit-ups.",
-  "Answer your phone on speaker if it rings.",
-  "Send the word 'banana' 20 times to the last person you messaged.",
-  "Make up a rap about vegetables.",
-  "Send a selfie with a funny filter."
+  "Send a one-word summary of your day to the group.",
+  "Text someone 'You're my favourite notification' and screenshot the reply (no need to send).",
+  "Make up a haiku about the group.",
+  "Send a message in all caps to someone.",
+  "Post a random fun fact you just learned.",
+  "Reply to the next message you receive with only emojis.",
+  "Send a screenshot of your weather app.",
+  "Ask someone for their go-to comfort food and share it.",
+  "Write a short story in 3 sentences and send it.",
+  "Send a song lyric that describes your current mood.",
+  "Send a motivational quote to a friend.",
+  "Tell the group your most recent dream (even if it's vague).",
+  "Send a 'thank you' message to someone you appreciate.",
+  "Share a weird food combination you actually like.",
+  "Send a riddle and let the group solve it.",
+  "Send a voice message of you saying 'I am a bot' (text is fine).",
+  "Compliment the person above you.",
+  "Send a screenshot of your most played song this month.",
+  "Type a message using only emojis and let the group decode it.",
+  "Send a link to a video that made you laugh this week.",
+  "Share a one-minute life tip.",
+  "Describe your perfect day in five words.",
+  "Send a text with your phone's autocorrect set to another language.",
+  "Ask a friend for a random word and use it in a sentence.",
+  "Send a picture of what's on your desk right now (if comfortable).",
+  "Tell a two-truths-and-a-lie about yourself."
 ];
+
 module.exports = {
   name: 'dares',
   category: 'fun',
-  description: 'Dare for games',
+  description: 'Text-friendly dares for WhatsApp games',
   async execute(sock, msg, args) {
     const random = dares[Math.floor(Math.random() * dares.length)];
-    const senderName = msg.pushName || 'User';
-    const senderJid = msg.key.participant || msg.key.remoteJid;
-    const mention = [senderJid];
-    await sock.sendMessage(msg.key.remoteJid, { 
-      text: `⚡ *Dare for @${senderName}*\n\n${random}\n\n🚀 POWERED BY SAVAGE-CORE`, 
-      mentions: mention 
-    });
+    await sock.sendMessage(msg.key.remoteJid, {
+      text: `⚡ *Dare*\n\n${random}`
+    }, { quoted: msg });
   }
 };
