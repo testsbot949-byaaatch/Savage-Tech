@@ -30,18 +30,15 @@ const facts = [
   "A group of owls is called a parliament.",
   "An adult human is made up of about 7,000,000,000,000,000,000,000,000,000 atoms."
 ];
+
 module.exports = {
   name: 'funfacts',
   category: 'fun',
   description: 'Random fun fact',
   async execute(sock, msg, args) {
     const random = facts[Math.floor(Math.random() * facts.length)];
-    const senderName = msg.pushName || 'User';
-    const senderJid = msg.key.participant || msg.key.remoteJid;
-    const mention = [senderJid];
-    await sock.sendMessage(msg.key.remoteJid, { 
-      text: `🧠 *Fun Fact for @${senderName}*\n\n${random}\n\n🚀 POWERED BY SAVAGE-CORE`, 
-      mentions: mention 
-    });
+    await sock.sendMessage(msg.key.remoteJid, {
+      text: `🧠 *Fun Fact*\n\n${random}`
+    }, { quoted: msg });
   }
 };
