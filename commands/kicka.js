@@ -22,17 +22,15 @@ module.exports = {
   category: 'anime',
   description: 'Get random kick anime GIF',
   async execute(sock, msg, args) {
-    const sender = msg.pushName || 'User';
-    const jid = msg.key.participant || msg.key.remoteJid;
     try {
-      await sock.sendMessage(msg.key.remoteJid, { text: `🎴 Fetching random kick anime...`, mentions: [jid] });
+      await sock.sendMessage(msg.key.remoteJid, { text: '🎴 Fetching random kick anime...' }, { quoted: msg });
       const res = await axios.get('https://nekos.best/api/v2/kick', { httpsAgent: agent });
       const imgUrl = res.data.results[0].url;
-      const caption = `🎀 *Anime kick*\n👤 REQUESTED BY: @${sender}\n\n┍━━━━━━━━━━━━━━━╼\n┃ 🚀 SΛVΛGΞ-TΞCH OS\n┕━━━━━━━━━━━━━━━╼`;
-      await sock.sendMessage(msg.key.remoteJid, { image: { url: imgUrl }, caption: caption, mentions: [jid] });
+      const caption = '🎀 *Anime kick*';
+      await sock.sendMessage(msg.key.remoteJid, { image: { url: imgUrl }, caption: caption }, { quoted: msg });
     } catch (err) {
       console.error('kicka error:', err);
-      await sock.sendMessage(msg.key.remoteJid, { text: `❌ Failed to fetch anime kick.` });
+      await sock.sendMessage(msg.key.remoteJid, { text: '❌ Failed to fetch anime kick.' }, { quoted: msg });
     }
   }
 };
