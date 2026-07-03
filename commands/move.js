@@ -8,9 +8,9 @@ module.exports = {
         const game = global.chess?.[from];
 
         if (!game) {
-            return sock.sendMessage(from, {
+            return await sock.sendMessage(from, {
                 text: "❌ No chess game running"
-            });
+            }, { quoted: msg });
         }
 
         try {
@@ -21,9 +21,9 @@ module.exports = {
             });
 
             if (!move) {
-                return sock.sendMessage(from, {
+                return await sock.sendMessage(from, {
                     text: "❌ Illegal move"
-                });
+                }, { quoted: msg });
             }
 
             await sock.sendMessage(from, {
@@ -31,12 +31,12 @@ module.exports = {
 `♟️ MOVE DONE
 
 ${game.ascii()}`
-            });
+            }, { quoted: msg });
 
         } catch (e) {
-            sock.sendMessage(from, {
+            await sock.sendMessage(from, {
                 text: "❌ Invalid move"
-            });
+            }, { quoted: msg });
         }
     }
 };
