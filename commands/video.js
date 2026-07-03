@@ -9,7 +9,7 @@ const execPromise = util.promisify(exec);
 module.exports = {
     name: 'video',
     category: 'media',
-    description: 'Download YouTube video (ytv4)',
+    description: 'Download YouTube video (Wolf API)',
     async execute(sock, msg, args) {
         const from = msg.key.remoteJid;
         const query = args.join(' ');
@@ -53,15 +53,20 @@ module.exports = {
                 return sock.sendMessage(from, { text: '❌ Could not find video.' }, { quoted: msg });
             }
 
-            const apiUrl = `https://ravenn.site/download/ytv4?url=${encodeURIComponent(videoUrl)}`;
+            const apiKey = 'wxa_f_1be53c1604';
+            const apiUrl = `https://apis.xwolf.space/download/video?url=${encodeURIComponent(videoUrl)}&key=${apiKey}`;
             const response = await axios.get(apiUrl, { timeout: 15000 });
             const data = response.data;
 
-            if (!data.status || !data.result) {
-                throw new Error('API did not return a result');
+            if (!data.success) {
+                throw new Error(data.error || 'API did not return a result');
             }
 
-            const downloadUrl = data.result;
+            let downloadUrl = data.result || data.downloadUrl || data.url;
+            if (!downloadUrl) {
+                throw new Error('No download URL found in API response');
+            }
+
             const videoRes = await axios.get(downloadUrl, {
                 responseType: 'arraybuffer',
                 timeout: 60000,
