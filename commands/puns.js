@@ -30,18 +30,15 @@ const puns = [
   "I told my wife she was drawing her eyebrows too high. She looked surprised.",
   "What do you call a belt made of watches? A waist of time."
 ];
+
 module.exports = {
   name: 'puns',
   category: 'fun',
   description: 'Random pun',
   async execute(sock, msg, args) {
     const random = puns[Math.floor(Math.random() * puns.length)];
-    const senderName = msg.pushName || 'User';
-    const senderJid = msg.key.participant || msg.key.remoteJid;
-    const mention = [senderJid];
-    await sock.sendMessage(msg.key.remoteJid, { 
-      text: `🥁 *Pun for @${senderName}*\n\n${random}\n\n🚀 POWERED BY SAVAGE-CORE`, 
-      mentions: mention 
-    });
+    await sock.sendMessage(msg.key.remoteJid, {
+      text: `🥁 *Pun*\n\n${random}`
+    }, { quoted: msg });
   }
 };
