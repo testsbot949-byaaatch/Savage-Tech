@@ -4,7 +4,7 @@ const yts = require('yt-search');
 module.exports = {
     name: 'song',
     category: 'audio',
-    description: 'Download a song as MP3 (YouTube URL or song name)',
+    description: 'Download a song as MP3 (Ravenn primary, Wolf fallback, Deezer last)',
     async execute(sock, msg, args) {
         const from = msg.key.remoteJid;
         const query = args.join(' ');
@@ -25,6 +25,15 @@ module.exports = {
 
             if (isUrl) {
                 videoUrl = query;
+                try {
+                    const info = await yts({ videoId: videoUrl });
+                    if (info) {
+                        title = info.title || 'Unknown';
+                        artist = info.author?.name || 'Unknown';
+                        duration = info.duration?.timestamp || 'N/A';
+                        cover = info.thumbnail || null;
+                    }
+                } catch (e) {}
             } else {
                 try {
                     const searchResult = await yts(query);
@@ -45,7 +54,7 @@ module.exports = {
 
             if (videoUrl) {
                 try {
-                    const response = await axios.get(`https://ravenn.site/download/audio?url=${encodeURIComponent(videoUrl)}`);
+                    const response = await axios.get(`https://ravenn.site/download/audio?url=${encodeURIComponent(videoUrl)}`, { timeout: 15000 });
                     if (response.data.status && response.data.result) {
                         audioUrl = response.data.result;
                         if (title === 'Unknown') title = 'YouTube Audio';
@@ -55,8 +64,22 @@ module.exports = {
                 }
             }
 
+            if (!audioUrl && videoUrl) {
+                try {
+                    const apiKey = 'wxa_f_28d599362e';
+                    const wolfUrl = `https://apis.xwolf.space/download/mp3?url=${encodeURIComponent(videoUrl)}&q=${encodeURIComponent(query)}&key=${apiKey}`;
+                    const wolfRes = await axios.get(wolfUrl, { timeout: 15000 });
+                    if (wolfRes.data.success) {
+                        audioUrl = wolfRes.data.result?.downloadUrl || wolfRes.data.downloadUrl || wolfRes.data.result?.url || wolfRes.data.url;
+                        if (audioUrl && title === 'Unknown') title = 'YouTube Audio';
+                    }
+                } catch (wolfErr) {
+                    console.log('Wolf API failed:', wolfErr.message);
+                }
+            }
+
             if (!audioUrl) {
-                console.log('Ravenn failed, falling back to Deezer...');
+                console.log('Ravenn & Wolf failed, falling back to Deezer...');
                 usedFallback = true;
                 try {
                     const deezerRes = await axios.get(`https://api.deezer.com/search?q=${encodeURIComponent(query)}`);
