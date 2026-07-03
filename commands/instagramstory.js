@@ -9,10 +9,6 @@ module.exports = {
         const url = args[0];
         if (!url) return sock.sendMessage(from, { text: '❌ Provide an Instagram story URL.' }, { quoted: msg });
 
-        const senderName = msg.pushName || 'User';
-        const senderJid = msg.key.participant || msg.key.remoteJid;
-        const mention = [senderJid];
-
         try {
             await sock.sendMessage(from, { text: '⏳ Downloading story...' }, { quoted: msg });
 
@@ -26,31 +22,27 @@ module.exports = {
 
             const mediaUrl = data.result;
 
-            // Download the media file as buffer
             const mediaRes = await axios.get(mediaUrl, {
                 responseType: 'arraybuffer',
                 timeout: 30000
             });
             const mediaBuffer = Buffer.from(mediaRes.data);
 
-            // Detect if it's video or image based on URL or content-type
             const isVideo = mediaUrl.match(/\.mp4$/i) || 
                             mediaUrl.includes('/video/') ||
                             mediaRes.headers['content-type']?.includes('video');
 
-            const caption = `📥 *Instagram Story*\n👤 Requested by: @${senderName}\n🚀 Powered by Savage-Tech`;
+            const caption = '📥 *Instagram Story*';
 
             if (isVideo) {
                 await sock.sendMessage(from, {
                     video: mediaBuffer,
-                    caption: caption,
-                    mentions: mention
+                    caption: caption
                 }, { quoted: msg });
             } else {
                 await sock.sendMessage(from, {
                     image: mediaBuffer,
-                    caption: caption,
-                    mentions: mention
+                    caption: caption
                 }, { quoted: msg });
             }
 
