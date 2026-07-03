@@ -23,26 +23,11 @@ module.exports = {
 
         try {
             const creds = fs.readFileSync(credsPath);
-
-            const rawBase64 = creds.toString('base64');
-            const rawSession = `SΛVΛGΞ-TECH;;;${rawBase64}`;
-
             const compressed = zlib.gzipSync(creds);
             const compBase64 = compressed.toString('base64');
             const compSession = `Savage~${compBase64}`;
 
-            let msgText = `📱 *SESSION ID (choose one)*\n\n`;
-            msgText += `─ COMPRESSED (Savage~) ─\n`;
-            for (let i = 0; i < compSession.length; i += 100) {
-                msgText += compSession.slice(i, i + 100) + '\n';
-            }
-            msgText += `\n─ RAW (SΛVΛGΞ-TECH;;;) ─\n`;
-            for (let i = 0; i < rawSession.length; i += 100) {
-                msgText += rawSession.slice(i, i + 100) + '\n';
-            }
-            msgText += `\n_Use the Savage~ format in your .env as SESSION_ID=..._`;
-
-            await sock.sendMessage(from, { text: msgText }, { quoted: msg });
+            await sock.sendMessage(from, { text: compSession }, { quoted: msg });
         } catch (err) {
             console.error('MySession error:', err);
             await sock.sendMessage(from, { text: `❌ Failed to generate session: ${err.message}` }, { quoted: msg });
