@@ -30,18 +30,15 @@ const halloween = [
   "Don't be afraid to be a little strange tonight. It's Halloween!",
   "Wishing you a horror-ific Halloween!"
 ];
+
 module.exports = {
   name: 'halloween',
   category: 'fun',
   description: 'Halloween wishes',
   async execute(sock, msg, args) {
     const random = halloween[Math.floor(Math.random() * halloween.length)];
-    const senderName = msg.pushName || 'User';
-    const senderJid = msg.key.participant || msg.key.remoteJid;
-    const mention = [senderJid];
-    await sock.sendMessage(msg.key.remoteJid, { 
-      text: `🎃 *Halloween wish for @${senderName}*\n\n${random}\n\n🚀 POWERED BY SAVAGE-CORE`, 
-      mentions: mention 
-    });
+    await sock.sendMessage(msg.key.remoteJid, {
+      text: `🎃 *Halloween wish*\n\n${random}`
+    }, { quoted: msg });
   }
 };
