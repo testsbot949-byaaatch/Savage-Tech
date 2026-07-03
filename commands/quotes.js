@@ -30,18 +30,15 @@ const quotes = [
   "Start where you are. Use what you have. Do what you can. – Arthur Ashe",
   "Perfection is not attainable, but if we chase perfection we can catch excellence. – Vince Lombardi"
 ];
+
 module.exports = {
   name: 'quotes',
   category: 'fun',
   description: 'Random famous quote',
   async execute(sock, msg, args) {
     const random = quotes[Math.floor(Math.random() * quotes.length)];
-    const senderName = msg.pushName || 'User';
-    const senderJid = msg.key.participant || msg.key.remoteJid;
-    const mention = [senderJid];
-    await sock.sendMessage(msg.key.remoteJid, { 
-      text: `📜 *Quote for @${senderName}*\n\n${random}\n\n🚀 POWERED BY SAVAGE-CORE`, 
-      mentions: mention 
-    });
+    await sock.sendMessage(msg.key.remoteJid, {
+      text: `📜 *Quote*\n\n${random}`
+    }, { quoted: msg });
   }
 };
