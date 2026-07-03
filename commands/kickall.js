@@ -61,7 +61,7 @@ module.exports = {
         ];
         const randomQuote = savageQuotes[Math.floor(Math.random() * savageQuotes.length)];
 
-        await sock.sendMessage(from, { text: `${randomQuote}\n\nRemoving ${targets.length} members:\n${targets.map(j => `@${j.split('@')[0]}`).join('\n')}`, mentions: targets }, { quoted: msg });
+        await sock.sendMessage(from, { text: `${randomQuote}\n\nRemoving ${targets.length} members:\n${targets.map(j => `${j.split('@')[0]}`).join('\n')}`, mentions: targets }, { quoted: msg });
 
         try {
             await sock.groupParticipantsUpdate(from, targets, "remove");
