@@ -22,14 +22,12 @@ module.exports = {
             const participants = metadata.participants;
             
             let mentions = [];
-            let messageText = `╔════════════════════╗\n   ⛓️ **SΛVΛGΞ ATTENTION** ⛓️\n╚════════════════════╝\n\n📢 **ANNOUNCEMENT:** ${args.length > 0 ? args.join(' ') : 'System Broadcast'}\n\n`;
+            let messageText = `📢 **ANNOUNCEMENT:** ${args.length > 0 ? args.join(' ') : 'System Broadcast'}\n\n`;
 
             for (let participant of participants) {
                 messageText += `🔹 @${participant.id.split('@')[0]}\n`;
                 mentions.push(participant.id);
             }
-
-            messageText += `\n━━━━━━━━━━━━━━━\n_Architect Beck is calling._ 🌐`;
 
             await sock.sendMessage(from, { 
                 text: messageText, 
