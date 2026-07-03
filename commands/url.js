@@ -1,3 +1,4 @@
+const { downloadMediaMessage } = require("@whiskeysockets/baileys");
 const axios = require('axios');
 const FormData = require('form-data');
 
@@ -15,23 +16,23 @@ module.exports = {
         let mediaBuffer, filename, contentType;
         try {
             if (quoted.imageMessage) {
-                mediaBuffer = await global.downloadMediaMessage({ message: quoted }, 'buffer', {});
+                mediaBuffer = await downloadMediaMessage({ message: quoted }, 'buffer', {});
                 filename = 'image.jpg';
                 contentType = 'image/jpeg';
             } else if (quoted.videoMessage) {
-                mediaBuffer = await global.downloadMediaMessage({ message: quoted }, 'buffer', {});
+                mediaBuffer = await downloadMediaMessage({ message: quoted }, 'buffer', {});
                 filename = 'video.mp4';
                 contentType = 'video/mp4';
             } else if (quoted.audioMessage) {
-                mediaBuffer = await global.downloadMediaMessage({ message: quoted }, 'buffer', {});
+                mediaBuffer = await downloadMediaMessage({ message: quoted }, 'buffer', {});
                 filename = 'audio.mp3';
                 contentType = 'audio/mpeg';
             } else if (quoted.stickerMessage) {
-                mediaBuffer = await global.downloadMediaMessage({ message: quoted }, 'buffer', {});
+                mediaBuffer = await downloadMediaMessage({ message: quoted }, 'buffer', {});
                 filename = 'sticker.webp';
                 contentType = 'image/webp';
             } else if (quoted.documentMessage) {
-                mediaBuffer = await global.downloadMediaMessage({ message: quoted }, 'buffer', {});
+                mediaBuffer = await downloadMediaMessage({ message: quoted }, 'buffer', {});
                 const doc = quoted.documentMessage;
                 filename = doc.fileName || 'document.bin';
                 contentType = doc.mimetype || 'application/octet-stream';
