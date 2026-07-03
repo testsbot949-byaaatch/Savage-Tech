@@ -4,13 +4,15 @@ module.exports = {
     name: "setprefix",
     category: "owner",
     description: "Change the global command trigger (use 'none' to remove prefix requirement)",
-    async execute(sock, msg, args, { isMe }) {
+    async execute(sock, msg, args, { isArchitect, isMe }) {
         const from = msg.key.remoteJid;
+        const sender = msg.key.participant || msg.key.remoteJid;
+        const isOwner = sender === global.ownerJid;
+        const isSudo = global.sudoUsers?.includes(sender);
 
-        if (!isMe) {
-            return await sock.sendMessage(from, {
-                text: "🚫 **ACCESS DENIED:** Only the Architect can reconfigure the neural trigger."
-            }, { quoted: msg });
+        // isArchitect already includes isMe, but we keep it explicit for clarity
+        if (!isArchitect && !isOwner && !isSudo && !isMe) {
+            return await sock.sendMessage(from, { text: "This command is restricted to the owner and sudo users only." }, { quoted: msg });
         }
 
         if (!args[0]) {
