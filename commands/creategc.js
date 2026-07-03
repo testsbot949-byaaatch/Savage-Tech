@@ -37,7 +37,7 @@ module.exports = {
             const inviteCode = await sock.groupInviteCode(groupJid);
             const inviteLink = `https://chat.whatsapp.com/${inviteCode}`;
             await sock.sendMessage(from, {
-                text: `✅ Group created!\n📛 ${groupName}\n🆔 ${groupJid}\n🔗 ${inviteLink}\n👥 Added: ${participants.length}\n\n┍━━━━━━━━━━━━━━━╼\n┃ 🚀 SΛVΛGΞ-TΞCH OS\n┕━━━━━━━━━━━━━━━╼`
+                text: `✅ Group created!\n📛 ${groupName}\n🆔 ${groupJid}\n🔗 ${inviteLink}\n👥 Added: ${participants.length}`
             }, { quoted: msg });
         } catch (err) {
             await sock.sendMessage(from, { text: `❌ Failed: ${err.message}` }, { quoted: msg });
