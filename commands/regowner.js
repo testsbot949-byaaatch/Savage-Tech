@@ -11,7 +11,7 @@ module.exports = {
         const senderNumber = sender.split('@')[0].split(':')[0];
         const botNumberClean = botNumber.split('@')[0].split(':')[0];
         if (senderNumber !== botNumberClean && !isMe) {
-            return sock.sendMessage(from, { text: "❌ Only the bot owner can register." }, { quoted: msg });
+            return await sock.sendMessage(from, { text: "❌ Only the bot owner can register." }, { quoted: msg });
         }
         global.ownerJid = sender;
         const ownerFile = path.join(__dirname, '..', 'owner.json');
@@ -41,6 +41,6 @@ module.exports = {
         ];
         const quote = accessQuotes[Math.floor(Math.random() * accessQuotes.length)];
         
-        await sock.sendMessage(from, { text: `✅ ${quote}\n\n_⚡ Powered by Savage Tech_` }, { quoted: msg });
+        await sock.sendMessage(from, { text: `✅ ${quote}` }, { quoted: msg });
     }
 };
