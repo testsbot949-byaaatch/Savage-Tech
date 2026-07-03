@@ -1,15 +1,16 @@
 const tls = require('tls');
+
 module.exports = {
   name: 'ssl',
   category: 'ethical hacking',
   description: 'Check SSL certificate details',
   async execute(sock, msg, args) {
+    const from = msg.key.remoteJid;
     const host = args[0];
-    if (!host) return sock.sendMessage(msg.key.remoteJid, { text: '❓ Usage: .ssl <domain>' });
-    const sender = msg.pushName || 'User';
-    const jid = msg.key.participant || msg.key.remoteJid;
+    if (!host) return await sock.sendMessage(from, { text: '❓ Usage: .ssl <domain>' }, { quoted: msg });
+
     try {
-      await sock.sendMessage(msg.key.remoteJid, { text: `🔐 Fetching SSL cert for ${host}...`, mentions: [jid] });
+      await sock.sendMessage(from, { text: `🔐 Fetching SSL cert for ${host}...` }, { quoted: msg });
       const cert = await new Promise((resolve, reject) => {
         const socket = tls.connect({ host, port: 443, rejectUnauthorized: false }, () => {
           const cert = socket.getPeerCertificate();
@@ -27,10 +28,9 @@ module.exports = {
       text += `Valid to: ${cert.valid_to || 'N/A'}\n`;
       text += `Algorithm: ${cert.sigalg || 'N/A'}\n`;
       text += `Fingerprint: ${cert.fingerprint || 'N/A'}`;
-      const output = `🛡️ *SSL Check*\n👤 REQUESTED BY: @${sender}\n🎯 Target: ${host}\n\n${text}\n\n🚀 POWERED BY SAVAGE-CORE`;
-      await sock.sendMessage(msg.key.remoteJid, { text: output.slice(0, 2000), mentions: [jid] });
+      await sock.sendMessage(from, { text }, { quoted: msg });
     } catch (err) {
-      await sock.sendMessage(msg.key.remoteJid, { text: `❌ SSL error: ${err.message}` });
+      await sock.sendMessage(from, { text: `❌ SSL error: ${err.message}` }, { quoted: msg });
     }
   }
 };
