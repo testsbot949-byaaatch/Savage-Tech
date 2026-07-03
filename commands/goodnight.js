@@ -30,18 +30,15 @@ const nights = [
   "Rest up – you've got greatness to chase.",
   "Good night! Sweet dreams and starry skies."
 ];
+
 module.exports = {
   name: 'goodnight',
   category: 'fun',
   description: 'Good night message',
   async execute(sock, msg, args) {
     const random = nights[Math.floor(Math.random() * nights.length)];
-    const senderName = msg.pushName || 'User';
-    const senderJid = msg.key.participant || msg.key.remoteJid;
-    const mention = [senderJid];
-    await sock.sendMessage(msg.key.remoteJid, { 
-      text: `🌙 *Good night, @${senderName}!*\n\n${random}\n\n🚀 POWERED BY SAVAGE-CORE`, 
-      mentions: mention 
-    });
+    await sock.sendMessage(msg.key.remoteJid, {
+      text: `🌙 *Good night!*\n\n${random}`
+    }, { quoted: msg });
   }
 };
