@@ -1,12 +1,23 @@
+const os = require('os');
+
 module.exports = {
     name: 'status',
     category: 'engine',
-    async execute(sock, msg, args, { hasAccess }) {
-        if (!hasAccess) return;
-        const os = require('os');
+    async execute(sock, msg, args) {
+        const from = msg.key.remoteJid;
         const uptime = process.uptime();
-        const runtime = new Date(uptime * 1000).toISOString().substr(11, 8);
-        const statusText = "*SΛVΛGΞ-TECH STATUS*\n\n📡 **UPLINK:** STABLE\n⏳ **RUNTIME:** " + runtime + "\n⛓️ **SYSTEM:** ABSOLUTE";
-        await sock.sendMessage(msg.key.remoteJid, { text: statusText }, { quoted: msg });
+        const days = Math.floor(uptime / 86400);
+        const hours = Math.floor((uptime % 86400) / 3600);
+        const minutes = Math.floor((uptime % 3600) / 60);
+        const seconds = Math.floor(uptime % 60);
+        let runtime = '';
+        if (days > 0) runtime += `${days}d `;
+        if (hours > 0) runtime += `${hours}h `;
+        if (minutes > 0) runtime += `${minutes}m `;
+        runtime += `${seconds}s`;
+
+        const statusText = `*SΛVΛGΞ-TECH STATUS*\n\n📡 **UPLINK:** STABLE\n⏳ **RUNTIME:** ${runtime}\n⛓️ **SYSTEM:** ABSOLUTE`;
+
+        await sock.sendMessage(from, { text: statusText }, { quoted: msg });
     }
 };
