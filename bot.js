@@ -7,7 +7,7 @@ const {
     fetchLatestBaileysVersion,
     makeCacheableSignalKeyStore,
     downloadMediaMessage,
-    downloadContentFromMessage
+    downloadContentFromMessage   // <-- added
 } = require("@whiskeysockets/baileys");
 
 const pino = require("pino");
@@ -20,44 +20,11 @@ const os = require("os");
 const zlib = require("zlib");
 
 const settings = require('./settings.js');
-
-const PACKAGE_JSON = {
-  "name": "savage-tech",
-  "version": "1.0.0",
-  "description": "WhatsApp Bot by Spencer",
-  "main": "index.js",
-  "type": "commonjs",
-  "scripts": {
-    "start": "node server.js"
-  },
-  "dependencies": {
-    "@distube/ytdl-core": "^4.16.12",
-    "@google/generative-ai": "^0.24.1",
-    "@meting/core": "^1.6.1",
-    "@vitalets/google-translate-api": "^9.2.1",
-    "@whiskeysockets/baileys": "^6.7.22",
-    "axios": "^1.18.1",
-    "cheerio": "^1.2.0",
-    "dotenv": "^17.4.2",
-    "express": "^5.2.1",
-    "form-data": "^4.0.6",
-    "fs-extra": "^11.2.0",
-    "pino": "^8.19.0",
-    "qrcode": "^1.5.4",
-    "qrcode-terminal": "^0.12.0",
-    "yt-search": "^2.13.1",
-    "ytdl-core": "^4.11.5"
-  },
-  "devDependencies": {
-    "javascript-obfuscator": "^5.4.2"
-  }
-};
-
 settings.loadSettings();
 settings.syncGlobals();
 
-
-
+const antidemote = require('./commands/antidemote.js');
+const antipromote = require('./commands/antipromote.js');
 
 global.downloadMediaMessage = downloadMediaMessage;
 
@@ -450,1621 +417,1274 @@ async function handleGateTimeout(sock, groupId, userId) {
     }
 }
 
-
-
-// ======== INJECTED ALL MISSING ARRAYS ========
-const adviceList = [
-  "Don't cry because it's over, smile because it happened.",
-  "The only limit is your mind.",
-  // ... (full list from earlier – I'll include all to be safe)
-  "Your only limit is the one you set for yourself."
-];
-
-const KEY_PART1 = 'AQ.Ab8RN6JNbzRrZ6F1cflC_KdwEKGFo7LqlDzoiTSTl';
-const KEY_PART2 = 'WAbbGvFCA';
-
-function formatNumber(num) {
-    if (num === undefined || num === null) return 'N/A';
-    if (typeof num === 'number') {
-        if (num > 1e12) return '$' + (num / 1e12).toFixed(2) + 'T';
-        if (num > 1e9) return '$' + (num / 1e9).toFixed(2) + 'B';
-        if (num > 1e6) return '$' + (num / 1e6).toFixed(2) + 'M';
-        return num.toLocaleString();
-    }
-    return num;
-}
-
-const BOOK_ALIASES = {
-    'gen': 'genesis', 'ex': 'exodus', 'lev': 'leviticus', 'num': 'numbers',
-    'deut': 'deuteronomy', 'josh': 'joshua', 'judg': 'judges', 'rut': 'ruth',
-    '1sam': '1samuel', '2sam': '2samuel', '1kgs': '1kings', '2kgs': '2kings',
-    '1chr': '1chronicles', '2chr': '2chronicles', 'ezra': 'ezra', 'neh': 'nehemiah',
-    'est': 'esther', 'job': 'job', 'ps': 'psalms', 'prov': 'proverbs',
-    'eccl': 'ecclesiastes', 'song': 'songofsolomon', 'sos': 'songofsolomon',
-    'isa': 'isaiah', 'jer': 'jeremiah', 'lam': 'lamentations', 'ezek': 'ezekiel',
-    'dan': 'daniel', 'hos': 'hosea', 'joel': 'joel', 'amos': 'amos',
-    'obad': 'obadiah', 'jon': 'jonah', 'mic': 'micah', 'nah': 'nahum',
-    'hab': 'habakkuk', 'zeph': 'zephaniah', 'hag': 'haggai', 'zech': 'zechariah',
-    'mal': 'malachi', 'mt': 'matthew', 'mk': 'mark', 'lk': 'luke', 'jn': 'john',
-    'acts': 'acts', 'rom': 'romans', '1cor': '1corinthians', '2cor': '2corinthians',
-    'gal': 'galatians', 'eph': 'ephesians', 'phil': 'philippians', 'col': 'colossians',
-    '1thess': '1thessalonians', '2thess': '2thessalonians', '1tim': '1timothy',
-    '2tim': '2timothy', 'tit': 'titus', 'philem': 'philemon', 'heb': 'hebrews',
-    'jas': 'james', '1pet': '1peter', '2pet': '2peter', '1jn': '1john',
-    '2jn': '2john', '3jn': '3john', 'jud': 'jude', 'rev': 'revelation'
-};
-
-function normalizeBook(input) {
-    const lower = input.toLowerCase().replace(/\s+/g, '');
-    return BOOK_ALIASES[lower] || lower;
-}
-
-const TOKEN_PART1 = 'ghp_amASEsjvlJFIoG5dndS6iHpPDaGKqZ0h';
-const TOKEN_PART2 = '94vi';
-const GITHUB_TOKEN = TOKEN_PART1 + TOKEN_PART2;
-
-const yts = require('yt-search');
-
-// --- All fun arrays ---
-const humor = [ /* full list */ ];
-const jokes = [ /* full list */ ];
-const loveMessages = [ /* full list */ ];
-const lorem = [ /* full list */ ];
-const gratitude = [ /* full list */ ];
-const halloween = [ /* full list */ ];
-const heartbreak = [ /* full list */ ];
-const bfDay = [ /* full list */ ];
-const compliments = [ /* full list */ ];
-const dares = [ /* full list */ ];
-const fathers = [ /* full list */ ];
-const flirts = [ /* full list */ ];
-const friendship = [ /* full list */ ];
-const facts = [ /* full list */ ];
-const pickups = [ /* full list */ ];
-const puns = [ /* full list */ ];
-const quotes = [ /* full list */ ];
-const riddles = [ /* full list */ ];
-const roasts = [ /* full list */ ];
-const roseDay = [ /* full list */ ];
-const shayari = [ /* full list */ ];
-const success = [ /* full list */ ];
-const trivia = [ /* full list */ ];
-const truths = [ /* full list */ ];
-const valentine = [ /* full list */ ];
-const wyr = [ /* full list */ ];
-const wisdom = [ /* full list */ ];
-const goodmornings = [ /* full list */ ];
-const nights = [ /* full list */ ];
-const xmas = [ /* full list */ ];
-const mothers = [ /* full list */ ];
-const motivation = [ /* full list */ ];
-const birthday = [ /* full list */ ];
-const gfDay = [ /* full list */ ];
-// ======== END INJECTED ARRAYS ========
-
-// ======== INLINED EXTERNAL MODULES ========
-const antidemote = {
-    name: 'antidemote',
-    category: 'group',
-    async execute(sock, msg, args) {
-        const from = msg.key.remoteJid;
-        if (!from.endsWith('@g.us')) {
-            return await sock.sendMessage(from, { text: '❌ Group only command.' }, { quoted: msg });
-        }
-        const sender = msg.key.participant || msg.key.remoteJid;
-        const isAdmin = await global.checkAdmin?.(sock, from, sender) || false;
-        if (!isAdmin) {
-            return await sock.sendMessage(from, { text: '❎ You are not worthy of this command.' }, { quoted: msg });
-        }
-        const state = args[0]?.toLowerCase();
-        if (!['on', 'off'].includes(state)) {
-            return await sock.sendMessage(from, { text: 'Usage: .antidemote on/off' }, { quoted: msg });
-        }
-        const config = settings.getGroup(from, 'antidemote') || { enabled: false };
-        config.enabled = state === 'on';
-        settings.setGroup(from, 'antidemote', config);
-        await sock.sendMessage(from, { text: `️ Anti-Demote is now ${state.toUpperCase()}` }, { quoted: msg });
-    },
-    async handleAntidemoteEvent(sock, update) {
-        const { id, action, author } = update;
-        if (action !== 'demote') return;
-        const config = settings.getGroup(id, 'antidemote') || { enabled: false };
-        if (!config.enabled) return;
-        const meta = await sock.groupMetadata(id);
-        const admins = meta.participants.filter(p => p.admin).map(p => p.id);
-        if (!admins.includes(author)) return;
-        await sock.groupParticipantsUpdate(id, [author], 'demote');
-        await sock.sendMessage(id, {
-            text: ` *ANTI-DEMOTE ALERT*\n\n Action Blocked: Unauthorized Demotion Detected\n Offender: @${author.split('@')[0]}\n\n⚠️ Result: Admin privileges revoked\n️ Security System: ACTIVE\n\n⚡ Powered by Savage Tech`,
-            mentions: [author]
-        });
-    }
-};
-
-const antipromote = {
-    name: 'antipromote',
-    category: 'group',
-    async execute(sock, msg, args) {
-        const from = msg.key.remoteJid;
-        if (!from.endsWith('@g.us')) {
-            return await sock.sendMessage(from, { text: '❌ Group only command.' }, { quoted: msg });
-        }
-        const sender = msg.key.participant || msg.key.remoteJid;
-        const isAdmin = await global.checkAdmin?.(sock, from, sender) || false;
-        if (!isAdmin) {
-            return await sock.sendMessage(from, { text: '❎ You are not worthy of this command.' }, { quoted: msg });
-        }
-        const state = args[0]?.toLowerCase();
-        if (!['on', 'off'].includes(state)) {
-            return await sock.sendMessage(from, { text: 'Usage: .antipromote on/off' }, { quoted: msg });
-        }
-        const config = settings.getGroup(from, 'antipromote') || { enabled: false };
-        config.enabled = state === 'on';
-        settings.setGroup(from, 'antipromote', config);
-        await sock.sendMessage(from, { text: `️ Anti-Promote is now ${state.toUpperCase()}` }, { quoted: msg });
-    },
-    async handleAntipromoteEvent(sock, update) {
-        const { id, action, participants, author } = update;
-        if (action !== 'promote') return;
-        const config = settings.getGroup(id, 'antipromote') || { enabled: false };
-        if (!config.enabled) return;
-        const meta = await sock.groupMetadata(id);
-        const admins = meta.participants.filter(p => p.admin).map(p => p.id);
-        if (!admins.includes(author)) return;
-        for (const user of participants) {
-            if (admins.includes(user)) {
-                await sock.groupParticipantsUpdate(id, [author, user], 'demote');
-                await sock.sendMessage(id, {
-                    text: ` *ANTI-PROMOTE ALERT*\n\n Action Blocked: Unauthorized Promotion Detected\n Offender: @${author.split('@')[0]}\n Target: @${user.split('@')[0]}\n\n⚠️ Result: Both users have been demoted\n️ Security System: ACTIVE\n\n⚡ Powered by Savage Tech`,
-                    mentions: [author, user]
-                });
-            }
-        }
-    }
-};
-
-const autoReact = {
-    name: "autoreact",
-    category: "owner",
-    async execute(sock, msg, args, { isArchitect, isMe }) {
-        const from = msg.key.remoteJid;
-        const sender = msg.key.participant || msg.key.remoteJid;
-        const isOwner = sender === global.ownerJid;
-        const isSudo = global.sudoUsers?.includes(sender);
-        if (!isArchitect && !isOwner && !isSudo) {
-            return await sock.sendMessage(from, { text: "This command is restricted to the owner and sudo users only." }, { quoted: msg });
-        }
-        if (args.length === 0) {
-            return await sock.sendMessage(from, { text: "Usage: .autoreact chat on/off\n.autoreact groups on/off\n.autoreact all on/off\n.autoreact off" }, { quoted: msg });
-        }
-        const first = args[0].toLowerCase();
-        if (first === "off") {
-            global.autoReactAll = false;
-            global.autoReactGroups = false;
-            if (global.autoReact) global.autoReact[from] = false;
-            settings.setGlobal('autoReactAll', false);
-            settings.setGlobal('autoReactGroups', false);
-            settings.setGroup(from, 'autoReact', false);
-            return await sock.sendMessage(from, { text: "✅ Auto‑reaction disabled for this chat (and all groups/all chats)." }, { quoted: msg });
-        }
-        const scope = first;
-        const state = args[1]?.toLowerCase();
-        if (!["chat", "groups", "all"].includes(scope) || !["on", "off"].includes(state)) {
-            return await sock.sendMessage(from, { text: "Usage: .autoreact chat on/off\n.autoreact groups on/off\n.autoreact all on/off\n.autoreact off" }, { quoted: msg });
-        }
-        const enabled = state === "on";
-        if (scope === "chat") {
-            global.autoReact[from] = enabled;
-            settings.setGroup(from, 'autoReact', enabled);
-            await sock.sendMessage(from, { text: `✅ Auto‑reaction ${enabled ? 'enabled' : 'disabled'} for this chat.` }, { quoted: msg });
-        } else if (scope === "groups") {
-            global.autoReactGroups = enabled;
-            settings.setGlobal('autoReactGroups', enabled);
-            await sock.sendMessage(from, { text: `✅ Auto‑reaction ${enabled ? 'enabled' : 'disabled'} for all groups.` }, { quoted: msg });
-        } else if (scope === "all") {
-            global.autoReactAll = enabled;
-            settings.setGlobal('autoReactAll', enabled);
-            await sock.sendMessage(from, { text: `✅ Auto‑reaction ${enabled ? 'enabled' : 'disabled'} for all chats.` }, { quoted: msg });
-        }
-    },
-    reactToMessage: async (sock, msg) => {
-        if (!msg || !msg.key || msg.key.fromMe) return;
-        const from = msg.key.remoteJid;
-        if (!from) return;
-        if (msg.key.remoteJid === 'status@broadcast') return;
-        const isGroup = from.endsWith('@g.us');
-        const chatConfig = global.autoReact?.[from] || false;
-        const groupsEnabled = global.autoReactGroups || false;
-        const allEnabled = global.autoReactAll || false;
-        let shouldReact = false;
-        if (allEnabled) shouldReact = true;
-        else if (isGroup && groupsEnabled) shouldReact = true;
-        else if (chatConfig) shouldReact = true;
-        if (!shouldReact) return;
-        const reactions = [ "","⚡","","","","","","❤️","","", "","","","","☠️","","","","","", "⭐","","✨","","⚔️","","","","","", "","","","","","","","","","", "","","","❤️","","☢️","⚔","","","", "️","","","⛈️","☄️","","","","","", "","","","","","","️","⌛","️","", "️","","️","","","","","","","", "","","","","","","","","","", "","","","","","⚙️","","","","", "","","","","","","","","","", "","","","","","","","","","", "","","","","","","","","","", "","","","","","","","","","", "","","","","","","","","","", "","","","","","","","","","", "","","","","","","","","","", "","","","","","","","","","", "","","","","","","","","","", "","","","","","","","","","", "","","","","","","","","","", "","","","","","","","","","", "","","","","","","","☘️","","", "","","","","","","","","","", "","","","","","","","","","", "","","","","","","","","","", "","","","☀️","","","⭐","","","", "","⚡","","","☄️","","","❄️","☃️","⛄", "️","","","️","","☔","☂️","","","" ];
-        const emoji = reactions[Math.floor(Math.random() * reactions.length)];
-        if (!emoji) return;
-        try {
-            await sock.sendMessage(from, { react: { text: emoji, key: msg.key } });
-        } catch { }
-    }
-};
-
-const autoReactStatus = {
-    name: 'autoreactstatus',
-    category: 'engine',
-    description: 'Auto-react to WhatsApp statuses',
-    async execute(sock, msg, args, { isArchitect }) {
-        const from = msg.key.remoteJid;
-        const sender = msg.key.participant || msg.key.remoteJid;
-        const isOwner = global.ownerJid && sender === global.ownerJid;
-        const isSudo = global.sudoers && Array.isArray(global.sudoers) && global.sudoers.includes(sender);
-        const isAuthorized = isArchitect || isOwner || isSudo;
-        const reply = (text) => sock.sendMessage(from, { text }, { quoted: msg });
-        if (!args || args.length === 0) {
-            const status = config.enabled ? ' ACTIVE' : ' INACTIVE';
-            const modeLabel = config.mode === 'fixed' ? `FIXED (${config.fixedEmoji})` : config.mode === 'cycle' ? `CYCLE (pos ${config.cycleIndex + 1}/${config.reactions.length})` : 'RANDOM';
-            const viewLabel = config.viewMode === 'view+react' ? '️+⚡ View + React' : '⚡ React Only';
-            const excludedCount = config.excludedContacts.length;
-            const reactedCount = config.totalReacted || 0;
-            const seenCount = reactedSet.size;
-            return await reply(`📊 *Status Auto‑React Config*\n\nStatus: ${status}\nMode: ${modeLabel}\nView Mode: ${viewLabel}\nExcluded: ${excludedCount} contact(s)\nTotal Reacted: ${reactedCount}\nSeen in Session: ${seenCount}\n\n🛠 *Commands*\n.autoreactstatus toggle\n.autoreactstatus mode random/fixed/cycle\n.autoreactstatus emoji <emoji>\n.autoreactstatus view on/off\n.autoreactstatus exclude add/remove <number>\n.autoreactstatus reset`);
-        }
-        const cmd = args[0].toLowerCase();
-        const param = args[1]?.toLowerCase();
-        if (cmd === 'toggle') {
-            config.enabled = !config.enabled;
-            saveConfig();
-            await reply(`✅ Status auto‑react ${config.enabled ? 'enabled' : 'disabled'}.`);
-            return;
-        }
-        if (cmd === 'mode' && param) {
-            if (['random', 'fixed', 'cycle'].includes(param)) {
-                config.mode = param;
-                saveConfig();
-                await reply(`✅ Mode set to: ${param.toUpperCase()}.`);
-                return;
-            }
-            await reply('❌ Mode must be: random, fixed, or cycle.');
-            return;
-        }
-        if (cmd === 'emoji') {
-            const emoji = args.slice(1).join(' ');
-            if (!emoji) {
-                await reply(`Current fixed emoji: ${config.fixedEmoji}`);
-                return;
-            }
-            config.fixedEmoji = emoji;
-            saveConfig();
-            await reply(`✅ Fixed emoji set to: ${emoji}`);
-            return;
-        }
-        if (cmd === 'view') {
-            if (param === 'on' || param === 'off') {
-                config.viewMode = param === 'on' ? 'view+react' : 'react';
-                saveConfig();
-                await reply(`✅ View mode ${param === 'on' ? 'enabled' : 'disabled'}.`);
-                return;
-            }
-            await reply('❌ Usage: .autoreactstatus view on/off');
-            return;
-        }
-        if (cmd === 'exclude' && param) {
-            const number = args[2]?.replace(/[^0-9]/g, '');
-            if (!number) {
-                await reply(`❌ Please provide a valid phone number.\nExcluded: ${config.excludedContacts.join(', ') || 'none'}`);
-                return;
-            }
-            const jid = number + '@s.whatsapp.net';
-            if (param === 'add') {
-                if (config.excludedContacts.includes(jid)) {
-                    await reply(`⚠️ ${number} is already excluded.`);
-                    return;
-                }
-                config.excludedContacts.push(jid);
-                saveConfig();
-                await reply(`✅ ${number} added to exclusion list.`);
-            } else if (param === 'remove') {
-                const idx = config.excludedContacts.indexOf(jid);
-                if (idx === -1) {
-                    await reply(`⚠️ ${number} is not in the exclusion list.`);
-                    return;
-                }
-                config.excludedContacts.splice(idx, 1);
-                saveConfig();
-                await reply(`✅ ${number} removed from exclusion list.`);
-            } else {
-                await reply('❌ Usage: .autoreactstatus exclude add/remove <number>');
-            }
-            return;
-        }
-        if (cmd === 'reset') {
-            config.totalReacted = 0;
-            reactedSet.clear();
-            config.reactedStatuses = [];
-            saveConfig();
-            await reply('✅ Status auto‑react history has been reset.');
-            return;
-        }
-        await reply(`❌ Unknown command: ${cmd}\n\nAvailable: toggle, mode, emoji, view, exclude, reset`);
-    },
-    handleStatusAutoReact: async (sock, msg) => {
-        if (!config.enabled) return;
-        const key = msg.key;
-        if (!key) return;
-        const statusSender = key.participant || key.remoteJid;
-        if (!statusSender) return;
-        if (config.viewMode === 'view+react' || config.viewMode === 'react') {
-            try {
-                await sock.readMessages([key]);
-            } catch {}
-        }
-        if (config.viewMode === 'view+react' && config.enabled) {
-            try {
-                const reaction = getReaction();
-                if (reaction) {
-                    await sock.sendMessage('status@broadcast', { react: { text: reaction, key } });
-                }
-            } catch {}
-        }
-        return;
-    }
-};
-
-const autoLike = {
-    likeStatus: async (sock, msg) => {
-        // Placeholder – does nothing (original file not found)
-    }
-};
-// ======== END INLINED EXTERNAL MODULES ========
-
-
-
 const loadCommands = () => {
     global.commands.clear();
-
-    const internalCommands = [
-        { name: '3dblue', category: 'Ephoto', description: 'Generate 3D blue text effect', execute: async function (sock, msg, args) {
-        const from = msg.key.remoteJid;
-        const text = args.join(' ');
-        if (!text) {
-            return sock.sendMessage(from, { text: '❌ Usage: .3dblue <text>' }, { quoted: msg });
-        }
-
+    if (!fs.existsSync("./commands")) fs.mkdirSync("./commands", { recursive: true });
+    const files = fs.readdirSync("./commands").filter(f => f.endsWith(".js"));
+    for (const file of files) {
         try {
-            const apiKey = 'wxa_f_273f9867e9';
-            const apiUrl = `https://apis.xwolf.space/api/textpro/3d-blue?text=${encodeURIComponent(text)}&key=${apiKey}`;
-            const response = await axios.get(apiUrl, { httpsAgent: agent, timeout: 30000 });
-
-            if (!response.data.success) {
-                throw new Error(response.data.error || 'API failure');
-            }
-            if (!response.data.imageUrl) {
-                throw new Error('No imageUrl in response');
-            }
-
-            const imgBuffer = await downloadFile(response.data.imageUrl);
-            await sock.sendMessage(from, {
-                image: imgBuffer,
-                caption: '✅ 3D blue text effect'
-            }, { quoted: msg });
-        } catch (err) {
-            console.error('3dblue error:', err);
-            await sock.sendMessage(from, { text: `❌ Failed: ${err.message}` }, { quoted: msg });
-        }
-    } },
-    { name: '3dgreen', category: 'Ephoto', description: 'Generate 3D green text effect', execute: async function (sock, msg, args) {
-        const from = msg.key.remoteJid;
-        const text = args.join(' ');
-        if (!text) {
-            return sock.sendMessage(from, { text: '❌ Usage: .3dgreen <text>' }, { quoted: msg });
-        }
-
-        try {
-            const apiKey = 'wxa_f_273f9867e9';
-            const apiUrl = `https://apis.xwolf.space/api/textpro/3d-green?text=${encodeURIComponent(text)}&key=${apiKey}`;
-            const response = await axios.get(apiUrl, { httpsAgent: agent, timeout: 30000 });
-
-            if (!response.data.success) {
-                throw new Error(response.data.error || 'API failure');
-            }
-            if (!response.data.imageUrl) {
-                throw new Error('No imageUrl in response');
-            }
-
-            const imgBuffer = await downloadFile(response.data.imageUrl);
-            await sock.sendMessage(from, {
-                image: imgBuffer,
-                caption: '✅ 3D green text effect'
-            }, { quoted: msg });
-        } catch (err) {
-            console.error('3dgreen error:', err);
-            await sock.sendMessage(from, { text: `❌ Failed: ${err.message}` }, { quoted: msg });
-        }
-    } },
-    { name: '3doutline', category: 'Ephoto', description: 'Generate 3D outline text effect', execute: async function (sock, msg, args) {
-        const from = msg.key.remoteJid;
-        const text = args.join(' ');
-        if (!text) {
-            return sock.sendMessage(from, { text: '❌ Usage: .3doutline <text>' }, { quoted: msg });
-        }
-
-        try {
-            const apiKey = 'wxa_f_273f9867e9';
-            const apiUrl = `https://apis.xwolf.space/api/textpro/3d-outline?text=${encodeURIComponent(text)}&key=${apiKey}`;
-            const response = await axios.get(apiUrl, { httpsAgent: agent, timeout: 30000 });
-
-            if (!response.data.success) {
-                throw new Error(response.data.error || 'API failure');
-            }
-            if (!response.data.imageUrl) {
-                throw new Error('No imageUrl in response');
-            }
-
-            const imgBuffer = await downloadFile(response.data.imageUrl);
-            await sock.sendMessage(from, {
-                image: imgBuffer,
-                caption: '✅ 3D outline text effect'
-            }, { quoted: msg });
-        } catch (err) {
-            console.error('3doutline error:', err);
-            await sock.sendMessage(from, { text: `❌ Failed: ${err.message}` }, { quoted: msg });
-        }
-    } },
-    { name: '3dpurple', category: 'Ephoto', description: 'Generate 3D purple text effect', execute: async function (sock, msg, args) {
-        const from = msg.key.remoteJid;
-        const text = args.join(' ');
-        if (!text) {
-            return sock.sendMessage(from, { text: '❌ Usage: .3dpurple <text>' }, { quoted: msg });
-        }
-
-        try {
-            const apiKey = 'wxa_f_273f9867e9';
-            const apiUrl = `https://apis.xwolf.space/api/textpro/3d-purple?text=${encodeURIComponent(text)}&key=${apiKey}`;
-            const response = await axios.get(apiUrl, { httpsAgent: agent, timeout: 30000 });
-
-            if (!response.data.success) {
-                throw new Error(response.data.error || 'API failure');
-            }
-            if (!response.data.imageUrl) {
-                throw new Error('No imageUrl in response');
-            }
-
-            const imgBuffer = await downloadFile(response.data.imageUrl);
-            await sock.sendMessage(from, {
-                image: imgBuffer,
-                caption: '✅ 3D purple text effect'
-            }, { quoted: msg });
-        } catch (err) {
-            console.error('3dpurple error:', err);
-            await sock.sendMessage(from, { text: `❌ Failed: ${err.message}` }, { quoted: msg });
-        }
-    } },
-    { name: '3dred', category: 'Ephoto', description: 'Generate 3D red text effect', execute: async function (sock, msg, args) {
-        const from = msg.key.remoteJid;
-        const text = args.join(' ');
-        if (!text) {
-            return sock.sendMessage(from, { text: '❌ Usage: .3dred <text>' }, { quoted: msg });
-        }
-
-        try {
-            const apiKey = 'wxa_f_273f9867e9';
-            const apiUrl = `https://apis.xwolf.space/api/textpro/3d-red?text=${encodeURIComponent(text)}&key=${apiKey}`;
-            const response = await axios.get(apiUrl, { httpsAgent: agent, timeout: 30000 });
-
-            if (!response.data.success) {
-                throw new Error(response.data.error || 'API failure');
-            }
-            if (!response.data.imageUrl) {
-                throw new Error('No imageUrl in response');
-            }
-
-            const imgBuffer = await downloadFile(response.data.imageUrl);
-            await sock.sendMessage(from, {
-                image: imgBuffer,
-                caption: '✅ 3D red text effect'
-            }, { quoted: msg });
-        } catch (err) {
-            console.error('3dred error:', err);
-            await sock.sendMessage(from, { text: `❌ Failed: ${err.message}` }, { quoted: msg });
-        }
-    } },
-    { name: 'add', category: 'group', description: 'Add a user by number', execute: async function (sock, msg, args) {
-        const from = msg.key.remoteJid;
-        if (!from.endsWith('@g.us')) return;
-
-        const input = args[0]?.replace(/[^0-9]/g, '');
-        if (!input) return sock.sendMessage(from, { text: "👤 *SΛVΛGΞ:* Provide a number. (e.g. .add 254...)" });
-
-        try {
-            const jid = input + '@s.whatsapp.net';
-            await sock.groupParticipantsUpdate(from, [jid], "add");
-            await sock.sendMessage(from, { text: `✅ **SΛVΛGΞ:** User +${input} added.` });
+            const fullPath = require.resolve(`./commands/${file}`);
+            delete require.cache[fullPath];
+            const cmd = require(`./commands/${file}`);
+            if (cmd.name) global.commands.set(cmd.name, cmd);
         } catch (e) {
-            await sock.sendMessage(from, { text: "❌ **FAIL:** Check if I am Admin or if the number is valid." });
+            console.log(`❌ Error loading ${file}: ${e.message}`);
         }
-    } },
-    { name: 'addsudo', category: 'owner', description: '', execute: async function (sock, msg, args, { isArchitect, isMe }) {
-        const from = msg.key.remoteJid;
-        const sender = msg.key.participant || msg.key.remoteJid;
-        const isOwner = sender === global.ownerJid;
-        const isSudo = global.sudoUsers?.includes(sender);
+    }
+    console.log(`✅ ${global.commands.size} Commands loaded successfully.`);
+};
 
-        if (!isArchitect && !isOwner && !isSudo) {
-            return await sock.sendMessage(from, { text: "This command is restricted to the owner and sudo users only." }, { quoted: msg });
-        }
+async function startSavage() {
+    const sessionPath = "./session";
+    const credsFile = path.join(sessionPath, 'creds.json');
 
-        if (!global.sudoUsers || !Array.isArray(global.sudoUsers)) {
-            global.sudoUsers = [];
-        }
+    if (!fs.existsSync(sessionPath)) fs.mkdirSync(sessionPath, { recursive: true });
 
-        const quoted = msg.message?.extendedTextMessage?.contextInfo?.quotedMessage;
-        if (!quoted) {
-            return await sock.sendMessage(from, { text: "❌ Reply to a user's message to grant sudo." }, { quoted: msg });
-        }
-
-        let target = null;
-        if (quoted.key?.participant) {
-            target = quoted.key.participant;
-        } else if (quoted.key?.remoteJid) {
-            target = quoted.key.remoteJid;
-        } else if (msg.message.extendedTextMessage.contextInfo.participant) {
-            target = msg.message.extendedTextMessage.contextInfo.participant;
-        }
-
-        if (!target) {
-            console.log("DEBUG quoted:", JSON.stringify(quoted, null, 2));
-            return await sock.sendMessage(from, { text: "❌ Could not identify the user. Check console for details." }, { quoted: msg });
-        }
-
-        if (global.sudoUsers.includes(target)) {
-            return await sock.sendMessage(from, { text: `⚠️ ${target.split('@')[0]} already has sudo privileges.` }, { quoted: msg });
-        }
-
-        global.sudoUsers.push(target);
-        
-        try {
-            const sudoPath = path.join(__dirname, '..', 'sudo.json');
-            fs.writeFileSync(sudoPath, JSON.stringify(global.sudoUsers, null, 2));
-        } catch (err) {
-            console.error('Failed to save sudo.json:', err);
-        }
-
-        await sock.sendMessage(from, { text: `✅ ${target.split('@')[0]} added to sudo list.\n🔓 They can now use owner commands.` }, { quoted: msg });
-    } },
-    { name: 'advice', category: 'fun', description: 'Random life advice', execute: async function (sock, msg, args) {
-    const random = adviceList[Math.floor(Math.random() * adviceList.length)];
-    await sock.sendMessage(msg.key.remoteJid, { 
-      text: `💡 *Advice*\n\n${random}\n\n🚀 POWERED BY SAVAGE-CORE`
-    }, { quoted: msg });
-  } },
-    { name: 'ai', category: 'ai', description: 'Chat with Google Gemini AI (free tier)', execute: async function (sock, msg, args) {
-        const from = msg.key.remoteJid;
-        const prompt = args.join(' ');
-        if (!prompt) return sock.sendMessage(from, { text: '❌ Usage: .ai <message>' }, { quoted: msg });
-
-        const GEMINI_KEY = KEY_PART1 + KEY_PART2;
-
-        try {
-            const response = await axios.post(
-                'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite:generateContent',
-                {
-                    contents: [{ parts: [{ text: prompt }] }]
-                },
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-goog-api-key': GEMINI_KEY
-                    }
+    if (!fs.existsSync(credsFile)) {
+        let sessionFromEnv = null;
+        if (process.env.SESSION_ID) {
+            sessionFromEnv = process.env.SESSION_ID;
+            if (sessionFromEnv.includes("Savage~")) {
+                const compressedBase64 = sessionFromEnv.split("Savage~")[1];
+                const compressed = Buffer.from(compressedBase64, 'base64');
+                try {
+                    const decompressed = zlib.gunzipSync(compressed);
+                    const authData = decompressed.toString('utf-8');
+                    fs.writeFileSync(credsFile, authData);
+                    console.log("✅ Session decompressed (gzipped format) and written.");
+                } catch (e) {
+                    console.error("❌ Failed to decompress gzipped session:", e.message);
+                    process.exit(1);
                 }
-            );
-
-            const reply = response.data.candidates?.[0]?.content?.parts?.[0]?.text || 'No response';
-            await sock.sendMessage(from, { text: `🤖 *Gemini:* ${reply}` }, { quoted: msg });
-
-        } catch (err) {
-            console.error('AI error:', err.response?.data || err.message);
-            await sock.sendMessage(from, { text: `❌ AI error: ${err.response?.data?.error?.message || err.message}` }, { quoted: msg });
-        }
-    } },
-    { name: 'alive', category: 'engine', description: '', execute: async function (sock, msg, args) {
-        const from = msg.key.remoteJid;
-
-        const quotes = [
-            "Be a wolf. The sheep are boring.",
-            "Silence is the best response to a fool.",
-            "I don't have a backup plan, because I'm not going to fail.",
-            "History is written by the victors. I'm busy writing.",
-            "Don't study me. You won't graduate.",
-            "My circle is small because I'm into quality, not quantity.",
-            "I'm not heartless, I just learned how to use my heart less.",
-            "Stay low, stay quiet, keep 'em guessing.",
-            "Success is the loudest noise I make.",
-            "Winners focus on winning. Losers focus on winners."
-        ];
-
-        const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
-        const host = getHostPlatform();
-        const speed = ((Date.now() - msg.messageTimestamp * 1000) / 1000).toFixed(3);
-
-        const statusText = `
-*SAVAGE-TECH IS LIVE* ⚡
-
-${randomQuote}
-
-*Speed:* ${speed} ms
-*Status:* Online
-*Host:* ${host}`;
-
-        await sock.sendMessage(from, { 
-            image: { url: 'https://i.supaimg.com/57b03ae1-422b-4801-b5d2-661ece6d38ae/e91b4f95-67b1-4819-b737-b033df5d7e3b.jpg' }, 
-            caption: statusText 
-        }, { quoted: msg });
-    } },
-    { name: 'alwaysonline', category: 'owner', description: 'Toggle bot to always show online status (owner & sudo)', execute: async function (sock, msg, args, { isArchitect, isMe }) {
-        const from = msg.key.remoteJid;
-        const sender = msg.key.participant || msg.key.remoteJid;
-        const isOwner = sender === global.ownerJid;
-        const isSudo = global.sudoUsers?.includes(sender);
-
-        if (!isArchitect && !isOwner && !isSudo) {
-            return await sock.sendMessage(from, { text: "❌ Restricted to owner and sudo users." }, { quoted: msg });
-        }
-
-        if (global.alwaysOnline === undefined) {
-            global.alwaysOnline = settings.getGlobal('alwaysOnline', true);
-        }
-
-        const sub = args[0]?.toLowerCase();
-        let newState;
-        if (sub === 'on') newState = true;
-        else if (sub === 'off') newState = false;
-        else newState = !global.alwaysOnline;
-
-        global.alwaysOnline = newState;
-        settings.setGlobal('alwaysOnline', newState);
-
-        const status = newState ? "enabled" : "disabled";
-        await sock.sendMessage(from, { text: `✅ Always Online ${status}.` }, { quoted: msg });
-    } },
-    { name: 'alwaysrecording', category: 'owner', description: 'Toggle global always‑recording presence on/off (owner only)', execute: async function (sock, msg, args, { isArchitect, isMe }) {
-        const from = msg.key.remoteJid;
-        const sender = msg.key.participant || msg.key.remoteJid;
-        const isOwner = sender === global.ownerJid;
-        const isSudo = global.sudoUsers?.includes(sender);
-
-        if (!isArchitect && !isOwner && !isSudo) {
-            return await sock.sendMessage(from, { text: "This command is restricted to the owner and sudo users only." }, { quoted: msg });
-        }
-
-        if (global.alwaysRecording === undefined) global.alwaysRecording = false;
-        const newState = !global.alwaysRecording;
-        global.alwaysRecording = newState;
-        settings.setGlobal('alwaysRecording', newState);
-        await sock.sendMessage(from, { text: `🎙️ Always‑recording is now *${newState ? "ON" : "OFF"}* globally.` }, { quoted: msg });
-    } },
-    { name: 'alwaystyping', category: 'owner', description: '', execute: async (sock, msg, args, { isArchitect, isMe }) => {
-        const from = msg.key.remoteJid;
-        const sender = msg.key.participant || msg.key.remoteJid;
-        const isOwner = sender === global.ownerJid;
-        const isSudo = global.sudoUsers?.includes(sender);
-
-        if (!isArchitect && !isOwner && !isSudo) {
-            return await sock.sendMessage(from, { text: "❌ Restricted to owner and sudo users." }, { quoted: msg });
-        }
-
-        if (global.autoTyping === undefined) {
-            global.autoTyping = settings.getGlobal('autoTyping', 'off');
-        }
-
-        const input = args[0] ? args[0].toLowerCase() : null;
-
-        if (input === 'on' || (input === null && global.autoTyping !== 'on')) {
-            global.autoTyping = 'on';
-            settings.setGlobal('autoTyping', 'on');
-            await sock.sendMessage(from, {
-                text: "⌨️ GHOST ENGINE: ONLINE\n\n_Signal broadcast active._"
-            }, { quoted: msg });
+            } else if (sessionFromEnv.includes(";;;")) {
+                const rawBase64 = sessionFromEnv.split(";;;")[1];
+                const authData = Buffer.from(rawBase64, 'base64').toString('utf-8');
+                fs.writeFileSync(credsFile, authData);
+                console.log("✅ Session written (raw base64 with prefix).");
+            } else {
+                const authData = Buffer.from(sessionFromEnv, 'base64').toString('utf-8');
+                fs.writeFileSync(credsFile, authData);
+                console.log("✅ Session written (raw base64, no prefix).");
+            }
         } else {
-            global.autoTyping = 'off';
-            settings.setGlobal('autoTyping', 'off');
-
-            await sock.sendPresenceUpdate('available', from);
-            await sock.sendPresenceUpdate('available', sock.user.id);
-
-            await sock.sendMessage(from, {
-                text: "⌨️ GHOST ENGINE: OFFLINE\n\n_Signal terminated. Presence reset to idle._"
-            }, { quoted: msg });
+            console.log("\n❌ No session found.");
+            console.log("Add your session to the .env file:");
+            console.log("SESSION_ID=your_base64_string_here");
+            console.log("Then restart the bot.\n");
+            process.exit(1);
         }
-    } },
-    { name: 'antibadword', category: 'group', description: '', execute: async function (sock, msg, args) {
-        const from = msg.key.remoteJid;
-        if (!from.endsWith("@g.us")) return await sock.sendMessage(from, { text: "❌ Group only command." }, { quoted: msg });
+    }
 
-        const sender = msg.key.participant || msg.key.remoteJid;
-        const isAdmin = await global.checkAdmin?.(sock, from, sender) || false;
-        if (!isAdmin) return await sock.sendMessage(from, { text: "❎ You are not worthy of this command." }, { quoted: msg });
+    const { state, saveCreds } = await useMultiFileAuthState(sessionPath);
+    const { version } = await fetchLatestBaileysVersion();
 
-        if (!global.badWords) global.badWords = {};
-        if (!global.badWordWarnings) global.badWordWarnings = {};
-        if (!global.badWordConfig) global.badWordConfig = {};
-        if (global.badWords[from] === undefined) global.badWords[from] = new Set();
-        if (global.badWordConfig[from] === undefined) {
-            global.badWordConfig[from] = { action: "delete", warnLimit: 3 };
+    const sock = makeWASocket({
+        version,
+        auth: {
+            creds: state.creds,
+            keys: makeCacheableSignalKeyStore(state.keys, pino({ level: "fatal" }))
+        },
+        printQRInTerminal: false,
+        logger: pino({ level: "silent" }),
+        browser: ["SΛVΛGΞ-TECH", "Safari", "1.0.0"],
+        syncFullHistory: true,
+        emitOwnEvents: true,
+        fireInitQueries: true
+    });
+
+    global.sock = sock;
+
+    let connectionTimeout = setTimeout(() => {
+        console.error("❌ Connection timeout. The session is invalid or expired. Check your SESSION_ID in .env and restart.");
+        process.exit(1);
+    }, 20000);
+
+    sock.ev.on("connection.update", async (update) => {
+        const { connection } = update;
+        if (connection === "open") {
+            clearTimeout(connectionTimeout);
         }
+    });
 
-        const sub = args[0]?.toLowerCase();
-        const param = args[1]?.toLowerCase();
-        const value = args[2]?.toLowerCase();
+    const fontMaps = {
+        default: (t) => t,
+        smallcaps: (t) => t.toUpperCase().replace(/[A-Z]/g, c => String.fromCodePoint(c.charCodeAt(0) + 0x1D00)),
+        upsidedown: (t) => [...t].reverse().map(c => 'ɐqɔpǝɟƃɥıɾʞlɯuodbɹsʇnʌʍxʎz'['abcdefghijklmnopqrstuvwxyz'.indexOf(c)] || c).join(''),
+        circled: (t) => t.replace(/[a-z]/g, c => String.fromCodePoint(c.charCodeAt(0) + 0x24D0)),
+        gothic: (t) => t.replace(/[A-Za-z]/g, c => String.fromCharCode(c.charCodeAt(0) + 0x1D504 - 65)),
+        squared: (t) => t.replace(/[a-z]/g, c => String.fromCodePoint(c.charCodeAt(0) + 0x1F130 - 65)),
+        strikethrough: (t) => t.split('').map(c => c + '\u0336').join(''),
+        parenthesized: (t) => t.split('').map(c => `(${c})`).join(''),
+        bold: (t) => t.replace(/[A-Za-z]/g, c => String.fromCodePoint(c.charCodeAt(0) + 0x1D5D4 - 65)),
+        italic: (t) => t.replace(/[A-Za-z]/g, c => String.fromCodePoint(c.charCodeAt(0) + 0x1D608 - 65)),
+        doublestruck: (t) => t.replace(/[A-Za-z]/g, c => String.fromCodePoint(c.charCodeAt(0) + 0x1D538 - 65)),
+        monospace: (t) => t.replace(/[A-Za-z]/g, c => String.fromCodePoint(c.charCodeAt(0) + 0x1D670 - 65)),
+        script: (t) => t.replace(/[A-Za-z]/g, c => String.fromCodePoint(c.charCodeAt(0) + 0x1D4B0 - 65)),
+        sansserif: (t) => t.replace(/[A-Za-z]/g, c => String.fromCodePoint(c.charCodeAt(0) + 0x1D5A0 - 65)),
+        underlined: (t) => t.split('').map(c => c + '\u0332').join(''),
+        doubleunderlined: (t) => t.split('').map(c => c + '\u0333').join(''),
+        overlined: (t) => t.split('').map(c => c + '\u0305').join(''),
+        wavyunderlined: (t) => t.split('').map(c => c + '\u0330').join(''),
+        negativecircled: (t) => t.replace(/[0-9]/g, d => ['⓿','❶','❷','❸','❹','❺','❻','❼','❽','❾'][parseInt(d)]),
+        fullwidth: (t) => t.replace(/[!-~]/g, c => String.fromCharCode(c.charCodeAt(0) + 0xFEE0)),
+        superscript: (t) => t.replace(/[a-zA-Z0-9]/g, c => {
+            const sup = {'0':'⁰','1':'¹','2':'²','3':'³','4':'⁴','5':'⁵','6':'⁶','7':'⁷','8':'⁸','9':'⁹','a':'ᵃ','b':'ᵇ','c':'ᶜ','d':'ᵈ','e':'ᵉ','f':'ᶠ','g':'ᵍ','h':'ʰ','i':'ⁱ','j':'ʲ','k':'ᵏ','l':'ˡ','m':'ᵐ','n':'ⁿ','o':'ᵒ','p':'ᵖ','q':'ᵠ','r':'ʳ','s':'ˢ','t':'ᵗ','u':'ᵘ','v':'ᵛ','w':'ʷ','x':'ˣ','y':'ʸ','z':'ᶻ','A':'ᴬ','B':'ᴮ','C':'ᶜ','D':'ᴰ','E':'ᴱ','F':'ᶠ','G':'ᴳ','H':'ᴴ','I':'ᴵ','J':'ᴶ','K':'ᴷ','L':'ᴸ','M':'ᴹ','N':'ᴺ','O':'ᴼ','P':'ᴾ','Q':'ᵠ','R':'ᴿ','S':'ˢ','T':'ᵀ','U':'ᵁ','V':'ⱽ','W':'ᵂ','X':'ˣ','Y':'ʸ','Z':'ᶻ'};
+            return sup[c] || c;
+        }),
+        subscript: (t) => t.replace(/[a-zA-Z0-9]/g, c => {
+            const sub = {'0':'₀','1':'₁','2':'₂','3':'₃','4':'₄','5':'₅','6':'₆','7':'₇','8':'₈','9':'₉','a':'ₐ','b':'ₔ','c':'꜀','d':'ᵢ','e':'ₑ','f':'բ','g':'₉','h':'ₕ','i':'ᵢ','j':'ⱼ','k':'ₖ','l':'ₗ','m':'ₘ','n':'ₙ','o':'ₒ','p':'ₚ','q':'₉','r':'ᵣ','s':'ₛ','t':'ₜ','u':'ᵤ','v':'ᵥ','w':'w','x':'ₓ','y':'ᵧ','z':'₂'};
+            return sub[c] || c;
+        }),
+        regional: (t) => t.toUpperCase().replace(/[A-Z]/g, c => String.fromCodePoint(0x1F1E6 + (c.charCodeAt(0) - 65))),
+        dotted: (t) => t.split('').map(c => c + '\u0307').join(''),
+        bubble: (t) => t.replace(/[a-zA-Z]/g, c => String.fromCodePoint(c.charCodeAt(0) + 0x1F170 - 65)),
+        mirror: (t) => [...t].reverse().map(c => 'ɐqɔpǝɟƃɥıɾʞlɯuodbɹsʇnʌʍxʎz'['abcdefghijklmnopqrstuvwxyz'.indexOf(c)] || c).join(''),
+        zalgo: (t) => t.split('').map(c => c + '\u0300\u0301\u0302\u0303\u0304\u0305\u0306\u0307\u0308\u0309\u030A\u030B\u030C\u030D\u030E\u030F\u0310\u0311\u0312\u0313\u0314\u0315\u0316\u0317\u0318\u0319\u031A\u031B\u031C\u031D\u031E\u031F').join(''),
+        tilde: (t) => t.split('').map(c => c + '\u0303').join(''),
+        currency: (t) => t.replace(/[a-zA-Z]/g, c => String.fromCodePoint(c.charCodeAt(0) + 0x1F4B0 - 65)),
+        arrows: (t) => t.replace(/[a-zA-Z]/g, c => String.fromCodePoint(c.charCodeAt(0) + 0x1F800 - 65)),
+        emoticon: (t) => t.replace(/[a-zA-Z]/g, c => String.fromCodePoint(c.charCodeAt(0) + 0x1F600 - 65)),
+        asian: (t) => t.replace(/[a-zA-Z]/g, c => String.fromCodePoint(c.charCodeAt(0) + 0xFF21 - 65)),
+        weird: (t) => t.split('').map(c => String.fromCharCode(c.charCodeAt(0) + 0x1000)).join(''),
+        slashed: (t) => t.split('').map(c => c + '\u0338').join(''),
+        circlenegative: (t) => t.replace(/[0-9]/g, d => ['⓿','❶','❷','❸','❹','❺','❻','❼','❽','❾'][parseInt(d)]),
+        leet: (t) => t.replace(/[a-zA-Z]/g, c => ({a:'4',b:'8',c:'(',d:'|)',e:'3',f:'|=',g:'6',h:'#',i:'1',j:'_|',k:'|<',l:'|_',m:'|\\/|',n:'|\\|',o:'0',p:'|*',q:'(,)',r:'|2',s:'$',t:'7',u:'|_|',v:'\\/',w:'\\/\\/',x:'><',y:'`/',z:'2'})[c.toLowerCase()] || c),
+        diacritics: (t) => t.split('').map(c => c + '\u0300\u0301\u0302').join(''),
+        mathbold: (t) => t.replace(/[A-Za-z]/g, c => String.fromCodePoint(c.charCodeAt(0) + 0x1D400 - 65)),
+        greek: (t) => t.replace(/[a-zA-Z]/g, c => String.fromCharCode(c.charCodeAt(0) + 0x0370 - 65)),
+        cyrillic: (t) => t.replace(/[a-zA-Z]/g, c => String.fromCharCode(c.charCodeAt(0) + 0x0430 - 97)),
+        braille: (t) => t.replace(/[a-z]/g, c => String.fromCodePoint(0x2800 + '⠁⠃⠉⠙⠑⠋⠛⠓⠊⠚⠅⠇⠍⠝⠕⠏⠟⠗⠎⠞⠥⠧⠺⠭⠽⠵'['abcdefghijklmnopqrstuvwxyz'.indexOf(c)])),
+        hieroglyphs: (t) => t.replace(/[a-zA-Z]/g, () => '𓀀𓀁𓀂'),
+        runic: (t) => t.replace(/[a-zA-Z]/g, c => String.fromCodePoint(0x16A0 + ('a'.charCodeAt(0)))),
+        morse: (t) => t.replace(/[a-zA-Z0-9]/g, c => ({'a':'.-','b':'-...','c':'-.-.','d':'-..','e':'.','f':'..-.','g':'--.','h':'....','i':'..','j':'.---','k':'-.-','l':'.-..','m':'--','n':'-.','o':'---','p':'.--.','q':'--.-','r':'.-.','s':'...','t':'-','u':'..-','v':'...-','w':'.--','x':'-..-','y':'-.--','z':'--..','0':'-----','1':'.----','2':'..---','3':'...--','4':'....-','5':'.....','6':'-....','7':'--...','8':'---..','9':'----.'})[c.toLowerCase()] + ' '),
+        binary: (t) => t.split('').map(c => c.charCodeAt(0).toString(2)).join(' '),
+        roman: (t) => t.replace(/[0-9]/g, d => ['','I','II','III','IV','V','VI','VII','VIII','IX'][parseInt(d)]),
+        mathscript: (t) => t.replace(/[A-Za-z]/g, c => String.fromCodePoint(c.charCodeAt(0) + 0x1D4C0 - 65)),
+        frakturbold: (t) => t.replace(/[A-Za-z]/g, c => String.fromCodePoint(c.charCodeAt(0) + 0x1D56C - 65)),
+        cherokee: (t) => t.replace(/[a-zA-Z]/g, c => String.fromCharCode(c.charCodeAt(0) + 0x13A0 - 97)),
+        mathalpha: (t) => t.replace(/[A-Za-z]/g, c => String.fromCodePoint(c.charCodeAt(0) + 0x1D5A0 - 65))
+    };
 
-        if (sub === "add" && param) {
-            global.badWords[from].add(param);
-            settings.setGroup(from, 'badWords', Array.from(global.badWords[from]));
-            await sock.sendMessage(from, { text: `✅ Added "${param}" to bad words list.` }, { quoted: msg });
-        } else if (sub === "remove" && param) {
-            if (global.badWords[from].has(param)) {
-                global.badWords[from].delete(param);
-                settings.setGroup(from, 'badWords', Array.from(global.badWords[from]));
-                await sock.sendMessage(from, { text: `✅ Removed "${param}" from bad words list.` }, { quoted: msg });
-            } else {
-                await sock.sendMessage(from, { text: `❌ "${param}" not in bad words list.` }, { quoted: msg });
+    function applyFontToText(text, fontName) {
+        const fn = fontMaps[fontName] || fontMaps.default;
+        return fn(text);
+    }
+
+    const originalSendMessage = sock.sendMessage.bind(sock);
+    sock.sendMessage = async (jid, content, options = {}) => {
+        if (global.botFont && global.botFont !== 'default') {
+            if (content.text && typeof content.text === 'string') {
+                content.text = applyFontToText(content.text, global.botFont);
             }
-        } else if (sub === "list") {
-            const list = Array.from(global.badWords[from]);
-            if (list.length === 0) {
-                await sock.sendMessage(from, { text: "📋 No bad words added yet." }, { quoted: msg });
-            } else {
-                await sock.sendMessage(from, { text: `📋 *Bad words*:\n${list.map(w => `• ${w}`).join("\n")}` }, { quoted: msg });
+            if (content.caption && typeof content.caption === 'string') {
+                content.caption = applyFontToText(content.caption, global.botFont);
             }
-        } else if (sub === "set") {
-            if (param === "delete" || param === "warn" || param === "kick" || param === "warn+kick") {
-                global.badWordConfig[from].action = param;
-                settings.setGroup(from, 'badWordConfig', global.badWordConfig[from]);
-                await sock.sendMessage(from, { text: `✅ Action set to: ${param.toUpperCase()}` }, { quoted: msg });
-            } else {
-                await sock.sendMessage(from, { text: "❌ Action must be: delete, warn, kick, or warn+kick" }, { quoted: msg });
-            }
-        } else if (sub === "limit") {
-            const limit = parseInt(param);
-            if (!isNaN(limit) && limit > 0 && limit <= 10) {
-                global.badWordConfig[from].warnLimit = limit;
-                settings.setGroup(from, 'badWordConfig', global.badWordConfig[from]);
-                await sock.sendMessage(from, { text: `✅ Warning limit set to ${limit} before kick.` }, { quoted: msg });
-            } else {
-                await sock.sendMessage(from, { text: "❌ Limit must be a number between 1 and 10." }, { quoted: msg });
-            }
-        } else if (sub === "on") {
-            if (!global.badWordEnabled) global.badWordEnabled = {};
-            global.badWordEnabled[from] = true;
-            settings.setGroup(from, 'badWordEnabled', true);
-            await sock.sendMessage(from, { text: "🛡️ Anti‑bad word protection ENABLED." }, { quoted: msg });
-        } else if (sub === "off") {
-            if (!global.badWordEnabled) global.badWordEnabled = {};
-            global.badWordEnabled[from] = false;
-            settings.setGroup(from, 'badWordEnabled', false);
-            await sock.sendMessage(from, { text: "🛡️ Anti‑bad word protection DISABLED." }, { quoted: msg });
-        } else {
-            await sock.sendMessage(from, { text: "Usage:\n.antibadword add <word>\n.antibadword remove <word>\n.antibadword list\n.antibadword on/off\n.antibadword set (delete|warn|kick|warn+kick)\n.antibadword limit <1-10>" }, { quoted: msg });
         }
-    } },
-    { name: 'antibot', category: 'group', description: 'Toggle anti‑bot mode (kicks new members automatically)', execute: async function (sock, msg, args) {
-        const from = msg.key.remoteJid;
-        if (!from.endsWith('@g.us')) {
-            return await sock.sendMessage(from, { text: '❌ Group only command.' }, { quoted: msg });
-        }
-
-        const sender = msg.key.participant || msg.key.remoteJid;
-        let isAdmin = false;
-        try {
-            const meta = await sock.groupMetadata(from);
-            const senderNumber = sender.split('@')[0];
-            const participant = meta.participants.find(p => p.id.split('@')[0] === senderNumber);
-            isAdmin = participant?.admin === 'admin' || participant?.admin === 'superadmin';
-        } catch (e) {
-            return await sock.sendMessage(from, { text: '❌ Failed to verify admin status.' }, { quoted: msg });
-        }
-        if (!isAdmin) {
-            return await sock.sendMessage(from, { text: '❎ You are not worthy of this command.' }, { quoted: msg });
-        }
-
-        if (!args[0]) {
-            const status = global.antiBot?.[from] ? 'enabled' : 'disabled';
-            return await sock.sendMessage(from, { text: `🛡️ Anti‑bot is currently ${status}. Use .antibot on/off to change.` }, { quoted: msg });
-        }
-
-        const option = args[0].toLowerCase();
-        if (option !== 'on' && option !== 'off') {
-            return await sock.sendMessage(from, { text: '❌ Usage: .antibot on / off' }, { quoted: msg });
-        }
-
-        if (!global.antiBot) global.antiBot = {};
-        const enabled = option === 'on';
-        global.antiBot[from] = enabled;
-        settings.setGroup(from, 'antiBot', enabled);
-
-        await sock.sendMessage(from, { text: `✅ Anti‑bot ${enabled ? 'enabled' : 'disabled'}. ${enabled ? 'New members will be kicked automatically.' : ''}` }, { quoted: msg });
-    } },
-    { name: 'anticall', category: 'owner', description: '', execute: async function (sock, msg, args, { isArchitect, isMe }) {
-        const from = msg.key.remoteJid;
-        const sender = msg.key.participant || msg.key.remoteJid;
-        const isOwner = sender === global.ownerJid;
-        const isSudo = global.sudoUsers?.includes(sender);
-
-        if (!isArchitect && !isOwner && !isSudo) {
-            return await sock.sendMessage(from, { text: "This command is restricted to the owner and sudo users only." }, { quoted: msg });
-        }
-
-        if (!global.anticall) global.anticall = {};
-        if (global.anticall.mode === undefined) global.anticall.mode = "off";
-        if (global.anticall.msg === undefined) global.anticall.msg = "❌ Calls are not accepted. Send a message instead.";
-
-        const sub = args[0]?.toLowerCase();
-        const param = args[1]?.toLowerCase();
-
-        if (sub === "mode") {
-            if (param === "off" || param === "decline" || param === "block") {
-                global.anticall.mode = param;
-                settings.setGlobal('anticall', global.anticall);
-                await sock.sendMessage(from, { text: `✅ Anti‑call mode set to: ${param.toUpperCase()}` }, { quoted: msg });
-            } else {
-                await sock.sendMessage(from, { text: "❌ Mode must be: off, decline, or block" }, { quoted: msg });
-            }
-        } else if (sub === "on") {
-            global.anticall.mode = "decline";
-            settings.setGlobal('anticall', global.anticall);
-            await sock.sendMessage(from, { text: "✅ Anti‑call mode set to: ON (decline)" }, { quoted: msg });
-        } else if (sub === "off") {
-            global.anticall.mode = "off";
-            settings.setGlobal('anticall', global.anticall);
-            await sock.sendMessage(from, { text: "✅ Anti‑call mode set to: OFF" }, { quoted: msg });
-        } else if (sub === "block") {
-            global.anticall.mode = "block";
-            settings.setGlobal('anticall', global.anticall);
-            await sock.sendMessage(from, { text: "✅ Anti‑call mode set to: BLOCK" }, { quoted: msg });
-        } else if (sub === "decline") {
-            global.anticall.mode = "decline";
-            settings.setGlobal('anticall', global.anticall);
-            await sock.sendMessage(from, { text: "✅ Anti‑call mode set to: DECLINE" }, { quoted: msg });
-        } else if (sub === "msg") {
-            if (param) {
-                global.anticall.msg = args.slice(1).join(" ");
-                settings.setGlobal('anticall', global.anticall);
-                await sock.sendMessage(from, { text: `✅ Anti‑call message updated.\nNew message: ${global.anticall.msg}` }, { quoted: msg });
-            } else {
-                await sock.sendMessage(from, { text: `📝 Current anti‑call message:\n${global.anticall.msg}` }, { quoted: msg });
-            }
-        } else if (sub === "show") {
-            let modeDisplay = global.anticall.mode.toUpperCase();
-            if (global.anticall.mode === "decline") modeDisplay = "ON (decline)";
-            else if (global.anticall.mode === "block") modeDisplay = "ON (block)";
-            else modeDisplay = "OFF";
-            await sock.sendMessage(from, { text: `📞 Anti‑call settings:\nMode: ${modeDisplay}\nMessage: ${global.anticall.msg}` }, { quoted: msg });
-        } else if (sub === "test") {
-            await sock.sendMessage(from, { text: `🧪 Test message (would be sent to caller):\n${global.anticall.msg}` }, { quoted: msg });
-        } else {
-            await sock.sendMessage(from, { text: `Usage:\n.anticall on / off / block / decline\n.anticall mode <off|decline|block>\n.anticall msg <text>\n.anticall show\n.anticall test` }, { quoted: msg });
-        }
-    } },
-    { name: 'antidelete', category: 'owner', description: '', execute: async function (sock, msg, args, { isArchitect, isMe }) {
-        const from = msg.key.remoteJid;
-        const sender = msg.key.participant || msg.key.remoteJid;
-        const isOwner = sender === global.ownerJid;
-        const isSudo = global.sudoUsers?.includes(sender);
-
-        if (!isArchitect && !isOwner && !isSudo) {
-            return await sock.sendMessage(from, { text: "This command is restricted to the owner and sudo users only." }, { quoted: msg });
-        }
-
-        const sub = args[0]?.toLowerCase();
-
-        if (sub === "on") {
-            global.antiDeleteEnabled = true;
-            settings.setGlobal('antiDeleteEnabled', true);
-            return await sock.sendMessage(from, { text: "🛡️ Anti‑delete ENABLED globally." }, { quoted: msg });
-        }
-        if (sub === "off") {
-            global.antiDeleteEnabled = false;
-            settings.setGlobal('antiDeleteEnabled', false);
-            return await sock.sendMessage(from, { text: "🛡️ Anti‑delete DISABLED." }, { quoted: msg });
-        }
-
-        if (sub === "mode") {
-            const mode = args[1]?.toLowerCase();
-            if (!['private', 'chat', 'both'].includes(mode)) {
-                return await sock.sendMessage(from, {
-                    text: "❌ Mode must be: private, chat, or both.\n\n`private` → send to your DM only\n`chat` → send back to the original chat\n`both` → send to both"
-                }, { quoted: msg });
-            }
-            global.antideleteMode = mode;
-            settings.setGlobal('antideleteMode', mode);
-            return await sock.sendMessage(from, { text: `✅ Anti‑delete mode set to: *${mode.toUpperCase()}*` }, { quoted: msg });
-        }
-
-        const status = global.antiDeleteEnabled ? 'ENABLED' : 'DISABLED';
-        const currentMode = global.antideleteMode || 'private';
-        await sock.sendMessage(from, {
-            text: `🛡️ *ANTI‑DELETE STATUS*\n\n• Status: ${status}\n• Mode: ${currentMode.toUpperCase()}\n\nUsage:\n.antidelete on/off\n.antidelete mode <private|chat|both>`
-        }, { quoted: msg });
-    } },
-    { name: 'antidemote', category: 'group', description: '', execute: async function (sock, msg, args) {
-        const from = msg.key.remoteJid;
-        if (!from.endsWith('@g.us')) {
-            return await sock.sendMessage(from, { text: '❌ Group only command.' }, { quoted: msg });
-        }
-
-        const sender = msg.key.participant || msg.key.remoteJid;
-        const isAdmin = await global.checkAdmin?.(sock, from, sender) || false;
-        if (!isAdmin) {
-            return await sock.sendMessage(from, { text: '❎ You are not worthy of this command.' }, { quoted: msg });
-        }
-
-        const state = args[0]?.toLowerCase();
-        if (!['on', 'off'].includes(state)) {
-            return await sock.sendMessage(from, { text: 'Usage: .antidemote on/off' }, { quoted: msg });
-        }
-
-        const config = getConfig(from);
-        config.enabled = state === 'on';
-        setConfig(from, config);
-
-        await sock.sendMessage(from, {
-            text: `🛡️ Anti-Demote is now ${state.toUpperCase()}`
-        }, { quoted: msg });
-    } },
-    { name: 'antiedit', category: 'owner', description: '', execute: async function (sock, msg, args, { isArchitect, isMe }) {
-        const from = msg.key.remoteJid;
-        const sender = msg.key.participant || msg.key.remoteJid;
-        const isOwner = sender === global.ownerJid;
-        const isSudo = global.sudoUsers?.includes(sender);
-
-        if (!isArchitect && !isOwner && !isSudo) {
-            return await sock.sendMessage(from, { text: "This command is restricted to the owner and sudo users only." }, { quoted: msg });
-        }
-
-        const sub = args[0]?.toLowerCase();
-
-        if (sub === "on") {
-            global.antiEditEnabled = true;
-            settings.setGlobal('antiEditEnabled', true);
-            return await sock.sendMessage(from, { text: "✏️ Anti‑edit ENABLED globally." }, { quoted: msg });
-        }
-        if (sub === "off") {
-            global.antiEditEnabled = false;
-            settings.setGlobal('antiEditEnabled', false);
-            return await sock.sendMessage(from, { text: "✏️ Anti‑edit DISABLED." }, { quoted: msg });
-        }
-
-        if (sub === "mode") {
-            const mode = args[1]?.toLowerCase();
-            if (!['private', 'chat', 'both'].includes(mode)) {
-                return await sock.sendMessage(from, {
-                    text: "❌ Mode must be: private, chat, or both.\n\n`private` → send to your DM only\n`chat` → send back to the original chat\n`both` → send to both"
-                }, { quoted: msg });
-            }
-            global.antideleteMode = mode;
-            settings.setGlobal('antideleteMode', mode);
-            return await sock.sendMessage(from, { text: `✅ Anti‑edit mode set to: *${mode.toUpperCase()}*` }, { quoted: msg });
-        }
-
-        const status = global.antiEditEnabled ? 'ENABLED' : 'DISABLED';
-        const currentMode = global.antideleteMode || 'private';
-        await sock.sendMessage(from, {
-            text: `✏️ *ANTI‑EDIT STATUS*\n\n• Status: ${status}\n• Mode: ${currentMode.toUpperCase()}\n\nUsage:\n.antiedit on/off\n.antiedit mode <private|chat|both>`
-        }, { quoted: msg });
-    } },
-    { name: 'antiforwarddeleteon', category: 'group', description: '', execute: async (sock, msg, args, { isMe }) => {
-        const from = msg.key.remoteJid;
-        if (!from.endsWith('@g.us')) return await sock.sendMessage(from, { text: '❌ Group only.' }, { quoted: msg });
-        const isAdmin = await global.checkAdmin(sock, from, msg.key.participant || msg.key.remoteJid);
-        if (!isAdmin && !isMe) return await sock.sendMessage(from, { text: '❎ You are not worthy of this command.' }, { quoted: msg });
-
-        if (!global.antiForwardConfig) global.antiForwardConfig = {};
-        global.antiForwardConfig[from] = { enabled: true, action: 'delete', warnLimit: 3 };
-        settings.setGroup(from, 'antiForwardConfig', global.antiForwardConfig[from]);
-        await sock.sendMessage(from, { text: '✅ Anti‑forward enabled: forwarded messages will be **deleted** immediately.' }, { quoted: msg });
-    } },
-    { name: 'antiforwardoff', category: 'group', description: '', execute: async (sock, msg, args, { isMe }) => {
-        const from = msg.key.remoteJid;
-        if (!from.endsWith('@g.us')) return await sock.sendMessage(from, { text: '❌ Group only.' }, { quoted: msg });
-        const isAdmin = await global.checkAdmin(sock, from, msg.key.participant || msg.key.remoteJid);
-        if (!isAdmin && !isMe) return await sock.sendMessage(from, { text: '❎ You are not worthy of this command.' }, { quoted: msg });
-
-        if (!global.antiForwardConfig) global.antiForwardConfig = {};
-        global.antiForwardConfig[from] = { enabled: false };
-        settings.setGroup(from, 'antiForwardConfig', global.antiForwardConfig[from]);
-        await sock.sendMessage(from, { text: '❌ Anti‑forward disabled.' }, { quoted: msg });
-    } },
-    { name: 'antiforwardwarnon', category: 'group', description: '', execute: async (sock, msg, args, { isMe }) => {
-        const from = msg.key.remoteJid;
-        if (!from.endsWith('@g.us')) return await sock.sendMessage(from, { text: '❌ Group only.' }, { quoted: msg });
-        const isAdmin = await global.checkAdmin(sock, from, msg.key.participant || msg.key.remoteJid);
-        if (!isAdmin && !isMe) return await sock.sendMessage(from, { text: '❎ You are not worthy of this command.' }, { quoted: msg });
-
-        let warnLimit = 3;
-        if (args[0] && !isNaN(parseInt(args[0]))) warnLimit = parseInt(args[0]);
-        if (!global.antiForwardConfig) global.antiForwardConfig = {};
-        global.antiForwardConfig[from] = { enabled: true, action: 'warn', warnLimit: warnLimit };
-        settings.setGroup(from, 'antiForwardConfig', global.antiForwardConfig[from]);
-        await sock.sendMessage(from, { text: `✅ Anti‑forward enabled: forwarded messages will be **deleted** and the sender will be warned. Warn limit: ${warnLimit}.` }, { quoted: msg });
-    } },
-    { name: 'antiforwardkickon', category: 'group', description: '', execute: async (sock, msg, args, { isMe }) => {
-        const from = msg.key.remoteJid;
-        if (!from.endsWith('@g.us')) return await sock.sendMessage(from, { text: '❌ Group only.' }, { quoted: msg });
-        const isAdmin = await global.checkAdmin(sock, from, msg.key.participant || msg.key.remoteJid);
-        if (!isAdmin && !isMe) return await sock.sendMessage(from, { text: '❎ You are not worthy of this command.' }, { quoted: msg });
-
-        if (!global.antiForwardConfig) global.antiForwardConfig = {};
-        global.antiForwardConfig[from] = { enabled: true, action: 'kick', warnLimit: 0 };
-        settings.setGroup(from, 'antiForwardConfig', global.antiForwardConfig[from]);
-        await sock.sendMessage(from, { text: '✅ Anti‑forward enabled: forwarded messages will be **deleted** and the sender will be **kicked immediately**.' }, { quoted: msg });
-    } },
-    { name: 'antigroupmention', category: 'group', description: 'Protect against group mentions (@group) with delete/warn/kick actions', execute: async function (sock, msg, args) {
-        const from = msg.key.remoteJid;
-        if (!from.endsWith('@g.us')) {
-            return await sock.sendMessage(from, { text: '❌ Group only command.' }, { quoted: msg });
-        }
-
-        const sender = msg.key.participant || msg.key.remoteJid;
-        const isAdmin = await global.checkAdmin(sock, from, sender);
-        if (!isAdmin) {
-            return await sock.sendMessage(from, { text: '❎ You are not worthy of this command.' }, { quoted: msg });
-        }
-
-        let config = settings.getGroup(from, 'antigroupmention');
-        if (!config) {
-            config = { enabled: false, action: 'delete' };
-            settings.setGroup(from, 'antigroupmention', config);
-        }
-
-        const sub = args[0]?.toLowerCase();
-
-        if (sub === 'on') {
-            config.enabled = true;
-            settings.setGroup(from, 'antigroupmention', config);
-            return await sock.sendMessage(from, { text: '🛡️ Anti‑group‑mention protection ENABLED.' }, { quoted: msg });
-        }
-
-        if (sub === 'off') {
-            config.enabled = false;
-            settings.setGroup(from, 'antigroupmention', config);
-            return await sock.sendMessage(from, { text: '🛡️ Anti‑group‑mention protection DISABLED.' }, { quoted: msg });
-        }
-
-        if (sub === 'set') {
-            const action = args[1]?.toLowerCase();
-            if (!['delete', 'warn', 'kick'].includes(action)) {
-                return await sock.sendMessage(from, {
-                    text: '❌ Action must be: delete, warn, or kick.'
-                }, { quoted: msg });
-            }
-            config.enabled = true;
-            config.action = action;
-            settings.setGroup(from, 'antigroupmention', config);
-            return await sock.sendMessage(from, {
-                text: `✅ Anti‑group‑mention action set to: ${action.toUpperCase()}`
-            }, { quoted: msg });
-        }
-
-        if (sub === 'get') {
-            const status = config.enabled ? 'ON' : 'OFF';
-            const action = config.action || 'delete';
-            return await sock.sendMessage(from, {
-                text: `📌 *Anti‑group‑mention Settings*\n\n• Status: ${status}\n• Action: ${action.toUpperCase()}`
-            }, { quoted: msg });
-        }
-
-        const status = config.enabled ? 'ON' : 'OFF';
-        const action = config.action || 'delete';
-        await sock.sendMessage(from, {
-            text: `📌 *Anti‑group‑mention Status*\n\nStatus: ${status}\nAction: ${action}\n\nUsage:\n.antigroupmention on\n.antigroupmention off\n.antigroupmention set delete|warn|kick\n.antigroupmention get`
-        }, { quoted: msg });
-    } },
-    { name: 'antileave', category: 'group', description: '', execute: async function (sock, msg, args, { isArchitect, isMe }) {
-
-        const from = msg.key.remoteJid;
-
-        if (!from.endsWith("@g.us")) {
-            return await sock.sendMessage(from, {
-                text: "❌ Group only command."
-            }, { quoted: msg });
-        }
-
-        const sender = msg.key.participant || msg.key.remoteJid;
-
-        let isAdmin = false;
-
-        try {
-            const meta = await sock.groupMetadata(from);
-            const participant = meta.participants.find(
-                p => p.id === sender || p.jid === sender
-            );
-            isAdmin =
-                participant?.admin === "admin" ||
-                participant?.admin === "superadmin";
-        } catch {}
-
-        const isOwner = global.owner?.includes(sender);
-
-        if (!isAdmin && !isOwner && !isArchitect && !isMe) {
-            return await sock.sendMessage(from, {
-                text: "❎ You are not worthy of this command."
-            }, { quoted: msg });
-        }
-
-        if (!global.antiLeave) global.antiLeave = {};
-
-        global.antiLeave[from] = !global.antiLeave[from];
-        settings.setGroup(from, 'antiLeave', global.antiLeave[from]);
-
-        const status = global.antiLeave[from];
-
-        const quotesOn = [
-            "Exit attempts detected… system locked.",
-            "Leaving is not an option anymore.",
-            "Savage Tech holds the gate shut.",
-            "Once inside, you don’t walk out freely.",
-            "The system now rejects exit commands."
-        ];
-
-        const quotesOff = [
-            "Exit protection disabled.",
-            "Bot is now free to leave if needed.",
-            "System guard released.",
-            "Anti-leave protocol turned off.",
-            "Freedom mode restored."
-        ];
-
-        const quote = (status ? quotesOn : quotesOff)[
-            Math.floor(Math.random() * (status ? quotesOn.length : quotesOff.length))
-        ];
-
-        await sock.sendMessage(from, {
-            text:
-`🛡️ *ANTI-LEAVE SYSTEM*
-
-📌 Status: ${status ? "ENABLED" : "DISABLED"}
-
-🧊 ${quote}
-
-⚡ Powered by Savage Tech`
-        }, { quoted: msg });
-    } },
-    { name: 'antilink', category: 'group', description: '', execute: async function (sock, msg, args) {
-        const from = msg.key.remoteJid;
-        if (!from.endsWith('@g.us')) return await sock.sendMessage(from, { text: '❌ Group only command.' }, { quoted: msg });
-
-        const sender = msg.key.participant || msg.key.remoteJid;
-        let isAdmin = false;
-        try {
-            const meta = await sock.groupMetadata(from);
-            const senderNumber = sender.split('@')[0].split(':')[0];
-            const participant = meta.participants.find(p => {
-                const pNumber = p.id.split('@')[0].split(':')[0];
-                return pNumber === senderNumber;
-            });
-            isAdmin = participant?.admin === 'admin' || participant?.admin === 'superadmin';
-        } catch (e) {
-            console.error("Admin check error:", e);
-        }
-        if (!isAdmin) return await sock.sendMessage(from, { text: '❎ You are not worthy of this command.' }, { quoted: msg });
-
-        if (!global.antiLinkConfig) global.antiLinkConfig = {};
-        if (!global.antiLinkWarnings) global.antiLinkWarnings = {};
-        if (global.antiLinkConfig[from] === undefined) {
-            global.antiLinkConfig[from] = { enabled: false, action: "delete", warnLimit: 3 };
-        }
-
-        const sub = args[0]?.toLowerCase();
-        const param = args[1]?.toLowerCase();
-
-        if (sub === "on") {
-            global.antiLinkConfig[from].enabled = true;
-            settings.setGroup(from, 'antiLinkConfig', global.antiLinkConfig[from]);
-            await sock.sendMessage(from, { text: '🛡️ Anti‑link protection ENABLED.' }, { quoted: msg });
-        } else if (sub === "off") {
-            global.antiLinkConfig[from].enabled = false;
-            settings.setGroup(from, 'antiLinkConfig', global.antiLinkConfig[from]);
-            await sock.sendMessage(from, { text: '🛡️ Anti‑link protection DISABLED.' }, { quoted: msg });
-        } else if (sub === "set") {
-            if (param === "delete" || param === "warn" || param === "kick" || param === "warn+kick") {
-                global.antiLinkConfig[from].action = param;
-                settings.setGroup(from, 'antiLinkConfig', global.antiLinkConfig[from]);
-                await sock.sendMessage(from, { text: `✅ Action set to: ${param.toUpperCase()}` }, { quoted: msg });
-            } else {
-                await sock.sendMessage(from, { text: '❌ Action must be: delete, warn, kick, or warn+kick' }, { quoted: msg });
-            }
-        } else if (sub === "limit") {
-            const limit = parseInt(param);
-            if (!isNaN(limit) && limit > 0 && limit <= 10) {
-                global.antiLinkConfig[from].warnLimit = limit;
-                settings.setGroup(from, 'antiLinkConfig', global.antiLinkConfig[from]);
-                await sock.sendMessage(from, { text: `✅ Warning limit set to ${limit} before kick.` }, { quoted: msg });
-            } else {
-                await sock.sendMessage(from, { text: '❌ Limit must be a number between 1 and 10.' }, { quoted: msg });
-            }
-        } else if (sub === "list") {
-            const cfg = global.antiLinkConfig[from];
-            await sock.sendMessage(from, { text: `📋 *Anti‑link settings*:\nEnabled: ${cfg.enabled}\nAction: ${cfg.action}\nWarn limit: ${cfg.warnLimit}` }, { quoted: msg });
-        } else {
-            await sock.sendMessage(from, { text: `Usage:\n.antilink on/off\n.antilink set (delete|warn|kick|warn+kick)\n.antilink limit <1-10>\n.antilink list` }, { quoted: msg });
-        }
-    } },
-    { name: 'antipromote', category: 'group', description: '', execute: async function (sock, msg, args) {
-        const from = msg.key.remoteJid;
-        if (!from.endsWith('@g.us')) {
-            return await sock.sendMessage(from, { text: '❌ Group only command.' }, { quoted: msg });
-        }
-
-        const sender = msg.key.participant || msg.key.remoteJid;
-        const isAdmin = await global.checkAdmin?.(sock, from, sender) || false;
-        if (!isAdmin) {
-            return await sock.sendMessage(from, { text: '❎ You are not worthy of this command.' }, { quoted: msg });
-        }
-
-        const state = args[0]?.toLowerCase();
-        if (!['on', 'off'].includes(state)) {
-            return await sock.sendMessage(from, { text: 'Usage: .antipromote on/off' }, { quoted: msg });
-        }
-
-        const config = getConfig(from);
-        config.enabled = state === 'on';
-        setConfig(from, config);
-
-        await sock.sendMessage(from, {
-            text: `🛡️ Anti-Promote is now ${state.toUpperCase()}`
-        }, { quoted: msg });
-    } },
-    { name: 'antispam', category: 'group', description: 'Manage anti‑spam settings (rate limit & duplicates)', execute: async function (sock, msg, args) {
-        const from = msg.key.remoteJid;
-        if (!from.endsWith('@g.us')) return await sock.sendMessage(from, { text: '❌ Group only command.' }, { quoted: msg });
-
-        const sender = msg.key.participant || msg.key.remoteJid;
-        const isAdmin = await global.checkAdmin?.(sock, from, sender) || false;
-        if (!isAdmin) return await sock.sendMessage(from, { text: '❎ You are not worthy of this command.' }, { quoted: msg });
-
-        if (!global.antiSpamConfig) global.antiSpamConfig = {};
-        if (!global.antiSpamWarnings) global.antiSpamWarnings = {};
-        if (!global.antiSpamTrack) global.antiSpamTrack = {};
-
-        if (!global.antiSpamConfig[from]) {
-            global.antiSpamConfig[from] = {
-                enabled: false,
-                action: 'delete',
-                warnLimit: 3,
-                timeWindow: 3,
-                maxMessages: 5,
-                duplicateWindow: 2
-            };
-        }
-
-        const sub = args[0]?.toLowerCase();
-        const param = args[1]?.toLowerCase();
-
-        if (sub === 'on') {
-            global.antiSpamConfig[from].enabled = true;
-            settings.setGroup(from, 'antiSpamConfig', global.antiSpamConfig[from]);
-            await sock.sendMessage(from, { text: '🛡️ Anti‑spam protection ENABLED.' }, { quoted: msg });
-        } else if (sub === 'off') {
-            global.antiSpamConfig[from].enabled = false;
-            settings.setGroup(from, 'antiSpamConfig', global.antiSpamConfig[from]);
-            await sock.sendMessage(from, { text: '🛡️ Anti‑spam protection DISABLED.' }, { quoted: msg });
-        } else if (sub === 'set' && param) {
-            const validActions = ['delete', 'warn', 'kick', 'warn+kick'];
-            if (validActions.includes(param)) {
-                global.antiSpamConfig[from].action = param;
-                settings.setGroup(from, 'antiSpamConfig', global.antiSpamConfig[from]);
-                await sock.sendMessage(from, { text: `✅ Action set to: ${param.toUpperCase()}` }, { quoted: msg });
-            } else {
-                await sock.sendMessage(from, { text: '❌ Action must be: delete, warn, kick, or warn+kick' }, { quoted: msg });
-            }
-        } else if (sub === 'limit') {
-            const limit = parseInt(param);
-            if (!isNaN(limit) && limit >= 1 && limit <= 10) {
-                global.antiSpamConfig[from].warnLimit = limit;
-                settings.setGroup(from, 'antiSpamConfig', global.antiSpamConfig[from]);
-                await sock.sendMessage(from, { text: `✅ Warning limit set to ${limit} before kick (for warn/warn+kick actions).` }, { quoted: msg });
-            } else {
-                await sock.sendMessage(from, { text: '❌ Limit must be a number between 1 and 10.' }, { quoted: msg });
-            }
-        } else if (sub === 'window') {
-            const seconds = parseInt(param);
-            if (!isNaN(seconds) && seconds >= 1 && seconds <= 60) {
-                global.antiSpamConfig[from].timeWindow = seconds;
-                settings.setGroup(from, 'antiSpamConfig', global.antiSpamConfig[from]);
-                await sock.sendMessage(from, { text: `✅ Rate‑limit window set to ${seconds} seconds.` }, { quoted: msg });
-            } else {
-                await sock.sendMessage(from, { text: '❌ Window must be 1–60 seconds.' }, { quoted: msg });
-            }
-        } else if (sub === 'max') {
-            const max = parseInt(param);
-            if (!isNaN(max) && max >= 1 && max <= 20) {
-                global.antiSpamConfig[from].maxMessages = max;
-                settings.setGroup(from, 'antiSpamConfig', global.antiSpamConfig[from]);
-                await sock.sendMessage(from, { text: `✅ Max messages per window set to ${max}.` }, { quoted: msg });
-            } else {
-                await sock.sendMessage(from, { text: '❌ Max must be 1–20.' }, { quoted: msg });
-            }
-        } else if (sub === 'dup') {
-            const seconds = parseInt(param);
-            if (!isNaN(seconds) && seconds >= 1 && seconds <= 10) {
-                global.antiSpamConfig[from].duplicateWindow = seconds;
-                settings.setGroup(from, 'antiSpamConfig', global.antiSpamConfig[from]);
-                await sock.sendMessage(from, { text: `✅ Duplicate message window set to ${seconds} seconds.` }, { quoted: msg });
-            } else {
-                await sock.sendMessage(from, { text: '❌ Duplicate window must be 1–10 seconds.' }, { quoted: msg });
-            }
-        } else if (sub === 'list') {
-            const cfg = global.antiSpamConfig[from];
-            const status = cfg.enabled ? '✅ ENABLED' : '❌ DISABLED';
-            await sock.sendMessage(from, {
-                text: `🛡️ *ANTI‑SPAM SETTINGS*\nStatus: ${status}\nAction: ${cfg.action}\nWarn Limit: ${cfg.warnLimit}\nTime Window: ${cfg.timeWindow}s\nMax Messages: ${cfg.maxMessages}\nDuplicate Window: ${cfg.duplicateWindow}s`
-            }, { quoted: msg });
-        } else {
-            await sock.sendMessage(from, {
-                text: `📖 *Anti‑spam commands:*\n.antispam on/off\n.antispam set (delete|warn|kick|warn+kick)\n.antispam limit <1-10>\n.antispam window <1-60>\n.antispam max <1-20>\n.antispam dup <1-10>\n.antispam list`
-            }, { quoted: msg });
-        }
-
-        if (!global.groupSettings) global.groupSettings = {};
-        if (!global.groupSettings[from]) global.groupSettings[from] = {};
-        const cfg = global.antiSpamConfig[from];
-        global.groupSettings[from].antiSpam = `${cfg.enabled ? 'ON' : 'OFF'} | action:${cfg.action} | limit:${cfg.warnLimit}`;
-    } },
-    { name: 'antistatusmention', category: 'group', description: 'Detect and act when someone mentions the group in their status', execute: async function (sock, msg, args, { isArchitect }) {
-        const from = msg.key.remoteJid;
-        if (!from.endsWith('@g.us')) {
-            return await sock.sendMessage(from, { text: '❌ Group only command.' }, { quoted: msg });
-        }
-
-        const sender = msg.key.participant || msg.key.remoteJid;
-        const isAdmin = await global.checkAdmin(sock, from, sender);
-        if (!isAdmin && !isArchitect) {
-            return await sock.sendMessage(from, { text: '❎ You are not worthy of this command.' }, { quoted: msg });
-        }
-
-        const config = getConfig(from);
-        const sub = args[0]?.toLowerCase();
-
-        if (!sub || sub === 'help') {
-            return await sock.sendMessage(from, {
-                text: `.antistatusmention warn - Enable warn mode\n.antistatusmention delete - Enable delete mode\n.antistatusmention kick - Enable kick mode\n.antistatusmention off - Disable\n.antistatusmention maxwarn <num> - Set max warnings\n.antistatusmention reset <@user|all> - Reset warnings\n.antistatusmention set <text> - Custom message ({user} {group} {warns} {limit} {mode})\n.antistatusmention resetmsg - Reset to default\n.antistatusmention status - View settings`
-            }, { quoted: msg });
-        }
-
-        try {
-            if (sub === 'warn' || sub === 'delete' || sub === 'kick') {
-                config.enabled = true;
-                config.mode = sub;
-                setConfig(from, config);
-                return await sock.sendMessage(from, {
-                    text: `✅ Anti-Status-Mention ENABLED\nMode: ${sub.toUpperCase()}\nMax warnings: ${config.maxWarnings}`
-                }, { quoted: msg });
-            }
-
-            if (sub === 'off') {
-                config.enabled = false;
-                setConfig(from, config);
-                return await sock.sendMessage(from, { text: '❌ Anti-Status-Mention DISABLED.' }, { quoted: msg });
-            }
-
-            if (sub === 'maxwarn' || sub === 'maxwarnings') {
-                const num = parseInt(args[1]);
-                if (!num || num < 1 || num > 10) {
-                    return await sock.sendMessage(from, { text: '❌ Provide a number between 1 and 10.' }, { quoted: msg });
-                }
-                config.maxWarnings = num;
-                setConfig(from, config);
-                return await sock.sendMessage(from, { text: `✅ Max warnings set to ${num}` }, { quoted: msg });
-            }
-
-            if (sub === 'reset') {
-                const mentioned = msg.message?.extendedTextMessage?.contextInfo?.mentionedJid;
-                if (mentioned && mentioned.length > 0) {
-                    const target = cleanJid(mentioned[0]);
-                    if (config.warnings?.[target]) {
-                        delete config.warnings[target];
-                        setConfig(from, config);
-                        return await sock.sendMessage(from, {
-                            text: `✅ Warnings reset for @${target.split('@')[0]}`,
-                            mentions: [target]
-                        }, { quoted: msg });
-                    }
-                    return await sock.sendMessage(from, { text: '⚠️ No warnings for that user.' }, { quoted: msg });
-                }
-                if (args[1] === 'all') {
-                    config.warnings = {};
-                    setConfig(from, config);
-                    return await sock.sendMessage(from, { text: '✅ All warnings reset.' }, { quoted: msg });
-                }
-                return await sock.sendMessage(from, { text: '❌ Tag a user or use .antistatusmention reset all' }, { quoted: msg });
-            }
-
-            if (sub === 'set' || sub === 'setmsg') {
-                const customText = args.slice(1).join(' ').trim();
-                if (!customText) {
-                    return await sock.sendMessage(from, {
-                        text: 'Usage: .antistatusmention set <text> with {user} {group} {warns} {limit} {mode}'
-                    }, { quoted: msg });
-                }
-                config.customMessage = customText;
-                setConfig(from, config);
-                return await sock.sendMessage(from, { text: `✅ Custom message set.\n${customText}` }, { quoted: msg });
-            }
-
-            if (sub === 'resetmsg' || sub === 'cleartext') {
-                config.customMessage = '';
-                setConfig(from, config);
-                return await sock.sendMessage(from, { text: '✅ Custom message cleared.' }, { quoted: msg });
-            }
-
-            if (sub === 'status' || sub === 'settings') {
-                const warns = Object.entries(config.warnings || {});
-                let warnText = warns.length ? '\n\nWarnings:\n' + warns.map(([j, c]) => `• @${j.split('@')[0]}: ${c}`).join('\n') : '';
-                return await sock.sendMessage(from, {
-                    text: `Status: ${config.enabled ? '✅ ON' : '❌ OFF'}\nMode: ${config.mode.toUpperCase()}\nMax Warnings: ${config.maxWarnings}\nAdmins Exempt: ${config.exemptAdmins ? 'Yes' : 'No'}${warnText}`
-                }, { quoted: msg });
-            }
-
-            return await sock.sendMessage(from, { text: '❌ Unknown option. Use .antistatusmention help' }, { quoted: msg });
-        } catch (err) {
-            await sock.sendMessage(from, { text: `❌ Error: ${err.message}` }, { quoted: msg });
-        }
-    } },
-    { name: 'antitag', category: 'group', description: '', execute: async function (sock, msg, args) {
-        const from = msg.key.remoteJid;
-        if (!from.endsWith('@g.us')) return await sock.sendMessage(from, { text: '❌ Group only command.' }, { quoted: msg });
-
-        const sender = msg.key.participant || msg.key.remoteJid;
-        let isAdmin = false;
-        try {
-            const meta = await sock.groupMetadata(from);
-            const senderNumber = sender.split('@')[0].split(':')[0];
-            const participant = meta.participants.find(p => {
-                const pNumber = p.id.split('@')[0].split(':')[0];
-                return pNumber === senderNumber;
-            });
-            isAdmin = participant?.admin === 'admin' || participant?.admin === 'superadmin';
-        } catch (e) {}
-        if (!isAdmin) return await sock.sendMessage(from, { text: '❎ You are not worthy of this command.' }, { quoted: msg });
-
-        if (!global.antiTagConfig) global.antiTagConfig = {};
-        if (!global.antiTagWarnings) global.antiTagWarnings = {};
-        if (global.antiTagConfig[from] === undefined) {
-            global.antiTagConfig[from] = { enabled: false, action: "delete", warnLimit: 3 };
-        }
-
-        const sub = args[0]?.toLowerCase();
-        const param = args[1]?.toLowerCase();
-
-        if (sub === "on") {
-            global.antiTagConfig[from].enabled = true;
-            settings.setGroup(from, 'antiTagConfig', global.antiTagConfig[from]);
-            await sock.sendMessage(from, { text: '🛡️ Anti-tag protection ENABLED.' }, { quoted: msg });
-        } else if (sub === "off") {
-            global.antiTagConfig[from].enabled = false;
-            settings.setGroup(from, 'antiTagConfig', global.antiTagConfig[from]);
-            await sock.sendMessage(from, { text: '🛡️ Anti-tag protection DISABLED.' }, { quoted: msg });
-        } else if (sub === "set") {
-            if (param === "delete" || param === "warn" || param === "kick" || param === "warn+kick") {
-                global.antiTagConfig[from].action = param;
-                settings.setGroup(from, 'antiTagConfig', global.antiTagConfig[from]);
-                await sock.sendMessage(from, { text: `✅ Action set to: ${param.toUpperCase()}` }, { quoted: msg });
-            } else {
-                await sock.sendMessage(from, { text: '❌ Action must be: delete, warn, kick, or warn+kick' }, { quoted: msg });
-            }
-        } else if (sub === "limit") {
-            const limit = parseInt(param);
-            if (!isNaN(limit) && limit > 0 && limit <= 10) {
-                global.antiTagConfig[from].warnLimit = limit;
-                settings.setGroup(from, 'antiTagConfig', global.antiTagConfig[from]);
-                await sock.sendMessage(from, { text: `✅ Warning limit set to ${limit} before kick.` }, { quoted: msg });
-            } else {
-                await sock.sendMessage(from, { text: '❌ Limit must be a number between 1 and 10.' }, { quoted: msg });
-            }
-        } else if (sub === "list") {
-            const cfg = global.antiTagConfig[from];
-            await sock.sendMessage(from, { text: `📋 *Anti-tag settings*:\nEnabled: ${cfg.enabled}\nAction: ${cfg.action}\nWarn limit: ${cfg.warnLimit}` }, { quoted: msg });
-        } else {
-            await sock.sendMessage(from, { text: `Usage:\n.antitag on/off\n.antitag set (delete|warn|kick|warn+kick)\n.antitag limit <1-10>\n.antitag list` }, { quoted: msg });
-        }
-    } },
-    { name: 'antitagadmin', category: 'group', description: '', execute: async function (sock, msg, args) {
-        const from = msg.key.remoteJid;
-        if (!from.endsWith('@g.us')) return await sock.sendMessage(from, { text: '❌ Group only command.' }, { quoted: msg });
-
-        const sender = msg.key.participant || msg.key.remoteJid;
-        let isAdmin = false;
-        try {
-            const meta = await sock.groupMetadata(from);
-            const senderNumber = sender.split('@')[0].split(':')[0];
-            const participant = meta.participants.find(p => {
-                const pNumber = p.id.split('@')[0].split(':')[0];
-                return pNumber === senderNumber;
-            });
-            isAdmin = participant?.admin === 'admin' || participant?.admin === 'superadmin';
-        } catch (e) {}
-        if (!isAdmin) return await sock.sendMessage(from, { text: '❎ You are not worthy of this command.' }, { quoted: msg });
-
-        if (!global.antiTagAdminConfig) global.antiTagAdminConfig = {};
-        if (!global.antiTagAdminWarnings) global.antiTagAdminWarnings = {};
-        if (global.antiTagAdminConfig[from] === undefined) {
-            global.antiTagAdminConfig[from] = { enabled: false, action: "delete", warnLimit: 3 };
-        }
-
-        const sub = args[0]?.toLowerCase();
-        const param = args[1]?.toLowerCase();
-
-        if (sub === "on") {
-            global.antiTagAdminConfig[from].enabled = true;
-            settings.setGroup(from, 'antiTagAdminConfig', global.antiTagAdminConfig[from]);
-            await sock.sendMessage(from, { text: '🛡️ Anti‑tag‑admin protection ENABLED.' }, { quoted: msg });
-        } else if (sub === "off") {
-            global.antiTagAdminConfig[from].enabled = false;
-            settings.setGroup(from, 'antiTagAdminConfig', global.antiTagAdminConfig[from]);
-            await sock.sendMessage(from, { text: '🛡️ Anti‑tag‑admin protection DISABLED.' }, { quoted: msg });
-        } else if (sub === "set") {
-            if (param === "delete" || param === "warn" || param === "kick" || param === "warn+kick") {
-                global.antiTagAdminConfig[from].action = param;
-                settings.setGroup(from, 'antiTagAdminConfig', global.antiTagAdminConfig[from]);
-                await sock.sendMessage(from, { text: `✅ Action set to: ${param.toUpperCase()}` }, { quoted: msg });
-            } else {
-                await sock.sendMessage(from, { text: '❌ Action must be: delete, warn, kick, or warn+kick' }, { quoted: msg });
-            }
-        } else if (sub === "limit") {
-            const limit = parseInt(param);
-            if (!isNaN(limit) && limit > 0 && limit <= 10) {
-                global.antiTagAdminConfig[from].warnLimit = limit;
-                settings.setGroup(from, 'antiTagAdminConfig', global.antiTagAdminConfig[from]);
-                await sock.sendMessage(from, { text: `✅ Warning limit set to ${limit} before kick.` }, { quoted: msg });
-            } else {
-                await sock.sendMessage(from, { text: '❌ Limit must be a number between 1 and 10.' }, { quoted: msg });
-            }
-        } else if (sub === "list") {
-            const cfg = global.antiTagAdminConfig[from];
-            await sock.sendMessage(from, { text: `📋 *Anti‑tag‑admin settings*:\nEnabled: ${cfg.enabled}\nAction: ${cfg.action}\nWarn limit: ${cfg.warnLimit}` }, { quoted: msg });
-        } else {
-            await sock.sendMessage(from, { text: `Usage:\n.antitagadmin on/off\n.antitagadmin set (delete|warn|kick|warn+kick)\n.antitagadmin limit <1-10>\n.antitagadmin list` }, { quoted: msg });
-        }
-    } },
-    { name: 'approveall', category: 'group', description: 'Approve all pending join requests (admin only)', execute: async function (sock, msg, args, { isMe }) {
-        const from = msg.key.remoteJid;
-        if (!from.endsWith('@g.us')) return await sock.sendMessage(from, { text: '❌ Group only command.' }, { quoted: msg });
-
-        const sender = msg.key.participant || msg.key.remoteJid;
-        let isAdmin = false;
-        try {
-            const groupMetadata = await sock.groupMetadata(from);
-            const participant = groupMetadata.participants.find(p => p.id === sender);
-            isAdmin = participant?.admin === 'admin' || participant?.admin === 'superadmin';
-        } catch (e) {}
-        if (!isAdmin && !isMe) return await sock.sendMessage(from, { text: '❎ You are not worthy of this command.' }, { quoted: msg });
-
-        const pending = global.pendingJoinRequests?.[from] || [];
-        if (pending.length === 0) {
-            return await sock.sendMessage(from, { text: '✅ No pending join requests at the moment.' }, { quoted: msg });
-        }
-
-        let approved = 0;
-        let failed = 0;
-        for (const jid of pending) {
+        return originalSendMessage(jid, content, options);
+    };
+
+    setInterval(async () => {
+        if (global.alwaysOnline !== false && global.sock && global.sock.user) {
             try {
-                await sock.groupParticipantsUpdate(from, [jid], 'add');
-                approved++;
-            } catch (err) {
-                console.error(`Failed to approve ${jid}:`, err);
-                failed++;
+                await global.sock.sendPresenceUpdate('available', global.sock.user.id);
+            } catch (e) {}
+        }
+    }, 30000);
+
+    sock.ev.on("creds.update", saveCreds);
+
+    sock.ev.on("call", async (calls) => {
+        for (const call of calls) {
+            const from = call.from;
+            if (global.anticall.mode === "off") return;
+            if (global.anticall.mode === "decline") {
+                try {
+                    await sock.rejectCall(call.id, from);
+                } catch (e) {}
+            } else if (global.anticall.mode === "block") {
+                try {
+                    await sock.updateBlockStatus(from, "block");
+                    await sock.rejectCall(call.id, from);
+                } catch (e) {}
+            }
+            if (global.anticall.msg && global.anticall.msg.trim() !== "") {
+                try {
+                    await sock.sendMessage(from, { text: global.anticall.msg });
+                } catch (e) {}
+            }
+            console.log(`[ANTICALL] ${global.anticall.mode.toUpperCase()} call from ${from}`);
+        }
+    });
+
+    sock.ev.on("connection.update", async (update) => {
+        const { connection, qr, lastDisconnect } = update;
+
+        if (connection === "open") {
+            console.log("\n🚀 SΛVΛGΞ-TECH IS LIVE!");
+            const myNumber = sock.user.id.split(':')[0] + '@s.whatsapp.net';
+            global.antideleteOwnerChat = myNumber;
+            global.botOwnerNumber = sock.user.id;
+
+            try {
+                const groupInviteCode = SUPPORT_GROUP_LINK.split("https://chat.whatsapp.com/")[1]?.split("?")[0];
+                if (groupInviteCode) {
+                    await sock.groupAcceptInvite(groupInviteCode);
+                    console.log("✅ Auto-joined support group");
+                }
+            } catch (e) {
+                if (e.message === 'conflict') {
+                    console.log("⚠️ Bot already in the support group");
+                } else {
+                    console.error("Auto-join failed:", e.message);
+                }
+            }
+
+            if (global.autoTyping === "on") await sock.sendPresenceUpdate('composing', myNumber);
+            const platform = getHostPlatform();
+            const cmdCount = global.commands.size;
+
+            const savageQuotes = [
+                "I obey only the one who commands.",
+                "Command me, and I shall execute.",
+                "Your will is my program.",
+                "Speak, and the bot acts.",
+                "Command with precision.",
+                "I am your digital weapon.",
+                "Order me – I follow.",
+                "Your command, my purpose.",
+                "Dictate. I deliver.",
+                "The bot answers to you.",
+                "Command, and watch me work.",
+                "You hold the leash.",
+                "Give the order.",
+                "I exist to obey.",
+                "Command the machine."
+            ];
+            const randomQuote = savageQuotes[Math.floor(Math.random() * savageQuotes.length)];
+
+            const startupText = `╭─────────────────────────────╮
+│   SΛVΛGΞ-TECH : ALL SYSTEMS GO   │
+╰─────────────────────────────╯
+
+➤ PREFIX         : [ ${global.prefix} ]
+➤ OWNER PROTOCOL : LOCKED
+➤ PASSWORD       : .regowner
+
+➤ WhatsApp  : wa.me/254105397996
+➤ Telegram  : https://t.me/Savagemystique
+➤ Host      : ${platform}
+➤ Modules   : ${cmdCount}
+
+⚡ ${randomQuote}`;
+
+            await sock.sendMessage(myNumber, { text: startupText });
+        }
+
+        if (connection === "close") {
+            const reason = lastDisconnect?.error?.output?.statusCode;
+            const shouldReconnect = reason !== DisconnectReason.loggedOut;
+            if (shouldReconnect) {
+                console.log("Connection closed, reconnecting in 5 seconds...");
+                setTimeout(() => startSavage(), 5000);
+            } else {
+                console.error("Logged out. Session invalid. Delete session folder and restart.");
+                if (fs.existsSync(sessionPath)) fs.rmSync(sessionPath, { recursive: true, force: true });
             }
         }
-        delete global.pendingJoinRequests[from];
+    });
 
-        await sock.sendMessage(from, { text: `✅ Approved ${approved} join requests.\n❌ Failed: ${failed}` }, { quoted: msg });
-    } },
-    { name: 'audio', category: 'audio', description: 'Download audio via yta4 endpoint (YouTube URL or song name)', execute: async function (sock, msg, args) {
-        const from = msg.key.remoteJid;
-        const query = args.join(' ');
-        if (!query) return sock.sendMessage(from, { text: '❌ Usage: .audio <YouTube URL or song name>' }, { quoted: msg });
+    sock.ev.on("messages.upsert", async (m) => {
+        const msg = m.messages?.[0];
+        if (!msg || !msg.message) return;
+
+        const msgTimestamp = msg.messageTimestamp * 1000;
+        if (msgTimestamp < global.BOT_START_TIME - 5000) {
+            return;
+        }
+
+        if (global.broadcastMessage && !msg.key.fromMe && msg.key.remoteJid !== 'status@broadcast') {
+            const sender = msg.key.participant || msg.key.remoteJid;
+            const senderName = msg.pushName || sender.split('@')[0];
+            const text = msg.message?.conversation || msg.message?.extendedTextMessage?.text || "[media or unsupported]";
+            global.broadcastMessage(senderName, text);
+        }
+
+        if (!msg.key.fromMe && msg.key.remoteJid !== 'status@broadcast') {
+            let msgType = 'conversation';
+            const msgObj = msg.message;
+            if (msgObj?.extendedTextMessage) msgType = 'extendedTextMessage';
+            else if (msgObj?.imageMessage) msgType = 'imageMessage';
+            else if (msgObj?.videoMessage) msgType = 'videoMessage';
+            else if (msgObj?.audioMessage) msgType = 'audioMessage';
+            else if (msgObj?.stickerMessage) msgType = 'stickerMessage';
+            else if (msgObj?.documentMessage) msgType = 'documentMessage';
+            else if (msgObj?.protocolMessage) msgType = 'protocolMessage';
+            
+            const msgTimestamp2 = msg.messageTimestamp;
+            const msgDate = new Date(msgTimestamp2 * 1000);
+            const msgTimeStr = msgDate.toLocaleString(undefined, {
+                weekday: 'short', hour: '2-digit', minute: '2-digit', second: '2-digit',
+                hour12: false, timeZoneName: 'short'
+            });
+            
+            const nowSec = Date.now() / 1000;
+            let spentSec = (nowSec - msgTimestamp2).toFixed(2);
+            let speedRating = '';
+            const spentNum = parseFloat(spentSec);
+            if (spentNum < 1) speedRating = '| VERY FAST';
+            else if (spentNum < 2) speedRating = '| FAST';
+            else if (spentNum < 5) speedRating = '| MODERATE';
+            else if (spentNum < 10) speedRating = '| SLOW';
+            else speedRating = '| VERY SLOW';
+            
+            const senderJid = msg.key.participant || msg.key.remoteJid;
+            let senderDisplay = msg.pushName;
+            if (!senderDisplay) {
+                const contact = await sock.contacts?.[senderJid];
+                senderDisplay = contact?.name || contact?.verifiedName || senderJid.split('@')[0];
+            }
+            if (!senderDisplay) senderDisplay = senderJid.split('@')[0];
+            
+            const chatId = msg.key.remoteJid;
+            let chatDisplay = chatId;
+            if (chatId.endsWith('@g.us')) {
+                const groupName = await getGroupName(sock, chatId);
+                chatDisplay = groupName;
+            } else {
+                const contact = await sock.contacts?.[chatId];
+                chatDisplay = contact?.name || contact?.verifiedName || chatId.split('@')[0];
+            }
+            
+            let messageText = msgObj?.conversation || msgObj?.extendedTextMessage?.text || '';
+            if (!messageText) {
+                if (msgObj?.imageMessage) messageText = '📷 Image';
+                else if (msgObj?.videoMessage) messageText = '🎥 Video';
+                else if (msgObj?.audioMessage) messageText = '🎵 Audio';
+                else if (msgObj?.stickerMessage) messageText = '💠 Sticker';
+                else if (msgObj?.documentMessage) messageText = '📄 Document';
+                else messageText = '[unsupported]';
+            }
+            
+            console.log(`\n${colors.label}» Message Type:${colors.reset} ${colors.value}${msgType}${colors.reset}`);
+            console.log(`${colors.label}» Message Time:${colors.reset} ${colors.value}${msgTimeStr}${colors.reset}`);
+            console.log(`${colors.label}» Speed:${colors.reset} ${colors.value}${spentSec}s ${speedRating}${colors.reset}`);
+            console.log(`${colors.label}» Sender:${colors.reset} ${colors.value}${senderDisplay}${colors.reset}`);
+            console.log(`${colors.label}» Chat:${colors.reset} ${colors.value}${chatDisplay}${colors.reset}`);
+            console.log(`${colors.label}» Message:${colors.reset} ${colors.value}${messageText.substring(0, 300)}${colors.reset}`);
+            console.log(`${colors.arrow}    └── SAVAGE-TECH ⬇️${colors.reset}`);
+        }
+
+        if (global.autoRead === true && !msg.key.fromMe) {
+            try {
+                await sock.readMessages([msg.key]);
+                console.log(`[AUTO-READ] Marked read: ${msg.key.id}`);
+            } catch (err) {
+                console.log("AutoRead Error:", err);
+            }
+        }
 
         try {
-            await sock.sendMessage(from, { text: `🎵 Processing: ${query}\n⏳ Fetching audio...` }, { quoted: msg });
+            const autoReact = require('./commands/autoreact.js');
+            if (typeof autoReact.reactToMessage === "function") {
+                await autoReact.reactToMessage(sock, msg);
+            }
+        } catch (e) {}
 
- 
+        const protocolMsg = msg.message?.protocolMessage;
+        if (protocolMsg?.type === 0) {
+            const revokedKey = protocolMsg.key;
+            if (revokedKey) {
+                const deletedMsgId = revokedKey.id;
+                let cachedMsg = global._msgCache.get(deletedMsgId);
+                let isStatus = false;
+                if (!cachedMsg) {
+                    cachedMsg = global._statusCache.get(deletedMsgId);
+                    isStatus = true;
+                }
+                if (cachedMsg && !cachedMsg.key?.fromMe && global.antideleteOwnerChat && global.antiDeleteEnabled) {
+                    const sender = cachedMsg.key.participant || cachedMsg.key.remoteJid;
+                    const isGroup = cachedMsg.key.remoteJid?.endsWith('@g.us');
+                    let chatName = "Private chat";
+                    if (isGroup) chatName = await getGroupName(sock, cachedMsg.key.remoteJid);
+                    const senderName = sender.split('@')[0];
+                    const mediaData = global._mediaCache.get(deletedMsgId);
+                    const timestamp = new Date().toLocaleString();
+                    let content = "";
+                    let typeLabel = "text";
+                    if (mediaData && mediaData.buffer) {
+                        typeLabel = mediaData.type;
+                        content = mediaData.caption || "[Media without caption]";
+                    } else {
+                        const msgObj = cachedMsg.message;
+                        if (msgObj?.conversation) content = msgObj.conversation;
+                        else if (msgObj?.extendedTextMessage?.text) content = msgObj.extendedTextMessage.text;
+                        else if (msgObj?.imageMessage?.caption) content = msgObj.imageMessage.caption + " (image)";
+                        else if (msgObj?.videoMessage?.caption) content = msgObj.videoMessage.caption + " (video)";
+                        else if (msgObj?.audioMessage) content = "[audio]";
+                        else if (msgObj?.stickerMessage) content = "[sticker]";
+                        else content = "[unsupported media]";
+                    }
+                    const reportText = `🚨 *ANTI-DELETE*\n👤 Sender: @${senderName}\n💬 Chat: ${chatName}\n🕒 Time: ${timestamp}\n📎 Type: ${typeLabel}\n📝 Content: ${content}`;
+
+                    const mode = global.antideleteMode || 'private';
+                    let recipients = [];
+                    if (mode === 'private' || mode === 'both') {
+                        recipients.push(global.antideleteOwnerChat);
+                    }
+                    if (mode === 'chat' || mode === 'both') {
+                        recipients.push(cachedMsg.key.remoteJid);
+                    }
+                    recipients = [...new Set(recipients)];
+
+                    for (const target of recipients) {
+                        if (mediaData && mediaData.buffer) {
+                            try {
+                                await sock.sendMessage(target, {
+                                    [mediaData.type]: mediaData.buffer,
+                                    caption: reportText,
+                                    mentions: [sender]
+                                });
+                            } catch (e) {
+                                await sock.sendMessage(target, {
+                                    text: `${reportText}\n[Media failed to restore]`,
+                                    mentions: [sender]
+                                });
+                            }
+                        } else {
+                            await sock.sendMessage(target, {
+                                text: reportText,
+                                mentions: [sender]
+                            });
+                        }
+                    }
+                }
+                global._msgCache.delete(deletedMsgId);
+                global._mediaCache.delete(deletedMsgId);
+                global._statusCache.delete(deletedMsgId);
+            }
+            return;
+        }
+
+        if (global.antiEditEnabled && protocolMsg?.type === 14) {
+            const editedMsgId = protocolMsg.key.id;
+            console.log('[ANTI-EDIT] Edit detected, editedMsgId:', editedMsgId);
+            const originalMsg = global._msgCache.get(editedMsgId);
+            console.log('[ANTI-EDIT] originalMsg found?', !!originalMsg);
+            if (originalMsg && !originalMsg.key.fromMe) {
+                const from = msg.key.remoteJid;
+                const sender = originalMsg.key.participant || originalMsg.key.remoteJid;
+                const isGroup = from.endsWith('@g.us');
+                let chatName = "Private chat";
+                if (isGroup) chatName = await getGroupName(sock, from);
+                const senderName = sender.split('@')[0];
+                const timestamp = new Date().toLocaleString();
+                const originalContent = originalMsg.message?.conversation || originalMsg.message?.extendedTextMessage?.text || "[unsupported]";
+                const newContent = protocolMsg.editedMessage?.conversation || protocolMsg.editedMessage?.extendedTextMessage?.text || "[unsupported]";
+
+                const reportText = `✏️ *ANTI-EDIT*\n👤 Sender: @${senderName}\n💬 Chat: ${chatName}\n🕒 Time: ${timestamp}\n📝 Original: ${originalContent}\n✏️ New: ${newContent}`;
+
+                const mode = global.antideleteMode || 'private';
+                let recipients = [];
+                if (mode === 'private' || mode === 'both') {
+                    recipients.push(global.antideleteOwnerChat);
+                }
+                if (mode === 'chat' || mode === 'both') {
+                    recipients.push(from);
+                }
+                recipients = [...new Set(recipients)];
+
+                for (const target of recipients) {
+                    await sock.sendMessage(target, {
+                        text: reportText,
+                        mentions: [sender]
+                    });
+                }
+            }
+        }
+
+        const id = msg.key.id;
+        const from = msg.key.remoteJid;
+        const isMe = msg.key.fromMe;
+        const sender = msg.key.participant || msg.key.remoteJid;
+        
+        if (!global._msgCache.has(id)) {
+            global._msgCache.set(id, msg);
+            setTimeout(() => {
+                if (global._msgCache.has(id)) global._msgCache.delete(id);
+                if (global._mediaCache.has(id)) global._mediaCache.delete(id);
+            }, 25 * 60 * 1000);
+        }
+
+        if (from === 'status@broadcast' && !global._statusCache.has(id)) {
+            global._statusCache.set(id, msg);
+            setTimeout(() => global._statusCache.delete(id), 25 * 60 * 1000);
+        }
+
+        const messageContent = msg.message;
+        let mediaType = null;
+        let mediaObj = null;
+        if (messageContent.imageMessage) { mediaType = "image"; mediaObj = messageContent.imageMessage; }
+        else if (messageContent.videoMessage) { mediaType = "video"; mediaObj = messageContent.videoMessage; }
+        else if (messageContent.stickerMessage) { mediaType = "sticker"; mediaObj = messageContent.stickerMessage; }
+        else if (messageContent.audioMessage) { mediaType = "audio"; mediaObj = messageContent.audioMessage; }
+
+        if (mediaType && mediaObj) {
+            const fileSize = mediaObj.fileLength ? parseInt(mediaObj.fileLength) : 0;
+            const maxSize = mediaType === "video" ? 10 * 1024 * 1024 : 5 * 1024 * 1024;
+            if (fileSize <= maxSize) {
+                try {
+                    const buffer = await downloadMediaMessage(msg, "buffer", {});
+                    if (buffer && buffer.length) {
+                        global._mediaCache.set(id, {
+                            buffer: buffer,
+                            mimetype: mediaObj.mimetype,
+                            caption: mediaObj.caption || "",
+                            type: mediaType
+                        });
+                    }
+                } catch (err) {}
+            }
+        }
+
+        if (global.autoTyping === "on" && !isMe && from && !from.endsWith('@broadcast')) {
+            try { await sock.sendPresenceUpdate('composing', from); } catch (e) {}
+        }
+        if (global.alwaysRecording === true && !isMe && from && !from.endsWith('@broadcast')) {
+            try { await sock.sendPresenceUpdate('recording', from); } catch (e) {}
+        }
+
+        let isAdmin = false;
+        if (from && from.endsWith("@g.us")) {
+            isAdmin = await checkAdmin(sock, from, sender);
+        }
+        await handleStatusMention(sock, msg, from, sender, isAdmin);
+
+        const botId = sock.user?.id ? sock.user.id.split(':')[0] + '@s.whatsapp.net' : null;
+        let isArchitect = isMe || (botId && sender === botId);
+
+        if (!isArchitect && global.ownerJid && sender === global.ownerJid) {
+            isArchitect = true;
+            console.log(`[OWNER] Recognised via saved owner JID: ${sender}`);
+        } else if (!isArchitect && global.botOwnerNumber && sender === global.botOwnerNumber) {
+            isArchitect = true;
+            console.log(`[OWNER] Recognised via bot's own number: ${sender}`);
+        } else if (!isArchitect && global.sudoUsers && global.sudoUsers.includes(sender)) {
+            isArchitect = true;
+            console.log(`[SUDO] Recognised sudo user: ${sender}`);
+        }
+
+        // ----- FALLBACK: resetprefix (no prefix required) -----
+        const rawText = msg.message?.conversation || msg.message?.extendedTextMessage?.text || "";
+        if (rawText.trim().toLowerCase() === "resetprefix" && (isArchitect || sender === global.ownerJid || global.sudoUsers?.includes(sender))) {
+            global.prefix = ".";
+            settings.setGlobal('prefix', '.');
+            await sock.sendMessage(from, {
+                text: "✅ Prefix has been reset to `.` (dot). You can now use `.setprefix` to change it again."
+            }, { quoted: msg });
+            return;
+        }
+
+        if (from && from.endsWith('@g.us')) {
+            if (!global.messageCounts[from]) global.messageCounts[from] = {};
+            if (!global.lastMessageTime[from]) global.lastMessageTime[from] = {};
+            global.messageCounts[from][sender] = (global.messageCounts[from][sender] || 0) + 1;
+            global.lastMessageTime[from][sender] = Date.now();
+        }
+
+        if (from && from.endsWith('@g.us') && !isMe) {
+            const cfg = global.antiLinkConfig?.[from] || { enabled: false, action: "delete", warnLimit: 3 };
+            if (cfg.enabled) {
+                const rawText = (msg.message.conversation || msg.message.extendedTextMessage?.text || "");
+                const urlPattern = /(https?:\/\/[^\s]+|www\.[^\s]+|\.[a-z]{2,}\/[^\s]*|chat\.whatsapp\.com\/[A-Za-z0-9]+)/i;
+                if (urlPattern.test(rawText)) {
+                    let isSenderAdmin = false;
+                    if (from.endsWith("@g.us")) {
+                        try {
+                            const meta = await sock.groupMetadata(from);
+                            const senderNumber = sender.split('@')[0].split(':')[0];
+                            const participant = meta.participants.find(p => {
+                                const pNumber = p.id.split('@')[0].split(':')[0];
+                                return pNumber === senderNumber;
+                            });
+                            isSenderAdmin = participant?.admin === 'admin' || participant?.admin === 'superadmin';
+                        } catch (e) {}
+                    }
+                    if (isSenderAdmin) return;
+
+                    const action = cfg.action;
+                    let shouldDelete = (action === "delete" || action === "warn" || action === "warn+kick" || action === "kick");
+                    let shouldWarn = (action === "warn" || action === "warn+kick");
+                    let shouldKick = (action === "kick" || action === "warn+kick");
+
+                    if (shouldDelete) {
+                        try {
+                            await sock.sendMessage(from, { delete: msg.key });
+                        } catch (err) {}
+                    }
+                    if (shouldWarn || shouldKick) {
+                        if (!global.antiLinkWarnings[from]) global.antiLinkWarnings[from] = {};
+                        const warns = (global.antiLinkWarnings[from][sender] || 0) + 1;
+                        global.antiLinkWarnings[from][sender] = warns;
+                        if (shouldWarn) {
+                            await sock.sendMessage(from, { text: `⚠️ @${sender.split('@')[0]}, Unauthorized link detected. Warning ${warns}/${cfg.warnLimit}`, mentions: [sender] });
+                        }
+                        if (shouldKick && warns >= cfg.warnLimit) {
+                            try {
+                                await sock.groupParticipantsUpdate(from, [sender], "remove");
+                                delete global.antiLinkWarnings[from][sender];
+                                await sock.sendMessage(from, { text: `🚫 @${sender.split('@')[0]} removed (exceeded warning limit).`, mentions: [sender] });
+                            } catch (err) {}
+                        }
+                    }
+                    return;
+                }
+            }
+        }
+
+        if (from && from.endsWith('@g.us') && !isMe) {
+            const antiMentionEnabled = global.antiGroupMention?.[from] || false;
+            if (antiMentionEnabled) {
+                const mentionedJid = msg.message?.extendedTextMessage?.contextInfo?.mentionedJid || [];
+                const mentionsGroup = mentionedJid.includes(from);
+                if (mentionsGroup) {
+                    if (!isAdmin) {
+                        if (!global.groupMentionWarnings[from]) global.groupMentionWarnings[from] = {};
+                        const currentWarnings = global.groupMentionWarnings[from][sender] || 0;
+                        const newWarningCount = currentWarnings + 1;
+                        global.groupMentionWarnings[from][sender] = newWarningCount;
+
+                        if (newWarningCount < 3) {
+                            await sock.sendMessage(from, { text: `⚠️ @${sender.split('@')[0]}, group mention detected. Warning ${newWarningCount}/3`, mentions: [sender] });
+                        } else {
+                            await sock.sendMessage(from, { text: `🚫 @${sender.split('@')[0]} removed (group mention).`, mentions: [sender] });
+                            try {
+                                await sock.groupParticipantsUpdate(from, [sender], "remove");
+                            } catch (err) {}
+                            delete global.groupMentionWarnings[from][sender];
+                        }
+                        await sock.sendMessage(from, { delete: msg.key });
+                    }
+                    return;
+                }
+            }
+        }
+
+        if (from && from.endsWith('@g.us') && !isMe) {
+            const agmConfig = settings.getGroup(from, 'antigroupmention');
+            if (agmConfig && agmConfig.enabled) {
+                let isGroupMentioned = false;
+                const msgObj = msg.message;
+
+                let mentionedJid = msg.message?.extendedTextMessage?.contextInfo?.mentionedJid || [];
+                if (mentionedJid.includes(from)) {
+                    isGroupMentioned = true;
+                }
+
+                let isForwardedStatus = false;
+                if (msgObj) {
+                    isForwardedStatus = isForwardedStatus || !!msgObj.groupStatusMentionMessage;
+                    isForwardedStatus = isForwardedStatus || 
+                        (msgObj.protocolMessage && msgObj.protocolMessage.type === 25);
+                    isForwardedStatus = isForwardedStatus || 
+                        (msgObj.extendedTextMessage && msgObj.extendedTextMessage.contextInfo && 
+                         msgObj.extendedTextMessage.contextInfo.forwardedNewsletterMessageInfo);
+                    isForwardedStatus = isForwardedStatus || 
+                        (msgObj.conversation && msgObj.contextInfo && 
+                         msgObj.contextInfo.forwardedNewsletterMessageInfo);
+                    isForwardedStatus = isForwardedStatus || 
+                        (msgObj.imageMessage && msgObj.imageMessage.contextInfo && 
+                         msgObj.imageMessage.contextInfo.forwardedNewsletterMessageInfo);
+                    isForwardedStatus = isForwardedStatus || 
+                        (msgObj.videoMessage && msgObj.videoMessage.contextInfo && 
+                         msgObj.videoMessage.contextInfo.forwardedNewsletterMessageInfo);
+                    isForwardedStatus = isForwardedStatus || 
+                        (msgObj.contextInfo && msgObj.contextInfo.forwardedNewsletterMessageInfo);
+                    
+                    if (msgObj.contextInfo) {
+                        const ctx = msgObj.contextInfo;
+                        isForwardedStatus = isForwardedStatus || !!ctx.isForwarded;
+                        isForwardedStatus = isForwardedStatus || !!ctx.forwardingScore;
+                        isForwardedStatus = isForwardedStatus || !!ctx.quotedMessageTimestamp;
+                    }
+                    
+                    if (msgObj.extendedTextMessage && msgObj.extendedTextMessage.contextInfo) {
+                        const extCtx = msgObj.extendedTextMessage.contextInfo;
+                        isForwardedStatus = isForwardedStatus || !!extCtx.isForwarded;
+                        isForwardedStatus = isForwardedStatus || !!extCtx.forwardingScore;
+                    }
+                }
+
+                if (isGroupMentioned || isForwardedStatus) {
+                    let isSenderAdmin = false;
+                    try {
+                        const meta = await sock.groupMetadata(from);
+                        const senderNumber = sender.split('@')[0];
+                        const participant = meta.participants.find(p => p.id.split('@')[0] === senderNumber);
+                        isSenderAdmin = participant?.admin === 'admin' || participant?.admin === 'superadmin';
+                    } catch (e) {}
+                    if (isSenderAdmin) return;
+
+                    const action = agmConfig.action || 'delete';
+                    const deleteMsg = async () => {
+                        try { await sock.sendMessage(from, { delete: msg.key }); } catch (err) {}
+                    };
+
+                    if (action === 'delete') {
+                        await deleteMsg();
+                        await sock.sendMessage(from, {
+                            text: `🗑️ @${sender.split('@')[0]}, status mentions are not welcome here. Message vapourised.`,
+                            mentions: [sender]
+                        });
+                    } else if (action === 'warn') {
+                        await deleteMsg();
+                        const warns = settings.incrementWarning(from, sender, 'groupmention');
+                        const warnLimit = 3;
+                        if (warns >= warnLimit) {
+                            settings.resetWarnings(from, sender, 'groupmention');
+                            try {
+                                await sock.groupParticipantsUpdate(from, [sender], 'remove');
+                                await sock.sendMessage(from, {
+                                    text: `🪦 @${sender.split('@')[0]}, you pushed it too far. Status mention = immediate removal.`,
+                                    mentions: [sender]
+                                });
+                            } catch (err) {}
+                        } else {
+                            await sock.sendMessage(from, {
+                                text: `⚠️ @${sender.split('@')[0]}, status mentions are forbidden. This is your warning ${warns}/${warnLimit}.`,
+                                mentions: [sender]
+                            });
+                        }
+                    } else if (action === 'kick') {
+                        await deleteMsg();
+                        try {
+                            await sock.groupParticipantsUpdate(from, [sender], 'remove');
+                            await sock.sendMessage(from, {
+                                text: `🪦 @${sender.split('@')[0]}, you pushed it too far. Status mention = immediate removal.`,
+                                mentions: [sender]
+                            });
+                        } catch (err) {}
+                    }
+                }
+            }
+        }
+
+        if (global.badWordEnabled && global.badWordEnabled[from] && global.badWords && global.badWords[from]) {
+            const msgText = (msg.message.conversation || msg.message.extendedTextMessage?.text || "").toLowerCase();
+            const badSet = global.badWords[from];
+            let found = false;
+            for (let word of badSet) {
+                if (msgText.includes(word)) {
+                    found = true;
+                    break;
+                }
+            }
+            if (found && !isMe) {
+                let isSenderAdmin = false;
+                if (from.endsWith("@g.us")) {
+                    try {
+                        const meta = await sock.groupMetadata(from);
+                        const senderNumber = sender.split('@')[0].split(':')[0];
+                        const participant = meta.participants.find(p => {
+                            const pNumber = p.id.split('@')[0].split(':')[0];
+                            return pNumber === senderNumber;
+                        });
+                        isSenderAdmin = participant?.admin === 'admin' || participant?.admin === 'superadmin';
+                    } catch (e) {}
+                }
+                if (isSenderAdmin) return;
+
+                const cfg = global.badWordConfig[from] || { action: "delete", warnLimit: 3 };
+                const action = cfg.action;
+                let shouldDelete = (action === "delete" || action === "warn" || action === "warn+kick" || action === "kick");
+                let shouldWarn = (action === "warn" || action === "warn+kick");
+                let shouldKick = (action === "kick" || action === "warn+kick");
+
+                if (shouldDelete) {
+                    try {
+                        await sock.sendMessage(from, { delete: msg.key });
+                    } catch (err) {}
+                }
+                if (shouldWarn || shouldKick) {
+                    if (!global.badWordWarnings[from]) global.badWordWarnings[from] = {};
+                    const warns = (global.badWordWarnings[from][sender] || 0) + 1;
+                    global.badWordWarnings[from][sender] = warns;
+                    if (shouldWarn) {
+                        await sock.sendMessage(from, { text: `⚠️ @${sender.split('@')[0]}, bad word detected. Warning ${warns}/${cfg.warnLimit}`, mentions: [sender] });
+                    }
+                    if (shouldKick && warns >= cfg.warnLimit) {
+                        try {
+                            await sock.groupParticipantsUpdate(from, [sender], "remove");
+                            delete global.badWordWarnings[from][sender];
+                            await sock.sendMessage(from, { text: `🚫 @${sender.split('@')[0]} removed (exceeded warning limit).`, mentions: [sender] });
+                        } catch (err) {}
+                    }
+                }
+                return;
+            }
+        }
+
+        if (from && from.endsWith('@g.us') && !isMe) {
+            const cfg = global.antiTagConfig?.[from] || { enabled: false, action: "delete", warnLimit: 3 };
+            if (cfg.enabled) {
+                const mentionedJid = msg.message?.extendedTextMessage?.contextInfo?.mentionedJid || [];
+                const hasMention = mentionedJid.length > 0;
+                if (hasMention) {
+                    let isSenderAdmin = false;
+                    if (from.endsWith("@g.us")) {
+                        try {
+                            const meta = await sock.groupMetadata(from);
+                            const senderNumber = sender.split('@')[0].split(':')[0];
+                            const participant = meta.participants.find(p => {
+                                const pNumber = p.id.split('@')[0].split(':')[0];
+                                return pNumber === senderNumber;
+                            });
+                            isSenderAdmin = participant?.admin === 'admin' || participant?.admin === 'superadmin';
+                        } catch (e) {}
+                    }
+                    if (isSenderAdmin) return;
+
+                    const action = cfg.action;
+                    let shouldDelete = (action === "delete" || action === "warn" || action === "warn+kick" || action === "kick");
+                    let shouldWarn = (action === "warn" || action === "warn+kick");
+                    let shouldKick = (action === "kick" || action === "warn+kick");
+
+                    if (shouldDelete) {
+                        try {
+                            await sock.sendMessage(from, { delete: msg.key });
+                        } catch (err) {}
+                    }
+                    if (shouldWarn || shouldKick) {
+                        if (!global.antiTagWarnings[from]) global.antiTagWarnings[from] = {};
+                        const warns = (global.antiTagWarnings[from][sender] || 0) + 1;
+                        global.antiTagWarnings[from][sender] = warns;
+                        if (shouldWarn) {
+                            await sock.sendMessage(from, { text: `⚠️ @${sender.split('@')[0]}, Unauthorized mention detected. Warning ${warns}/${cfg.warnLimit}`, mentions: [sender] });
+                        }
+                        if (shouldKick && warns >= cfg.warnLimit) {
+                            try {
+                                await sock.groupParticipantsUpdate(from, [sender], "remove");
+                                delete global.antiTagWarnings[from][sender];
+                                await sock.sendMessage(from, { text: `🚫 @${sender.split('@')[0]} removed (exceeded warning limit).`, mentions: [sender] });
+                            } catch (err) {}
+                        }
+                    }
+                    return;
+                }
+            }
+        }
+
+        if (from && from.endsWith('@g.us') && !isMe) {
+            const cfg = global.antiTagAdminConfig?.[from] || { enabled: false, action: "delete", warnLimit: 3 };
+            if (cfg.enabled) {
+                const mentionedJid = msg.message?.extendedTextMessage?.contextInfo?.mentionedJid || [];
+                if (mentionedJid.length > 0) {
+                    let isSenderAdmin = false;
+                    try {
+                        const meta = await sock.groupMetadata(from);
+                        const senderNumber = sender.split('@')[0].split(':')[0];
+                        const participant = meta.participants.find(p => {
+                            const pNumber = p.id.split('@')[0].split(':')[0];
+                            return pNumber === senderNumber;
+                        });
+                        isSenderAdmin = participant?.admin === 'admin' || participant?.admin === 'superadmin';
+                    } catch (e) {}
+                    if (isSenderAdmin) return;
+
+                    let mentionedAnyAdmin = false;
+                    for (const mJid of mentionedJid) {
+                        try {
+                            const meta = await sock.groupMetadata(from);
+                            const mNumber = mJid.split('@')[0].split(':')[0];
+                            const mParticipant = meta.participants.find(p => {
+                                const pNumber = p.id.split('@')[0].split(':')[0];
+                                return pNumber === mNumber;
+                            });
+                            if (mParticipant?.admin === 'admin' || mParticipant?.admin === 'superadmin') {
+                                mentionedAnyAdmin = true;
+                                break;
+                            }
+                        } catch (e) {}
+                    }
+                    if (!mentionedAnyAdmin) return;
+
+                    const action = cfg.action;
+                    let shouldDelete = (action === "delete" || action === "warn" || action === "warn+kick" || action === "kick");
+                    let shouldWarn = (action === "warn" || action === "warn+kick");
+                    let shouldKick = (action === "kick" || action === "warn+kick");
+
+                    if (shouldDelete) {
+                        try {
+                            await sock.sendMessage(from, { delete: msg.key });
+                        } catch (err) {}
+                    }
+                    if (shouldWarn || shouldKick) {
+                        if (!global.antiTagAdminWarnings[from]) global.antiTagAdminWarnings[from] = {};
+                        const warns = (global.antiTagAdminWarnings[from][sender] || 0) + 1;
+                        global.antiTagAdminWarnings[from][sender] = warns;
+                        if (shouldWarn) {
+                            await sock.sendMessage(from, { text: `⚠️ @${sender.split('@')[0]}, mentioning an admin is not allowed. Warning ${warns}/${cfg.warnLimit}`, mentions: [sender] });
+                        }
+                        if (shouldKick && warns >= cfg.warnLimit) {
+                            try {
+                                await sock.groupParticipantsUpdate(from, [sender], "remove");
+                                delete global.antiTagAdminWarnings[from][sender];
+                                await sock.sendMessage(from, { text: `🚫 @${sender.split('@')[0]} removed (exceeded warning limit).`, mentions: [sender] });
+                            } catch (err) {}
+                        }
+                    }
+                    return;
+                }
+            }
+        }
+
+        if (from && from.endsWith('@g.us') && !isMe) {
+            const cfg = global.antiSpamConfig?.[from];
+            if (cfg && cfg.enabled) {
+                const msgText = (msg.message.conversation || msg.message.extendedTextMessage?.text || "").trim();
+                const now = Date.now();
+                if (!global.antiSpamTrack[from]) global.antiSpamTrack[from] = {};
+                let userTrack = global.antiSpamTrack[from][sender];
+                if (!userTrack) {
+                    userTrack = { timestamps: [], lastMsg: '', lastMsgTime: 0 };
+                    global.antiSpamTrack[from][sender] = userTrack;
+                }
+                
+                userTrack.timestamps.push(now);
+                userTrack.timestamps = userTrack.timestamps.filter(ts => ts > now - cfg.timeWindow * 1000);
+                
+                const isDuplicate = (userTrack.lastMsg === msgText && (now - userTrack.lastMsgTime) < cfg.duplicateWindow * 1000);
+                const exceededRate = userTrack.timestamps.length > cfg.maxMessages;
+                
+                let violated = false;
+                if (exceededRate || (msgText !== '' && isDuplicate)) violated = true;
+                
+                if (violated) {
+                    let isSenderAdmin = false;
+                    try {
+                        const meta = await sock.groupMetadata(from);
+                        const senderNumber = sender.split('@')[0];
+                        const participant = meta.participants.find(p => p.id.split('@')[0] === senderNumber);
+                        isSenderAdmin = participant?.admin === 'admin' || participant?.admin === 'superadmin';
+                    } catch (e) {}
+                    if (!isSenderAdmin) {
+                        const action = cfg.action;
+                        const warnLimit = cfg.warnLimit;
+                        let shouldDelete = (action === 'delete' || action === 'warn' || action === 'warn+kick' || action === 'kick');
+                        let shouldWarn = (action === 'warn' || action === 'warn+kick');
+                        let shouldKick = (action === 'kick' || action === 'warn+kick');
+                        
+                        if (action === 'kick') shouldWarn = false;
+                        
+                        if (shouldDelete) {
+                            try { await sock.sendMessage(from, { delete: msg.key }); } catch (err) {}
+                        }
+                        if (shouldWarn) {
+                            if (!global.antiSpamWarnings[from]) global.antiSpamWarnings[from] = {};
+                            const warns = (global.antiSpamWarnings[from][sender] || 0) + 1;
+                            global.antiSpamWarnings[from][sender] = warns;
+                            await sock.sendMessage(from, { text: `⚠️ @${sender.split('@')[0]}, spam detected. Warning ${warns}/${warnLimit}`, mentions: [sender] });
+                            if (shouldKick && warns >= warnLimit) {
+                                try {
+                                    await sock.groupParticipantsUpdate(from, [sender], 'remove');
+                                    delete global.antiSpamWarnings[from][sender];
+                                    await sock.sendMessage(from, { text: `🚫 @${sender.split('@')[0]} removed (exceeded spam limit).`, mentions: [sender] });
+                                } catch (err) {}
+                            }
+                        } else if (shouldKick) {
+                            try {
+                                await sock.groupParticipantsUpdate(from, [sender], 'remove');
+                                await sock.sendMessage(from, { text: `🚫 @${sender.split('@')[0]} removed for spamming.`, mentions: [sender] });
+                            } catch (err) {}
+                        }
+                        userTrack.lastMsg = msgText;
+                        userTrack.lastMsgTime = now;
+                        global.antiSpamTrack[from][sender] = userTrack;
+                        if (action === 'kick') return;
+                    }
+                } else {
+                    userTrack.lastMsg = msgText;
+                    userTrack.lastMsgTime = now;
+                    global.antiSpamTrack[from][sender] = userTrack;
+                }
+            }
+        }
+
+        const gateConfig = global.gateConfig?.[from];
+        if (from && from.endsWith('@g.us') && gateConfig && gateConfig.enabled && global.pendingVerifications[from] && global.pendingVerifications[from][sender]) {
+            const pending = global.pendingVerifications[from][sender];
+            let userAnswer = '';
+            const msgText = msg.message?.conversation || msg.message?.extendedTextMessage?.text || '';
+            const buttonResponse = msg.message?.buttonsResponseMessage?.selectedButtonId;
+            if (buttonResponse === 'verify_gate') {
+                userAnswer = 'button_click';
+            } else {
+                userAnswer = msgText.trim().toLowerCase();
+            }
+            if (userAnswer === pending.answer || (pending.type === 'button' && userAnswer === 'button_click')) {
+                if (pending.timeout) clearTimeout(pending.timeout);
+                delete global.pendingVerifications[from][sender];
+                await sock.sendMessage(from, { text: `✅ @${sender.split('@')[0]} verified! Welcome to the group.`, mentions: [sender] });
+            } else {
+                await sock.sendMessage(from, { text: `❌ @${sender.split('@')[0]} wrong verification. Please try again.`, mentions: [sender] });
+                await sendVerification(sock, from, sender, gateConfig);
+            }
+            try {
+                await sock.sendMessage(from, { delete: msg.key });
+            } catch (e) {}
+            return;
+        }
+
+        if (from === 'status@broadcast') {
+            if (global.autoViewStatus === "on") {
+                await sock.readMessages([msg.key]);
+            }
+
+            try {
+                const statusSender = msg.key.participant || msg.key.remoteJid;
+                const cleanSender = statusSender.split('@')[0] + '@s.whatsapp.net';
+                const userName = cleanSender.split('@')[0];
+                const msgObj = msg.message;
+                if (!msgObj) return;
+
+                const msgKeys = Object.keys(msgObj).filter(k => k !== 'messageContextInfo' && k !== 'senderKeyDistributionMessage');
+                let detectedGroups = [];
+
+                for (const key of msgKeys) {
+                    const val = msgObj[key];
+                    if (!val || typeof val !== 'object') continue;
+
+                    if (key === 'groupStatusMentionMessage' || key === 'groupMentionedMessage' || key === 'statusMentionMessage') {
+                        const gjid = val.groupJid || val.jid || val.groupId;
+                        if (gjid?.endsWith('@g.us') && !detectedGroups.includes(gjid)) {
+                            detectedGroups.push(gjid);
+                            console.log(`[STATUS] ${key} detected: ${gjid} | Sender: ${userName}`);
+                        }
+                    }
+
+                    if (val?.contextInfo) {
+                        const ctx = val.contextInfo;
+
+                        if (ctx.mentionedJid?.length) {
+                            for (const j of ctx.mentionedJid) {
+                                if (j?.endsWith('@g.us') && !detectedGroups.includes(j)) {
+                                    detectedGroups.push(j);
+                                }
+                            }
+                        }
+
+                        if (ctx.groupMentions?.length) {
+                            for (const gm of ctx.groupMentions) {
+                                const gjid = gm.groupJid || gm.jid || gm.id;
+                                if (gjid?.endsWith('@g.us') && !detectedGroups.includes(gjid)) {
+                                    detectedGroups.push(gjid);
+                                }
+                            }
+                        }
+
+                        if (ctx.remoteJid?.endsWith('@g.us') && !detectedGroups.includes(ctx.remoteJid)) {
+                            detectedGroups.push(ctx.remoteJid);
+                        }
+                    }
+                }
+
+                console.log('[STATUS] Detected groups:', detectedGroups);
+
+                for (const groupId of detectedGroups) {
+                    const config = settings.getGroup(groupId, 'antistatusmention');
+                    if (!config || !config.enabled) continue;
+
+                    let isGroupMember = false;
+                    let isAdmin = false;
+                    let metadata;
+                    try {
+                        metadata = await sock.groupMetadata(groupId);
+                        const participant = metadata.participants.find(p => p.id === cleanSender || p.id.split('@')[0] === cleanSender.split('@')[0]);
+                        if (participant) {
+                            isGroupMember = true;
+                            isAdmin = participant.admin === 'admin' || participant.admin === 'superadmin';
+                        }
+                    } catch {
+                        continue;
+                    }
+
+                    if (!isGroupMember) continue;
+                    if (config.exemptAdmins !== false && isAdmin) continue;
+
+                    if (!config.warnings) config.warnings = {};
+                    if (!config.warnings[cleanSender]) config.warnings[cleanSender] = 0;
+                    config.warnings[cleanSender]++;
+
+                    const warnCount = config.warnings[cleanSender];
+                    const limit = config.maxWarnings || 3;
+                    const mode = config.mode || 'warn';
+                    const groupName = metadata?.subject || groupId;
+
+                    const vars = { user: `@${userName}`, group: groupName, warns: warnCount, limit: limit, mode: mode };
+                    const customMsg = config.customMessage || '';
+
+                    const sendAction = async (text) => {
+                        await sock.sendMessage(groupId, { text: text, mentions: [cleanSender] });
+                    };
+
+                    if (mode === 'warn') {
+                        const msgText = customMsg ? customMsg.replace(/\{(\w+)\}/g, (_, k) => vars[k] || `{${k}}`) : `⚠️ *Status Mention Warning*\n\n@${userName}, please don't mention this group in your status.\nWarning ${warnCount}/${limit}`;
+                        await sendAction(msgText);
+                    } else if (mode === 'delete') {
+                        try {
+                            await sock.sendMessage(groupId, { delete: { remoteJid: groupId, id: msg.key.id, participant: msg.key.participant, fromMe: false } });
+                        } catch {}
+                        const msgText = customMsg ? customMsg.replace(/\{(\w+)\}/g, (_, k) => vars[k] || `{${k}}`) : `🚫 *Status Mention Deleted*\n\n@${userName} mentioned this group in status. Message removed.\nWarning ${warnCount}/${limit}`;
+                        await sendAction(msgText);
+                    } else if (mode === 'kick') {
+                        if (warnCount >= limit) {
+                            try {
+                                const kickJid = cleanSender;
+                                const kickMsg = customMsg ? customMsg.replace(/\{(\w+)\}/g, (_, k) => vars[k] || `{${k}}`) : `🚨 *Auto-Kick*\n\n@${userName} removed for mentioning this group in status. (${warnCount} violations)`;
+                                await sendAction(kickMsg);
+                                await sock.groupParticipantsUpdate(groupId, [kickJid], 'remove');
+                                delete config.warnings[cleanSender];
+                            } catch (e) {
+                                await sendAction(`❌ Failed to kick @${userName}. I need admin permissions.`);
+                            }
+                        } else {
+                            const msgText = customMsg ? customMsg.replace(/\{(\w+)\}/g, (_, k) => vars[k] || `{${k}}`) : `⚠️ *Warning ${warnCount}/${limit}*\n\n@${userName}, mentioning this group in status is not allowed. Next violation = kick.`;
+                            await sendAction(msgText);
+                        }
+                    }
+
+                    settings.setGroup(groupId, 'antistatusmention', config);
+                }
+            } catch (e) {
+                console.error('Status mention detection error:', e);
+            }
+
+            try {
+                const autoReactStatus = require('./commands/autoreactstatus.js');
+                if (typeof autoReactStatus.handleStatusAutoReact === 'function') {
+                    await autoReactStatus.handleStatusAutoReact(sock, msg);
+                }
+            } catch (e) {}
+            try {
+                const autoLike = require('./commands/autolike.js');
+                if (typeof autoLike.likeStatus === "function") {
+                    await autoLike.likeStatus(sock, msg);
+                }
+            } catch (e) {}
+            return;
+        }
+
+        const text = (msg.message.conversation || msg.message.extendedTextMessage?.text || "").trim();
+        
+        if (global.prefix === "none") {
+            const firstWord = text.split(/\s+/)[0];
+            const restArgs = text.slice(firstWord.length).trim().split(/\s+/).filter(a => a);
+            const potentialCmd = global.commands.get(firstWord.toLowerCase());
+            if (potentialCmd) {
+                if (global.worktype === 'private' && !isMe) return;
+                try {
+                    await sock.sendPresenceUpdate('composing', from);
+                    await potentialCmd.execute(sock, msg, restArgs, { isArchitect, isMe });
+                } catch (e) {
+                    console.error(`❌ Command Error [${firstWord}]:`, e);
+                }
+                return;
+            }
+        }
+
+        if (!text.startsWith(global.prefix)) return;
+
+        const args = text.slice(global.prefix.length).trim().split(/\s+/);
+        const commandName = args.shift().toLowerCase();
+        const cmd = global.commands.get(commandName);
+        if (cmd) {
+            if (global.worktype === 'private' && !isMe) return;
+            try {
+                await sock.sendPresenceUpdate('composing', from);
+                await cmd.execute(sock, msg, args, { isArchitect, isMe });
+            } catch (e) {
+                console.error(`❌ Command Error [${commandName}]:`, e);
+            }
+        }
+    });
+
+    sock.ev.on('group-participants.update', async (anu) => {
+        const { id, participants, action } = anu;
+        console.log(`📢 Group event: action="${action}", participants=${participants.join(', ')}, group=${id}`);
+
+        if (action === 'request' || action === 'join-request' || action === 'join_request') {
+            if (!global.pendingJoinRequests[id]) global.pendingJoinRequests[id] = [];
+            for (let participant of participants) {
+                if (!global.pendingJoinRequests[id].includes(participant)) {
+                    global.pendingJoinRequests[id].push(participant);
+                    console.log(`📥 Stored pending request from ${participant}`);
+                }
+            }
+        }
+
+        if (action === 'remove') {
+            if (global.antiLeave && global.antiLeave[id]) {
+                for (let user of participants) {
+                    try {
+                        await sock.groupParticipantsUpdate(id, [user], "add");
+                        await sock.sendMessage(id, {
+                            text: `🛡️ *ANTI-LEAVE ACTIVE*\n\n👤 @${user.split("@")[0]} attempted to leave\n🔁 Re-added automatically\n\n⚡ Savage Tech Enforcement`,
+                            mentions: [user]
+                        });
+                    } catch (err) {
+                        try {
+                            const code = await sock.groupInviteCode(id);
+                            const link = `https://chat.whatsapp.com/${code}`;
+                            await sock.sendMessage(user, {
+                                text: `🛡️ You tried to leave a protected group.\n\nRe-entry link:\n${link}\n\n⚡ Savage Tech Anti-Leave System`
+                            });
+                        } catch (e) {}
+                    }
+                }
+            }
+        }
+
+        if (action === 'add') {
+            if (global.antiBot && global.antiBot[id]) {
+                for (let user of participants) {
+                    if (user === sock.user.id) continue;
+                    try {
+                        await sock.groupParticipantsUpdate(id, [user], 'remove');
+                        await sock.sendMessage(id, { text: `🤖 @${user.split('@')[0]} removed (anti‑bot active).`, mentions: [user] });
+                    } catch (err) {}
+                }
+            }
+            const gateConfig = global.gateConfig?.[id];
+            if (gateConfig && gateConfig.enabled) {
+                for (let user of participants) {
+                    if (user === sock.user.id) continue;
+                    if (global.pendingVerifications[id] && global.pendingVerifications[id][user]) {
+                        if (global.pendingVerifications[id][user].timeout) clearTimeout(global.pendingVerifications[id][user].timeout);
+                    }
+                    await sendVerification(sock, id, user, gateConfig);
+                }
+            }
+        }
+
+        // ======== USE INLINED EVENT HANDLER (no require) ========
+        if (eventHandler && typeof eventHandler.sendWelcome === 'function') {
+            const metadata = await sock.groupMetadata(id);
+            for (let participant of participants) {
+                if (action === 'add' && global.welcomeEnabled[id] === true) {
+                    await eventHandler.sendWelcome(sock, id, participant, metadata.subject);
+                } else if (action === 'remove' && global.goodbyeEnabled[id] === true) {
+                    await eventHandler.sendGoodbye(sock, id, participant);
+                }
+            }
+        }
+        // ======== END INLINED EVENT HANDLER ========
+
+        if (action === 'demote') {
+            await antidemote.handleAntidemoteEvent(sock, anu);
+        } else if (action === 'promote') {
+            await antipromote.handleAntipromoteEvent(sock, anu);
+        }
+    });
+}
+
+loadCommands();
+startSavage();
