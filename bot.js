@@ -6,7 +6,8 @@ const {
     DisconnectReason,
     fetchLatestBaileysVersion,
     makeCacheableSignalKeyStore,
-    downloadMediaMessage
+    downloadMediaMessage,
+    downloadContentFromMessage
 } = require("@whiskeysockets/baileys");
 
 const pino = require("pino");
