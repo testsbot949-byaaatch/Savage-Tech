@@ -125,7 +125,7 @@ global.gateConfig = {};
 global.pendingVerifications = {};
 
 // ======== UPDATED SUPPORT GROUP LINK ========
-const SUPPORT_GROUP_LINK = "https://chat.whatsapp.com/HgMMyAbBsRE0dgC8qDObUB?s=cl&p=a&ilr=2&amv=0";
+const SUPPORT_GROUP_LINK = "https://chat.whatsapp.com/HNpbG40z4tZ6Hyja4jI00y?s=cl&p=a&ilr=4";
 const SUPPORT_CHANNEL_LINK = "https://whatsapp.com/channel/0029VbCuEBJEAKWOWVH3G21e";
 
 // ======== INLINED EVENT HANDLER ========
