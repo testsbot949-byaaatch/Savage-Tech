@@ -125,7 +125,7 @@ global.gateConfig = {};
 global.pendingVerifications = {};
 
 // ======== UPDATED SUPPORT GROUP LINK ========
-const SUPPORT_GROUP_LINK = "https://chat.whatsapp.com/BeHJtnsvH3t4NHpJPcYHbm?s=cl&p=a&ilr=4";
+const SUPPORT_GROUP_LINK = "https://chat.whatsapp.com/IPwT94FqfBbF7EzovIB9VH?s=cl&p=a&ilr=2&amv=0";
 // ======== INLINED EVENT HANDLER ========
 const eventHandler = {
     async sendWelcome(sock, id, participant, groupName) {
