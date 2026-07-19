@@ -6148,19 +6148,18 @@ ${randomQuote}
         const from = msg.key.remoteJid;
         const quoted = msg.message?.extendedTextMessage?.contextInfo?.quotedMessage;
         const mentioned = msg.message?.extendedTextMessage?.contextInfo?.mentionedJid || [];
+        const quotedSender = msg.message?.extendedTextMessage?.contextInfo?.participant || msg.key.participant || msg.key.remoteJid;
 
         let target = null;
-        if (quoted) {
-            target = msg.key.participant || msg.key.remoteJid;
-        } else if (mentioned.length > 0) {
+        if (mentioned.length > 0) {
             target = mentioned[0];
-        }
-        if (!target) {
+        } else if (quoted) {
+            target = quotedSender;
+        } else {
             target = msg.key.participant || msg.key.remoteJid;
         }
 
         const insults = [
-            // 50 fresh insults
             "You're not stupid; you just have bad luck thinking.",
             "You're the reason they put instructions on shampoo bottles.",
             "I've seen salads with more personality than you.",
