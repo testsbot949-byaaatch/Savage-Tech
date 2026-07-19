@@ -88,24 +88,33 @@ module.exports = {
             settings.setGlobal('autoReactAll', state === "on");
             await sock.sendMessage(from, { text: `✅ Auto‑reaction in ALL chats (private and groups): ${state.toUpperCase()}` }, { quoted: msg });
         }
-    }
-};
+    },
 
-module.exports.reactToMessage = async function(sock, msg) {
-    try {
-        const from = msg.key.remoteJid;
-        const isGroup = from.endsWith("@g.us");
-        if (msg.key.fromMe) return;
-        let shouldReact = false;
-        if (global.autoReactAll === true) {
-            shouldReact = true;
-        } else if (global.autoReactGroups === true && isGroup) {
-            shouldReact = true;
-        } else if (global.autoReact && global.autoReact[from] === true) {
-            shouldReact = true;
+    // --- FIXED: React to ALL messages when enabled ---
+    reactToMessage: async function(sock, msg) {
+        try {
+            const from = msg.key?.remoteJid;
+            if (!from || from === 'status@broadcast' || msg.key.fromMe) return;
+
+            const isGroup = from.endsWith('@g.us');
+            const chatEnabled = global.autoReact?.[from] === true;
+            const groupsEnabled = global.autoReactGroups === true;
+            const allEnabled = global.autoReactAll === true;
+
+            // Check if auto‑react is enabled for this context
+            let shouldReact = false;
+            if (allEnabled) shouldReact = true;
+            else if (isGroup && groupsEnabled) shouldReact = true;
+            else if (chatEnabled) shouldReact = true;
+
+            if (!shouldReact) return;
+
+            const emoji = reactions[Math.floor(Math.random() * reactions.length)];
+            if (!emoji) return;
+
+            await sock.sendMessage(from, { react: { text: emoji, key: msg.key } });
+        } catch (err) {
+            // Silent failure – avoids crashing on deleted messages
         }
-        if (!shouldReact) return;
-        const emoji = reactions[Math.floor(Math.random() * reactions.length)];
-        await sock.sendMessage(from, { react: { text: emoji, key: msg.key } });
-    } catch (err) {}
+    }
 };
