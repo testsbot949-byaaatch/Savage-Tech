@@ -18,7 +18,6 @@ module.exports = {
         }
 
         const insults = [
-            // 50 fresh insults
             "You're not stupid; you just have bad luck thinking.",
             "You're the reason they put instructions on shampoo bottles.",
             "I've seen salads with more personality than you.",
